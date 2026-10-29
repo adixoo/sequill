@@ -7,6 +7,8 @@ test("the landing page reads a chosen SQLite file in the tab", async ({ page }) 
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1, name: "Sequill" })).toBeVisible();
 
+  // The file input only reacts once React has hydrated; ScrollReveal marks the root on mount.
+  await expect(page.locator("html")).toHaveAttribute("data-reveal-ready", "");
   const reader = page.locator("#your-file");
   // Before a file is chosen it shows the sample shop's file as an example.
   await expect(reader).toContainText("For example: Sample shop.sqlite");
@@ -42,7 +44,7 @@ test("the first screen links to both products", async ({ page }) => {
   ).toHaveAttribute("href", "https://adibitz.com");
   await expect(
     page.getByRole("link", { name: "Learn them from beginner to advanced" }),
-  ).toHaveAttribute("href", "https://database-beginner-to-advance.vercel.app/");
+  ).toHaveAttribute("href", "https://database.adibitz.com/");
 });
 
 test("the orders board opens one row at a time", async ({ page }) => {
@@ -81,4 +83,17 @@ test("smooth scrolling stays off for reduced motion", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.locator("html")).not.toHaveClass(/\blenis\b/);
+});
+
+test("pages carry a share image that is served as a PNG", async ({ page, request }) => {
+  await page.goto("/");
+  const image = await page.locator('meta[property="og:image"]').getAttribute("content");
+  expect(image).toContain("/opengraph-image.png");
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+    "content",
+    "summary_large_image",
+  );
+  const response = await request.get(new URL(image!).pathname);
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["content-type"]).toBe("image/png");
 });

@@ -1,12 +1,13 @@
 "use client";
 
-import { Database, PencilRuler, Table2 } from "lucide-react";
+import { Table2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AppProviders } from "@/components/app/app-providers";
 import { DatabaseSwitcher } from "@/components/app/database-switcher";
 import { DialogHost } from "@/components/editor/dialogs/dialog-host";
+import { Logo } from "@/components/logo";
 import { Loader } from "@/components/pastel/loader";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
@@ -76,20 +77,13 @@ function Visualizer() {
           href="/"
           className="flex items-center gap-2 rounded-xs font-semibold tracking-[-0.015em] text-ink outline-none focus-visible:ring-2 focus-visible:ring-ring max-sm:sr-only"
         >
-          <span
-            aria-hidden
-            className="flex size-6 items-center justify-center rounded-full bg-mint text-on-accent"
-          >
-            <Database className="size-3.5" strokeWidth={2.5} />
-          </span>
+          <Logo size={24} className="rounded-[6px]" />
           {APP_NAME}
         </Link>
         <span aria-hidden className="text-ink-muted max-sm:hidden">
           /
         </span>
-        <h1 className="flex items-center gap-1.5 text-sm font-semibold text-ink">
-          <PencilRuler className="size-4 text-ink-muted" aria-hidden /> Schema
-        </h1>
+        <h1 className="text-sm font-semibold text-ink">Schema</h1>
         <DatabaseSwitcher
           variant="inline"
           className="ml-2"

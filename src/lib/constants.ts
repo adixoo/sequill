@@ -5,7 +5,7 @@ export const APP_TAGLINE = "Your SQLite files, edited right in the browser";
 /** Who builds and maintains the app, credited in the landing page footer. */
 export const MAKER = { name: "adibitz", url: "https://adibitz.com" } as const;
 /** A course on databases, from beginner to advanced, linked from the landing page. */
-export const LEARN_URL = "https://database-beginner-to-advance.vercel.app/";
+export const LEARN_URL = "https://database.adibitz.com/";
 
 /** SQLite WASM runtime copied into public/ by scripts/copy-sqlite-wasm.ts. */
 export const SQLITE_RUNTIME_URL = "/sqlite/index.mjs";

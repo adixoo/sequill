@@ -2,7 +2,7 @@ import Link from "next/link";
 import { InstallButton } from "@/components/pwa";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { APP_NAME, APP_TAGLINE, LEARN_URL, MAKER } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+import { WORDMARK_HEIGHTS, WORDMARK_TONES } from "@/lib/logo";
 import { Shot, Tile } from "./tile";
 
 /** One slow line of the tagline across the full width; the page's signature move. */
@@ -75,8 +75,6 @@ export function Closing() {
 }
 
 const WORDMARK = APP_NAME.toUpperCase().split(" ");
-const BLOCK_TONES = ["bg-peach", "bg-butter", "bg-mint", "bg-sky", "bg-rose"];
-const BLOCK_HEIGHTS = ["h-full", "h-[78%]", "h-[92%]", "h-[64%]", "h-[86%]", "h-[70%]", "h-[100%]"];
 
 /** The links and the credit line, then the name built from blocks as the page's last word. */
 export function SiteFooter() {
@@ -154,11 +152,11 @@ export function SiteFooter() {
                 <span
                   key={i}
                   aria-hidden
-                  className={cn(
-                    "ln-display flex flex-1 items-end justify-center overflow-hidden rounded-(--ln-radius) pb-[0.08em] text-(--on-accent) max-lg:text-[min(12vw,9svh)]",
-                    BLOCK_TONES[i % BLOCK_TONES.length],
-                    BLOCK_HEIGHTS[i % BLOCK_HEIGHTS.length],
-                  )}
+                  className="ln-display flex flex-1 items-end justify-center overflow-hidden rounded-(--ln-radius) pb-[0.08em] text-(--on-accent) max-lg:text-[min(12vw,9svh)]"
+                  style={{
+                    background: `var(--${WORDMARK_TONES[i % WORDMARK_TONES.length]})`,
+                    height: `${WORDMARK_HEIGHTS[i % WORDMARK_HEIGHTS.length] * 100}%`,
+                  }}
                 >
                   {letter}
                 </span>

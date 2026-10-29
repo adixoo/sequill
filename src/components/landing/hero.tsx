@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -36,11 +37,12 @@ const RUN_TILE = [
 
 /**
  * First screen: the name with what it is, links to both products, the file
- * reader and installing, the editor, and the two rails.
+ * reader and installing, the editor, and the two rails. It fills the screen and
+ * grows past it when a short or zoomed window can't hold the rails' text.
  */
 export function Hero() {
   return (
-    <header className="ln-board pt-(--ln-margin) lg:h-[calc(100svh-var(--ln-margin))] lg:min-h-[720px] lg:grid-rows-[auto_64px_minmax(0,1fr)]">
+    <header className="ln-board pt-(--ln-margin) lg:min-h-[calc(100svh-var(--ln-margin))] lg:grid-rows-[auto_auto_1fr]">
       <Tile className="col-span-2 flex flex-col gap-4 overflow-hidden lg:col-span-12 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
         <h1 className="ln-name whitespace-nowrap max-lg:text-[clamp(64px,24vw,180px)]">
           {APP_NAME}
@@ -62,15 +64,22 @@ export function Hero() {
                 as={Link}
                 href={item.href}
                 tone={item.tone}
-                className="ln-press flex h-16 items-start justify-between gap-3 font-semibold"
+                className="ln-press group flex h-full min-h-16 items-center justify-between gap-3 py-3 font-semibold"
               >
                 {item.label}
-                <span aria-hidden>→</span>
+                <ArrowRight
+                  aria-hidden
+                  className="size-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                />
               </Tile>
             </li>
           ))}
           <li className="lg:col-span-3">
-            <Tile as="a" href="#your-file" className="ln-press flex h-16 items-start">
+            <Tile
+              as="a"
+              href="#your-file"
+              className="ln-press flex h-full min-h-16 items-center py-3"
+            >
               Try your own file
             </Tile>
           </li>
@@ -80,7 +89,7 @@ export function Hero() {
         </ul>
       </nav>
 
-      <div className="col-span-2 grid grid-cols-subgrid gap-y-(--ln-gap) lg:col-span-12 lg:min-h-0 lg:grid-rows-5">
+      <div className="col-span-2 grid grid-cols-subgrid gap-y-(--ln-gap) lg:col-span-12 lg:grid-rows-[repeat(5,minmax(min-content,1fr))]">
         <div className="relative col-span-2 lg:order-2 lg:col-span-8 lg:row-span-5">
           <Tile tone="picture" className="aspect-[4/3] lg:absolute lg:inset-0 lg:aspect-auto">
             <Shot

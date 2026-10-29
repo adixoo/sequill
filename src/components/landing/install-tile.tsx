@@ -14,7 +14,7 @@ export function InstallTile() {
   const [hint, setHint] = useState(false);
   if (installed) {
     return (
-      <Tile tone="raised" className="flex min-h-16 items-start lg:h-16">
+      <Tile tone="raised" className="flex h-full min-h-16 items-center py-3">
         Installed on this device
       </Tile>
     );
@@ -23,14 +23,14 @@ export function InstallTile() {
     <Tile
       as="button"
       type="button"
-      className="ln-press flex min-h-16 w-full items-start justify-between gap-3 text-left lg:h-16"
+      className="ln-press flex h-full min-h-16 w-full items-center justify-between gap-3 py-3 text-left"
       aria-live="polite"
       onClick={() => (install ? void install() : setHint(true))}
     >
       <span className="leading-snug">
         {hint ? "Install from your browser’s menu" : "Install app"}
       </span>
-      <Download aria-hidden className="mt-0.5 size-5 shrink-0" />
+      <Download aria-hidden className="size-5 shrink-0" />
     </Tile>
   );
 }

@@ -2,7 +2,6 @@
 
 import {
   ChevronDown,
-  Database,
   Eye,
   FileCode2,
   ListTree,
@@ -19,6 +18,7 @@ import {
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { DatabaseSwitcher } from "@/components/app/database-switcher";
+import { Logo } from "@/components/logo";
 import { InstallButton } from "@/components/pwa";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -217,12 +217,7 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
           href="/"
           className="flex items-center gap-2 rounded-xs font-semibold tracking-[-0.015em] text-ink outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <span
-            aria-hidden
-            className="flex size-6 items-center justify-center rounded-full bg-mint text-on-accent"
-          >
-            <Database className="size-3.5" strokeWidth={2.5} />
-          </span>
+          <Logo size={24} className="rounded-[6px]" />
           {APP_NAME}
         </Link>
         <div className="ml-auto flex items-center">

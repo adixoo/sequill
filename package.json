@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p src/sw",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "bun test src",
+    "test": "bun test src scripts",
     "test:e2e": "playwright test",
     "changeset": "changeset",
     "version-packages": "changeset version",
