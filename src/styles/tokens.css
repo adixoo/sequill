@@ -1,0 +1,162 @@
+/*
+ * Pastel Noir tokens for the web.
+ * Dark values are the design system as specified. Light values are derived:
+ * an inverted gray ladder, the same pastels for fills and washes, and a deep
+ * "-ink" shade of each pastel for text (pastel text fails contrast on white).
+ * Components use roles (canvas, surface, ink, mint-ink…), never raw hexes.
+ */
+:root {
+  /* Raw gray ladder (dark system) */
+  --gray-950: #0a0a0b;
+  --gray-900: #111113;
+  --gray-850: #18181b;
+  --gray-800: #212125;
+  --gray-700: #2e2e33;
+  --gray-600: #45454c;
+  --gray-500: #6b6b73;
+  --gray-400: #93939b;
+  --gray-300: #bdbdc4;
+  --gray-100: #ededf0;
+
+  /* Pastels: fills, washes, strokes. Same in both themes. */
+  --peach: #ffb3a1;
+  --butter: #f5e1a4;
+  --mint: #a6e3c4;
+  --sky: #a9c9ff;
+  --lilac: #cbb6ff;
+  --rose: #f6a8c6;
+
+  /*
+   * Change marks for unsaved schema edits: added is green, edited is blue.
+   * Brighter than mint and sky so they read apart from the pastels (sky also
+   * marks selection).
+   */
+  --added: #6ee7a1;
+  --edited: #7cacff;
+
+  /*
+   * Radii, scaled for UI like the type scale (the video system's 6/12/20/32px
+   * are sized for a 1920x1080 frame). Tailwind's rounded-* and shadcn read these.
+   */
+  --radius-xs: 4px; /* code-line highlights, keys, checkboxes, menu items */
+  --radius-sm: 6px; /* table frames, small cards, tags */
+  --radius-md: 8px; /* cards, code windows, stat panels, inputs */
+  --radius-lg: 10px; /* buttons, menus, popovers, hero panels */
+  --radius-xl: 14px; /* dialogs and sheets */
+  --radius-pill: 999px; /* chips, step badges */
+
+  --dur-instant: 100ms;
+  --dur-quick: 200ms;
+  --dur-base: 400ms;
+  --dur-slow: 700ms;
+  --dur-draw: 600ms;
+  --dur-write: 800ms;
+  --dur-scene: 1200ms;
+  --dur-hold: 2500ms;
+  --stagger-row: 70ms;
+  --stagger-char: 28ms;
+
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-draw: cubic-bezier(0.45, 0, 0.2, 1);
+
+  --on-accent: var(--gray-950);
+}
+
+/* Light (default) */
+:root {
+  --canvas: #f7f7f8;
+  --surface: #ffffff;
+  --raised: #f1f1f3;
+  --zebra: #eaeaed;
+  --hairline: #dedee3;
+  --strong: #c4c4cb;
+  --decor: #a1a1a9;
+  --ink: #18181b;
+  --ink-soft: #45454c;
+  --ink-muted: #63636b;
+
+  --peach-ink: #a8432b;
+  --butter-ink: #7d6200;
+  --mint-ink: #1d7550;
+  --sky-ink: #2d5cad;
+  --lilac-ink: #6646c2;
+  --rose-ink: #a83866;
+  --added-ink: #146c36;
+  --edited-ink: #1d4fc4;
+
+  --peach-wash: #ffb3a147;
+  --butter-wash: #f5e1a466;
+  --mint-wash: #a6e3c44d;
+  --sky-wash: #a9c9ff4d;
+  --lilac-wash: #cbb6ff4d;
+  --rose-wash: #f6a8c64d;
+  --added-wash: #6ee7a140;
+  --edited-wash: #7cacff40;
+
+  --row-selected: #e4edfd;
+  /* Scrollbar thumb: gray structure, 3:1 against every surface it can sit on. */
+  --scrollbar-thumb: #7e7e86;
+  --scrollbar-thumb-hover: var(--ink-muted);
+  --annotate: var(--butter-ink);
+  --annotate-stroke: #96750a;
+  --shadow-lift: 0 24px 60px #18181b1f;
+  --shadow-ring: 0 0 0 2px #18181b1f;
+  color-scheme: light;
+}
+
+.dark {
+  --canvas: var(--gray-950);
+  --surface: var(--gray-900);
+  --raised: var(--gray-850);
+  --zebra: var(--gray-800);
+  --hairline: var(--gray-700);
+  --strong: var(--gray-600);
+  --decor: var(--gray-500);
+  --ink: var(--gray-100);
+  --ink-soft: var(--gray-300);
+  --ink-muted: var(--gray-400);
+
+  --peach-ink: var(--peach);
+  --butter-ink: var(--butter);
+  --mint-ink: var(--mint);
+  --sky-ink: var(--sky);
+  --lilac-ink: var(--lilac);
+  --rose-ink: var(--rose);
+  --added-ink: var(--added);
+  --edited-ink: var(--edited);
+
+  --peach-wash: #ffb3a124;
+  --butter-wash: #f5e1a424;
+  --mint-wash: #a6e3c424;
+  --sky-wash: #a9c9ff24;
+  --lilac-wash: #cbb6ff24;
+  --rose-wash: #f6a8c624;
+  --added-wash: #6ee7a124;
+  --edited-wash: #7cacff24;
+
+  --row-selected: #1b2230;
+  --scrollbar-thumb: var(--gray-500);
+  --scrollbar-thumb-hover: var(--gray-400);
+  --annotate: var(--butter);
+  --annotate-stroke: var(--butter);
+  --shadow-lift: 0 32px 80px #000000a6;
+  --shadow-ring: 0 0 0 2px #ededf01f;
+  color-scheme: dark;
+}
+
+/* Meaning aliases */
+:root,
+.dark {
+  --positive: var(--mint-ink);
+  --negative: var(--rose-ink);
+  --caution: var(--butter-ink);
+  --code-keyword: var(--lilac-ink);
+  --code-string: var(--mint-ink);
+  --code-number: var(--peach-ink);
+  --code-fn: var(--sky-ink);
+  --code-comment: var(--ink-muted);
+  --code-punct: var(--ink-soft);
+}

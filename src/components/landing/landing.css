@@ -1,0 +1,260 @@
+/*
+ * Landing page: a board of filled tiles on an 8px grid (12 columns on wide
+ * screens, 2 on phones). Colours, radii and motion come from the Pastel Noir
+ * tokens; this file only adds the board's geometry, its five type steps and
+ * its few moves. Layered as components so Tailwind utilities can adjust a tile.
+ */
+@layer components {
+  .ln {
+    --ln-gap: 6px;
+    --ln-margin: 8px;
+    --ln-pad: 20px;
+    --ln-radius: var(--radius-md);
+
+    /* The five type steps. */
+    --ln-name: clamp(96px, 13vw, 220px);
+    --ln-display: clamp(56px, 9vw, 132px);
+    --ln-heading: clamp(32px, 4vw, 56px);
+    --ln-statement: clamp(22px, 1.9vw, 28px);
+    --ln-text: 17px;
+
+    /* A light-to-dark run of grays for fact tiles; the same in both themes. */
+    --ln-run-1: var(--gray-300);
+    --ln-run-2: var(--gray-400);
+    --ln-run-3: var(--gray-500);
+    --ln-run-4: var(--gray-600);
+    --ln-run-5: var(--gray-700);
+
+    font-size: var(--ln-text);
+    line-height: 1.5;
+  }
+  @media (min-width: 1024px) {
+    .ln {
+      --ln-gap: 8px;
+      --ln-pad: 24px;
+    }
+  }
+
+  .ln-board {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--ln-gap);
+    padding-inline: var(--ln-margin);
+  }
+  @media (min-width: 1024px) {
+    .ln-board {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+  }
+  /* Boards follow one another with the same gap, so the page reads as one board. */
+  .ln-board + .ln-board,
+  .ln-board + .ln-band,
+  .ln-band + .ln-board {
+    margin-top: var(--ln-gap);
+  }
+
+  .ln-tile {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--ln-radius);
+    padding: var(--ln-pad);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .ln-tile[data-tone="raised"] {
+    background: var(--raised);
+  }
+  .ln-tile[data-tone="inverse"] {
+    background: var(--ink);
+    color: var(--canvas);
+  }
+  .ln-tile[data-tone="mint"],
+  .ln-tile[data-tone="sky"],
+  .ln-tile[data-tone="peach"],
+  .ln-tile[data-tone="butter"],
+  .ln-tile[data-tone="rose"] {
+    background: var(--tone);
+    color: var(--on-accent);
+  }
+  .ln-tile[data-tone="mint"] {
+    --tone: var(--mint);
+  }
+  .ln-tile[data-tone="sky"] {
+    --tone: var(--sky);
+  }
+  .ln-tile[data-tone="peach"] {
+    --tone: var(--peach);
+  }
+  .ln-tile[data-tone="butter"] {
+    --tone: var(--butter);
+  }
+  .ln-tile[data-tone="rose"] {
+    --tone: var(--rose);
+  }
+  .ln-tile[data-tone="picture"] {
+    padding: 0;
+    background: var(--gray-900);
+  }
+  .ln-tile[data-tone="picture"] > img,
+  .ln-tile[data-tone="picture"] > picture > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Line height holds the tallest letter and the deepest descender, so nothing is clipped. */
+  .ln-name {
+    font-size: var(--ln-name);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+  }
+  .ln-display {
+    font-size: var(--ln-display);
+    font-weight: 700;
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+  }
+  .ln-heading {
+    font-size: var(--ln-heading);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .ln-statement {
+    font-size: var(--ln-statement);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-wrap: pretty;
+  }
+  .ln-text {
+    font-size: var(--ln-text);
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  /* Links and buttons on tiles: the whole tile reacts. */
+  .ln-press {
+    transition:
+      transform var(--dur-quick) var(--ease-enter),
+      background-color var(--dur-quick) var(--ease-enter),
+      color var(--dur-quick) var(--ease-enter);
+  }
+  .ln-press:active {
+    transform: scale(0.985);
+  }
+  .ln-press:focus-visible {
+    outline: 3px solid var(--sky-ink);
+    outline-offset: 2px;
+  }
+  @media (hover: hover) {
+    .ln-press:hover {
+      background: var(--zebra);
+    }
+    .ln-press[data-tone="mint"]:hover,
+    .ln-press[data-tone="sky"]:hover {
+      background: color-mix(in srgb, var(--tone) 82%, var(--gray-100));
+    }
+    .ln-lift {
+      transition: transform var(--dur-quick) var(--ease-enter);
+    }
+    .ln-lift:hover {
+      transform: translateY(-6px);
+    }
+  }
+
+  /*
+   * Reveal once on scroll. The hidden state applies only after ScrollReveal has
+   * mounted and marked the root, so without script nothing is ever hidden.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] > * {
+      transition:
+        opacity var(--dur-slow) var(--ease-enter),
+        transform var(--dur-slow) var(--ease-enter);
+      transition-delay: calc(var(--i, 0) * 80ms);
+    }
+    :root[data-reveal-ready] [data-reveal]:not(.is-in) > * {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    [data-reveal] > :nth-child(2) {
+      --i: 1;
+    }
+    [data-reveal] > :nth-child(3) {
+      --i: 2;
+    }
+    [data-reveal] > :nth-child(4) {
+      --i: 3;
+    }
+    [data-reveal] > :nth-child(n + 5) {
+      --i: 4;
+    }
+  }
+
+  /* The marquee: one line of the claim, travelling slowly, paused on hover and for reduced motion. */
+  @keyframes ln-marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .ln-marquee {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ln-marquee-track {
+    display: inline-flex;
+    animation: ln-marquee 48s linear infinite;
+  }
+  .ln-marquee:hover .ln-marquee-track {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ln-marquee-track {
+      animation: none;
+    }
+  }
+
+  /* Book-spine index of capabilities. */
+  .ln-spines {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+  }
+  @media (min-width: 1024px) {
+    .ln-spines {
+      flex-wrap: nowrap;
+      gap: 6px;
+      height: 440px;
+    }
+    .ln-spine {
+      writing-mode: vertical-rl;
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+  @media (hover: hover) {
+    .ln-spines:has(.ln-spine:hover) .ln-spine:not(:hover) {
+      color: var(--ink-muted);
+    }
+  }
+
+  /* FAQ: filled tiles built on <details>; one open at a time through a shared name. */
+  .ln-faq summary {
+    list-style: none;
+  }
+  .ln-faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .ln-faq .ln-plus-bar {
+    transition: transform var(--dur-quick) var(--ease-enter);
+  }
+  .ln-faq .ln-plus-bar:last-child {
+    transform: rotate(90deg);
+  }
+  .ln-faq details[open] .ln-plus-bar:last-child {
+    transform: rotate(0deg);
+  }
+}

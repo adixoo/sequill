@@ -1,0 +1,94 @@
+"use client";
+
+import { FolderOpen, Plus, Sparkles, SquareTerminal, Table2 } from "lucide-react";
+import { m } from "motion/react";
+import { Mark, Note } from "@/components/pastel/annotation";
+import { Button } from "@/components/ui/button";
+import { Kbd } from "@/components/ui/kbd";
+import { useDbActions } from "@/hooks/use-db-actions";
+import { DB_FILE_ACCEPT } from "@/lib/constants";
+import { enter } from "@/lib/motion";
+import type { Schema } from "@/lib/sqlite/types";
+import { useDialogs } from "@/lib/store/dialogs";
+import { useWorkspace } from "@/lib/store/workspace";
+
+/** Shown when no database is open. */
+export function NoDatabase() {
+  const actions = useDbActions();
+  const openDialog = useDialogs((s) => s.open);
+  return (
+    <div className="flex flex-1 items-center justify-center overflow-y-auto bg-canvas p-6">
+      <m.div {...enter()} className="flex max-w-lg flex-col items-start gap-6">
+        <h1 className="text-4xl leading-none font-bold tracking-[-0.035em] text-ink md:text-5xl">
+          Open a database to begin
+        </h1>
+        <p className="text-base leading-relaxed text-ink-soft">
+          Files stay in this browser&apos;s private storage. Nothing is uploaded, and it all keeps
+          working offline.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Button size="lg" asChild>
+            <label className="cursor-pointer">
+              <FolderOpen /> Open a .sqlite file
+              <input
+                type="file"
+                accept={DB_FILE_ACCEPT}
+                className="sr-only"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) void actions.openFile(file);
+                  e.target.value = "";
+                }}
+              />
+            </label>
+          </Button>
+          <Button size="lg" variant="outline" onClick={() => void actions.createSample()}>
+            <Sparkles /> Try the sample
+          </Button>
+          <Button size="lg" variant="ghost" onClick={() => openDialog({ kind: "newDatabase" })}>
+            <Plus /> New empty
+          </Button>
+        </div>
+        <div className="relative flex items-end gap-2 pl-2">
+          <Mark name="curve" flip className="w-20" delay={0.5} />
+          <Note delay={1.1} size="sm">
+            or drop a file anywhere
+          </Note>
+        </div>
+      </m.div>
+    </div>
+  );
+}
+
+/** Shown when a database is open but no tab is. */
+export function NoTab({ schema }: { schema: Schema | undefined }) {
+  const openTable = useWorkspace((s) => s.openTable);
+  const openQuery = useWorkspace((s) => s.openQuery);
+  const openDialog = useDialogs((s) => s.open);
+  const first = schema?.tables[0] ?? schema?.views[0];
+  return (
+    <div className="flex flex-1 items-center justify-center overflow-y-auto bg-canvas p-6">
+      <m.div {...enter()} className="flex max-w-md flex-col items-start gap-5">
+        <h2 className="text-3xl leading-tight font-semibold tracking-[-0.025em] text-ink">
+          Pick a table, or ask the data a question
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          {first && (
+            <Button onClick={() => openTable(first.name)}>
+              <Table2 /> Open {first.name}
+            </Button>
+          )}
+          <Button variant="outline" onClick={() => openQuery()}>
+            <SquareTerminal /> New query
+          </Button>
+          <Button variant="ghost" onClick={() => openDialog({ kind: "createTable" })}>
+            <Plus /> New table
+          </Button>
+        </div>
+        <p className="flex items-center gap-2 text-sm text-ink-muted">
+          <Kbd>Ctrl K</Kbd> jumps to any table or action.
+        </p>
+      </m.div>
+    </div>
+  );
+}

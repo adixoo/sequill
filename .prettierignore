@@ -1,0 +1,12 @@
+.next
+out
+node_modules
+bun.lock
+public/sw.js
+public/swe-worker-*.js
+playwright-report
+test-results
+CHANGELOG.md
+public/sqlite
+.claude/skills
+.taste-skill

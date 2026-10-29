@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Everything runs in the browser (SQLite WASM + OPFS), so the app ships as static files.
+  output: "export",
   reactCompiler: true,
   turbopack: {
     rules: {

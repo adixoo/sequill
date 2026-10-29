@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# sqlite wasm runtime copied by scripts/copy-sqlite-wasm.ts
+/public/sqlite/
+
+# playwright
+/playwright-report/
+/test-results/
+
+# tasteskill working files (direction sheet, inspector screenshots)
+/.taste-skill/

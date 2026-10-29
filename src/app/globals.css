@@ -1,26 +1,306 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "../styles/tokens.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:is(.dark *));
+
+/* shadcn/ui variables mapped onto Pastel Noir roles */
+:root,
+.dark {
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--canvas);
+  --secondary: var(--raised);
+  --secondary-foreground: var(--ink);
+  --muted: var(--raised);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--zebra);
+  --accent-foreground: var(--ink);
+  --destructive: var(--rose-ink);
+  --border: var(--hairline);
+  --input: var(--hairline);
+  --ring: var(--sky-ink);
+  --chart-1: var(--peach);
+  --chart-2: var(--sky);
+  --chart-3: var(--mint);
+  --chart-4: var(--lilac);
+  --chart-5: var(--rose);
+  --radius: var(--radius-lg);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: var(--canvas);
+  --sidebar-accent: var(--zebra);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--hairline);
+  --sidebar-ring: var(--sky-ink);
 }
 
 @theme inline {
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, Menlo, monospace;
+  --font-hand: var(--font-caveat), "Segoe Print", "Bradley Hand", cursive;
+  --font-heading: var(--font-sans);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Pastel Noir roles as Tailwind colours: bg-surface, text-ink-soft, bg-mint-wash… */
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-zebra: var(--zebra);
+  --color-hairline: var(--hairline);
+  --color-strong: var(--strong);
+  --color-decor: var(--decor);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-on-accent: var(--on-accent);
+  --color-row-selected: var(--row-selected);
+  --color-annotate: var(--annotate);
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
+  --color-caution: var(--caution);
+  --color-peach: var(--peach);
+  --color-butter: var(--butter);
+  --color-mint: var(--mint);
+  --color-sky: var(--sky);
+  --color-lilac: var(--lilac);
+  --color-rose: var(--rose);
+  --color-added: var(--added);
+  --color-edited: var(--edited);
+  --color-peach-ink: var(--peach-ink);
+  --color-butter-ink: var(--butter-ink);
+  --color-mint-ink: var(--mint-ink);
+  --color-sky-ink: var(--sky-ink);
+  --color-lilac-ink: var(--lilac-ink);
+  --color-rose-ink: var(--rose-ink);
+  --color-added-ink: var(--added-ink);
+  --color-edited-ink: var(--edited-ink);
+  --color-peach-wash: var(--peach-wash);
+  --color-butter-wash: var(--butter-wash);
+  --color-mint-wash: var(--mint-wash);
+  --color-sky-wash: var(--sky-wash);
+  --color-lilac-wash: var(--lilac-wash);
+  --color-rose-wash: var(--rose-wash);
+  --color-added-wash: var(--added-wash);
+  --color-edited-wash: var(--edited-wash);
+
+  /* rounded-xs…xl come from the radius tokens in tokens.css (unlayered, so they win). */
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --shadow-lift: var(--shadow-lift);
+  --shadow-ring: var(--shadow-ring);
+
+  --ease-enter: var(--ease-enter);
+  --ease-move: var(--ease-move);
+  --ease-exit: var(--ease-exit);
+  --ease-pop: var(--ease-pop);
+  --ease-draw: var(--ease-draw);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  ::selection {
+    background: var(--sky-wash);
+  }
+
+  /*
+   * Scrollbars: thin, pill thumb in the gray ladder, transparent track. On
+   * pointer devices a scrollbar only shows while its own scroll area is hovered
+   * or holds keyboard focus. Touch devices keep the browser's overlay bars.
+   */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+  @media (hover: hover) {
+    * {
+      scrollbar-color: transparent transparent;
+      transition: scrollbar-color var(--dur-quick) var(--ease-enter);
+    }
+    *:hover,
+    *:focus-within {
+      scrollbar-color: var(--scrollbar-thumb) transparent;
+    }
+  }
+  /* Browsers without scrollbar-color (older Safari) use the WebKit pseudo-elements. */
+  @supports not (scrollbar-color: auto) {
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid transparent;
+      border-radius: var(--radius-pill);
+      background-clip: padding-box;
+      background-color: var(--scrollbar-thumb);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: var(--scrollbar-thumb-hover);
+    }
+    @media (hover: hover) {
+      ::-webkit-scrollbar-thumb {
+        background-color: transparent;
+      }
+      :hover::-webkit-scrollbar-thumb,
+      :focus-within::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-thumb);
+      }
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Uppercase kicker labels (eyebrow / table-head roles) */
+  .pn-eyebrow {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .pn-table-head {
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .pn-tnum {
+    font-variant-numeric: tabular-nums;
+  }
+  .pn-hand {
+    font-family: var(--font-hand);
+    color: var(--annotate);
+  }
+  .pn-stroke {
+    fill: none;
+    stroke: var(--annotate-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/* Choreography helpers (landing). Final state is the resting state, so reduced motion just skips them. */
+@keyframes pn-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes pn-write {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes pn-wash {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes pn-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+.pn-rise {
+  animation: pn-rise var(--dur-base) var(--ease-enter) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger-row) + 80ms);
+}
+@keyframes pn-loader-draw {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  55%,
+  80% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+.pn-loader-path {
+  animation: pn-loader-draw 1.6s var(--ease-draw) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pn-loader-path {
+    animation: none !important;
+    stroke-dasharray: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+  }
 }
