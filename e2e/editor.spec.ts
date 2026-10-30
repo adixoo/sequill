@@ -164,3 +164,13 @@ test("theme toggle switches between light and dark", async ({ page }) => {
   await page.getByRole("button", { name: /^Theme: light/ }).click();
   await expect(html).toHaveClass(/dark/);
 });
+
+test("the command palette opens with Ctrl+K and jumps to a table", async ({ page }) => {
+  await createSample(page);
+  await page.keyboard.press("Control+k");
+  const palette = page.getByRole("dialog", { name: "Jump to" });
+  await palette.getByPlaceholder("Search tables, views, actions…").fill("open products");
+  await palette.getByRole("option", { name: "products" }).first().click();
+  await expect(palette).toBeHidden();
+  await expect(page.getByRole("grid", { name: "products rows" })).toBeVisible();
+});

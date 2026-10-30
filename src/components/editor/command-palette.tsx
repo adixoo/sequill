@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useRef } from "react";
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -77,97 +78,99 @@ export default function CommandPalette({ open, onOpenChange, schema }: CommandPa
         title="Jump to"
         description="Search tables, views and actions"
       >
-        <CommandInput placeholder="Search tables, views, actions…" />
-        <CommandList>
-          <CommandEmpty>Nothing matches.</CommandEmpty>
-          {schema && schema.tables.length + schema.views.length > 0 && (
-            <CommandGroup heading="Tables and views">
-              {[...schema.tables, ...schema.views].map((r) => (
-                <CommandItem
-                  key={r.name}
-                  value={`open ${r.name}`}
-                  onSelect={runAndClose(() => openTable(r.name, { mode: "data" }))}
-                >
-                  {r.kind === "view" ? <Eye /> : <Table2 />}
-                  {r.name}
-                </CommandItem>
-              ))}
-              {schema.tables.map((r) => (
-                <CommandItem
-                  key={`s-${r.name}`}
-                  value={`structure of ${r.name}`}
-                  onSelect={runAndClose(() => openTable(r.name, { mode: "structure" }))}
-                >
-                  <TableProperties />
-                  Structure of {r.name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          )}
-          {dbId && (
-            <CommandGroup heading="Actions">
-              <CommandItem onSelect={runAndClose(() => openQuery())}>
-                <SquareTerminal /> New query
-              </CommandItem>
-              <CommandItem onSelect={runAndClose(() => openDialog({ kind: "createTable" }))}>
-                <Plus /> New table
-              </CommandItem>
-              <CommandItem onSelect={runAndClose(() => openDialog({ kind: "import" }))}>
-                <Upload /> Import CSV or JSON
-              </CommandItem>
-              <CommandItem onSelect={runAndClose(() => router.push("/vis"))}>
-                <Network /> Open schema diagram
-              </CommandItem>
-              {current && (
-                <>
-                  <CommandItem onSelect={runAndClose(() => void actions.download(current))}>
-                    <Download /> Download {current.name}
+        <Command>
+          <CommandInput placeholder="Search tables, views, actions…" />
+          <CommandList>
+            <CommandEmpty>Nothing matches.</CommandEmpty>
+            {schema && schema.tables.length + schema.views.length > 0 && (
+              <CommandGroup heading="Tables and views">
+                {[...schema.tables, ...schema.views].map((r) => (
+                  <CommandItem
+                    key={r.name}
+                    value={`open ${r.name}`}
+                    onSelect={runAndClose(() => openTable(r.name, { mode: "data" }))}
+                  >
+                    {r.kind === "view" ? <Eye /> : <Table2 />}
+                    {r.name}
                   </CommandItem>
-                  <CommandItem onSelect={runAndClose(() => void actions.downloadDump(current))}>
-                    <FileCode2 /> Download SQL dump
+                ))}
+                {schema.tables.map((r) => (
+                  <CommandItem
+                    key={`s-${r.name}`}
+                    value={`structure of ${r.name}`}
+                    onSelect={runAndClose(() => openTable(r.name, { mode: "structure" }))}
+                  >
+                    <TableProperties />
+                    Structure of {r.name}
                   </CommandItem>
-                </>
-              )}
-            </CommandGroup>
-          )}
-          <CommandSeparator />
-          <CommandGroup heading="Databases">
-            {dbs.data
-              ?.filter((d) => d.id !== dbId)
-              .map((d) => (
-                <CommandItem
-                  key={d.id}
-                  value={`switch to ${d.name} ${d.id}`}
-                  onSelect={runAndClose(() => setDb(d.id))}
-                >
-                  <Database /> Switch to {d.name}
+                ))}
+              </CommandGroup>
+            )}
+            {dbId && (
+              <CommandGroup heading="Actions">
+                <CommandItem onSelect={runAndClose(() => openQuery())}>
+                  <SquareTerminal /> New query
                 </CommandItem>
-              ))}
-            <CommandItem
-              onSelect={() => {
-                onOpenChange(false);
-                fileInput.current?.click();
-              }}
-            >
-              <FolderOpen /> Open a database file
-            </CommandItem>
-            <CommandItem onSelect={runAndClose(() => openDialog({ kind: "newDatabase" }))}>
-              <Plus /> New empty database
-            </CommandItem>
-            <CommandItem onSelect={runAndClose(() => void actions.createSample())}>
-              <Sparkles /> Create sample database
-            </CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Appearance">
-            <CommandItem
-              onSelect={runAndClose(() => setTheme(resolvedTheme === "dark" ? "light" : "dark"))}
-            >
-              {resolvedTheme === "dark" ? <Sun /> : <Moon />} Switch to{" "}
-              {resolvedTheme === "dark" ? "light" : "dark"} mode
-            </CommandItem>
-          </CommandGroup>
-        </CommandList>
+                <CommandItem onSelect={runAndClose(() => openDialog({ kind: "createTable" }))}>
+                  <Plus /> New table
+                </CommandItem>
+                <CommandItem onSelect={runAndClose(() => openDialog({ kind: "import" }))}>
+                  <Upload /> Import CSV or JSON
+                </CommandItem>
+                <CommandItem onSelect={runAndClose(() => router.push("/vis"))}>
+                  <Network /> Open schema diagram
+                </CommandItem>
+                {current && (
+                  <>
+                    <CommandItem onSelect={runAndClose(() => void actions.download(current))}>
+                      <Download /> Download {current.name}
+                    </CommandItem>
+                    <CommandItem onSelect={runAndClose(() => void actions.downloadDump(current))}>
+                      <FileCode2 /> Download SQL dump
+                    </CommandItem>
+                  </>
+                )}
+              </CommandGroup>
+            )}
+            <CommandSeparator />
+            <CommandGroup heading="Databases">
+              {dbs.data
+                ?.filter((d) => d.id !== dbId)
+                .map((d) => (
+                  <CommandItem
+                    key={d.id}
+                    value={`switch to ${d.name} ${d.id}`}
+                    onSelect={runAndClose(() => setDb(d.id))}
+                  >
+                    <Database /> Switch to {d.name}
+                  </CommandItem>
+                ))}
+              <CommandItem
+                onSelect={() => {
+                  onOpenChange(false);
+                  fileInput.current?.click();
+                }}
+              >
+                <FolderOpen /> Open a database file
+              </CommandItem>
+              <CommandItem onSelect={runAndClose(() => openDialog({ kind: "newDatabase" }))}>
+                <Plus /> New empty database
+              </CommandItem>
+              <CommandItem onSelect={runAndClose(() => void actions.createSample())}>
+                <Sparkles /> Create sample database
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="Appearance">
+              <CommandItem
+                onSelect={runAndClose(() => setTheme(resolvedTheme === "dark" ? "light" : "dark"))}
+              >
+                {resolvedTheme === "dark" ? <Sun /> : <Moon />} Switch to{" "}
+                {resolvedTheme === "dark" ? "light" : "dark"} mode
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>
       </CommandDialog>
     </>
   );

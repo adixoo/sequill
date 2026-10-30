@@ -116,29 +116,36 @@ export function ColumnFields({
     );
   }
 
+  // Name and type head the card; every other option sits in one labeled column below them.
   return (
-    <div className="flex flex-col gap-2.5 rounded-sm bg-raised p-3">
+    <div className="flex flex-col gap-3 rounded-sm bg-raised p-3 ring-2 ring-hairline ring-inset">
       <div className="flex flex-wrap items-center gap-2">
         {name}
         <TypeSelect {...field} />
         {actions}
       </div>
-      <ConstraintChecks {...field} mode={mode} />
-      <div className="flex flex-wrap items-center gap-2">
-        <DefaultFields {...field} />
-      </div>
-      {tables.length > 0 && (
+      <div className="grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-x-3 gap-y-2.5">
+        <FieldLabel>Rules</FieldLabel>
+        <ConstraintChecks {...field} mode={mode} />
+        <FieldLabel>Default</FieldLabel>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs text-ink-muted">References</span>
-          <ReferenceTable {...field} tables={tables} />
-          {col.references && tables.some((t) => t.name === col.references?.table) && (
-            <>
-              <ReferenceColumn {...field} tables={tables} />
-              <OnDelete {...field} />
-            </>
-          )}
+          <DefaultFields {...field} />
         </div>
-      )}
+        {tables.length > 0 && (
+          <>
+            <FieldLabel>References</FieldLabel>
+            <div className="flex flex-wrap items-center gap-2">
+              <ReferenceTable {...field} tables={tables} />
+              {col.references && tables.some((t) => t.name === col.references?.table) && (
+                <>
+                  <ReferenceColumn {...field} tables={tables} />
+                  <OnDelete {...field} />
+                </>
+              )}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
@@ -335,7 +342,7 @@ function OnDelete({ col, set, compact }: FieldProps) {
     >
       <SelectTrigger
         size="sm"
-        className={cn("bg-surface", compact ? "w-40" : "w-full")}
+        className={cn("bg-surface", compact ? "w-44" : "w-full")}
         aria-label="On delete"
       >
         <SelectValue />

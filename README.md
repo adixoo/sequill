@@ -77,8 +77,8 @@ into `public/sqlite/` (see `scripts/copy-sqlite-wasm.ts`).
 | `bun run changeset`        | Describe a change for the changelog.                                    |
 | `bun run version-packages` | Apply changesets: bump the version and update `CHANGELOG.md`.           |
 
-End-to-end tests use the installed Microsoft Edge by default. To use Playwright's Chromium instead:
-`bunx playwright install chromium`, then run with `PW_CHANNEL=chromium`.
+End-to-end tests (and `scripts/capture-landing.ts`) run in the installed Brave browser. If Brave is
+not at `C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe`, set `BRAVE_PATH`.
 
 ## How it works
 

@@ -14,9 +14,9 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { chromium, expect, type Page } from "@playwright/test";
 import sharp from "sharp";
+import { BRAVE_PATH } from "./brave.ts";
 
 const BASE_URL = process.env.BASE_URL ?? "http://localhost:3000";
-const CHANNEL = process.env.PW_CHANNEL ?? "msedge";
 const OUT = join(import.meta.dirname, "..", "public", "landing");
 const BOOT_TIMEOUT = 60_000;
 /** Widest size a picture is shown at on the page (2x for sharp screens). */
@@ -131,7 +131,7 @@ async function saveClip(frames: Buffer[], name: string): Promise<void> {
   console.log(`public/landing/${name} (${frames.length} frames)`);
 }
 
-const browser = await chromium.launch({ channel: CHANNEL });
+const browser = await chromium.launch({ executablePath: BRAVE_PATH });
 try {
   const desktop = await browser.newContext({
     viewport: { width: 1440, height: 900 },

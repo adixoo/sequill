@@ -68,32 +68,38 @@ function SchemaDialogFrame({
 }) {
   return (
     <Dialog open onOpenChange={(open) => !open && onClose()}>
+      {/* Header and footer stay put; only the fields between them scroll. */}
       <DialogContent
-        className={cn("max-h-[90dvh] overflow-y-auto", wide ? "sm:max-w-3xl" : "sm:max-w-xl")}
+        className={cn(
+          "flex max-h-[90dvh] flex-col gap-0 p-0",
+          wide ? "sm:max-w-3xl" : "sm:max-w-xl",
+        )}
       >
         <form
-          className="flex flex-col gap-4"
+          className="flex min-h-0 flex-1 flex-col"
           onSubmit={(e) => {
             e.preventDefault();
             if (sql) onSubmit();
           }}
         >
-          <DialogHeader>
+          <DialogHeader className="border-b-2 border-hairline p-4 pr-12">
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          {children}
-          {sql ? (
-            <SqlPreview sql={sql} />
-          ) : (
-            problem && (
-              // Until the form is complete there's no SQL to preview; say what's missing in its place.
-              <p className="rounded-sm px-3 py-2.5 text-sm text-ink-muted ring-2 ring-hairline ring-inset">
+          <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-4">
+            {children}
+            {sql && <SqlPreview sql={sql} />}
+          </div>
+          <DialogFooter className="m-0 flex-row flex-wrap items-center justify-end">
+            {/* Until the form is complete there's no SQL to preview; say what's missing instead. */}
+            {!sql && problem && (
+              <p
+                role="status"
+                className="basis-full text-xs text-ink-muted sm:mr-auto sm:grow sm:basis-0"
+              >
                 {problem}
               </p>
-            )
-          )}
-          <DialogFooter>
+            )}
             <Button type="button" variant="ghost" onClick={onClose}>
               Cancel
             </Button>
@@ -165,8 +171,10 @@ export function CreateTableDialog({ onClose }: { onClose(): void }) {
           className="font-mono max-md:text-base"
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <p className="pn-eyebrow text-ink-muted">Columns</p>
+      <section className="flex flex-col gap-2" aria-labelledby="table-columns">
+        <h3 id="table-columns" className="pn-eyebrow text-ink-muted">
+          Columns <span className="pn-tnum">· {columns.length}</span>
+        </h3>
         {columns.map((col, i) => (
           <ColumnFields
             key={i}
@@ -219,11 +227,16 @@ export function CreateTableDialog({ onClose }: { onClose(): void }) {
         >
           <Plus /> Add column
         </Button>
-      </div>
-      <div className="flex flex-wrap gap-4">
-        <Check label="WITHOUT ROWID" checked={withoutRowid} onChange={setWithoutRowid} />
-        <Check label="STRICT typing" checked={strict} onChange={setStrict} />
-      </div>
+      </section>
+      <section className="flex flex-col gap-2" aria-labelledby="table-options">
+        <h3 id="table-options" className="pn-eyebrow text-ink-muted">
+          Table options
+        </h3>
+        <div className="flex flex-wrap gap-x-5 gap-y-2">
+          <Check label="WITHOUT ROWID" checked={withoutRowid} onChange={setWithoutRowid} />
+          <Check label="STRICT typing" checked={strict} onChange={setStrict} />
+        </div>
+      </section>
     </SchemaDialogFrame>
   );
 }

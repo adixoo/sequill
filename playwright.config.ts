@@ -1,11 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
+import { BRAVE_PATH } from "./scripts/brave.ts";
 
 const PORT = 4173;
 
 /**
  * End-to-end tests run against the production static export (`bun run build`
- * first), served the way it will be deployed. Uses the system Microsoft Edge by
- * default; set PW_CHANNEL=chromium after `bunx playwright install chromium`.
+ * first), served the way it will be deployed, in the installed Brave browser.
  */
 export default defineConfig({
   testDir: "./e2e",
@@ -14,13 +14,13 @@ export default defineConfig({
   reporter: [["list"]],
   use: {
     baseURL: `http://localhost:${PORT}`,
-    channel: process.env.PW_CHANNEL ?? "msedge",
+    launchOptions: { executablePath: BRAVE_PATH },
     trace: "retain-on-failure",
   },
   projects: [
     {
       name: "desktop",
-      use: { ...devices["Desktop Edge"], viewport: { width: 1440, height: 900 } },
+      use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } },
     },
   ],
   webServer: {
