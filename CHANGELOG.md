@@ -1,5 +1,11 @@
 # sqlite-browser-editor
 
+## 0.2.1
+
+### Patch Changes
+
+- The "or drop a file anywhere" hint on the editor's welcome screen now has its arrow pointing up at "Open a .sqlite file", and handwritten notes no longer cut off their last letters. Touch screens no longer show the drop hint.
+
 ## 0.2.0
 
 ### Minor Changes
