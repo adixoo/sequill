@@ -34,6 +34,7 @@ import { useDatabases } from "@/hooks/use-db";
 import { DB_FILE_ACCEPT } from "@/lib/constants";
 import type { Schema } from "@/lib/sqlite/types";
 import { useDialogs } from "@/lib/store/dialogs";
+import { useSavedQueries } from "@/lib/store/saved-queries";
 import { useWorkspace } from "@/lib/store/workspace";
 
 interface CommandPaletteProps {
@@ -51,6 +52,7 @@ export default function CommandPalette({ open, onOpenChange, schema }: CommandPa
   const fileInput = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const current = dbs.data?.find((d) => d.id === dbId);
+  const savedQueries = useSavedQueries((s) => s.queries);
 
   const runAndClose = (fn: () => void) => () => {
     onOpenChange(false);
@@ -102,6 +104,19 @@ export default function CommandPalette({ open, onOpenChange, schema }: CommandPa
                   >
                     <TableProperties />
                     Structure of {r.name}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+            {dbId && savedQueries.length > 0 && (
+              <CommandGroup heading="Saved queries">
+                {savedQueries.map((q) => (
+                  <CommandItem
+                    key={q.id}
+                    value={`saved query ${q.name} ${q.id}`}
+                    onSelect={runAndClose(() => openQuery(q.sql, { id: q.id, name: q.name }))}
+                  >
+                    <SquareTerminal /> {q.name}
                   </CommandItem>
                 ))}
               </CommandGroup>

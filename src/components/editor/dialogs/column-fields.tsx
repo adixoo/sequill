@@ -82,7 +82,7 @@ export function ColumnFields({
       onChange={(e) => set({ name: e.target.value })}
       className={cn(
         "h-8 bg-surface font-mono text-sm max-md:text-base",
-        compact ? "min-w-36 flex-1" : "w-full",
+        compact ? "basis-full @sm:min-w-36 @sm:flex-1 @sm:basis-0" : "w-full",
       )}
     />
   );
@@ -116,42 +116,53 @@ export function ColumnFields({
     );
   }
 
-  // Name and type head the card; every other option sits in one labeled column below them.
+  // Name and type head the card; every other option sits in a labeled row below them. The card
+  // sizes itself by its own width (phone drawers, the designer's panel): narrow cards put each
+  // label above its field and give the fields the full width.
   return (
-    <div className="flex flex-col gap-3 rounded-sm bg-raised p-3 ring-2 ring-hairline ring-inset">
+    <div className="@container flex flex-col gap-3 rounded-sm bg-raised p-3 ring-2 ring-hairline ring-inset">
       <div className="flex flex-wrap items-center gap-2">
         {name}
         <TypeSelect {...field} />
         {actions}
       </div>
-      <div className="grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-x-3 gap-y-2.5">
-        <FieldLabel>Rules</FieldLabel>
+      <CompactRow label="Rules">
         <ConstraintChecks {...field} mode={mode} />
-        <FieldLabel>Default</FieldLabel>
+      </CompactRow>
+      <CompactRow label="Default">
         <div className="flex flex-wrap items-center gap-2">
           <DefaultFields {...field} />
         </div>
-        {tables.length > 0 && (
-          <>
-            <FieldLabel>References</FieldLabel>
-            <div className="flex flex-wrap items-center gap-2">
-              <ReferenceTable {...field} tables={tables} />
-              {col.references && tables.some((t) => t.name === col.references?.table) && (
-                <>
-                  <ReferenceColumn {...field} tables={tables} />
-                  <OnDelete {...field} />
-                </>
-              )}
-            </div>
-          </>
-        )}
-      </div>
+      </CompactRow>
+      {tables.length > 0 && (
+        <CompactRow label="References">
+          <div className="flex flex-wrap items-center gap-2">
+            <ReferenceTable {...field} tables={tables} />
+            {col.references && tables.some((t) => t.name === col.references?.table) && (
+              <>
+                <ReferenceColumn {...field} tables={tables} />
+                <OnDelete {...field} />
+              </>
+            )}
+          </div>
+        </CompactRow>
+      )}
     </div>
   );
 }
 
 function FieldLabel({ children, className }: { children: ReactNode; className?: string }) {
   return <span className={cn("text-xs text-ink-muted", className)}>{children}</span>;
+}
+
+/** A label beside its field in a wide card, above it in a narrow one. */
+function CompactRow({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="grid gap-1.5 @sm:grid-cols-[4.5rem_minmax(0,1fr)] @sm:items-center @sm:gap-x-3">
+      <FieldLabel>{label}</FieldLabel>
+      {children}
+    </div>
+  );
 }
 
 function TypeSelect({ col, set, compact }: FieldProps) {
@@ -162,7 +173,10 @@ function TypeSelect({ col, set, compact }: FieldProps) {
     >
       <SelectTrigger
         size="sm"
-        className={cn("bg-surface font-mono", compact ? "w-32" : "w-full")}
+        className={cn(
+          "bg-surface font-mono",
+          compact ? "min-w-0 flex-1 @sm:w-32 @sm:flex-none" : "w-full",
+        )}
         aria-label="Type"
       >
         <SelectValue />
@@ -185,7 +199,9 @@ function ConstraintChecks({ col, set, compact, mode }: FieldProps & { mode: "cre
   return (
     <div
       className={
-        compact ? "flex flex-wrap items-center gap-x-4 gap-y-2" : "grid grid-cols-2 gap-x-3 gap-y-2"
+        compact
+          ? "grid grid-cols-2 gap-x-3 gap-y-2 @sm:flex @sm:flex-wrap @sm:items-center @sm:gap-x-4"
+          : "grid grid-cols-2 gap-x-3 gap-y-2"
       }
     >
       {mode === "create" && (
@@ -226,7 +242,7 @@ function DefaultFields({ col, set, compact }: FieldProps) {
     <Select value={col.defaultKind} onValueChange={(v) => set({ defaultKind: v as DefaultKind })}>
       <SelectTrigger
         size="sm"
-        className={cn("bg-surface", compact ? "w-36" : "w-full")}
+        className={cn("bg-surface", compact ? "w-full @sm:w-36" : "w-full")}
         aria-label="Default value kind"
       >
         <SelectValue />
@@ -283,7 +299,7 @@ function ReferenceTable({ col, set, compact, tables }: FieldProps & { tables: Ta
     >
       <SelectTrigger
         size="sm"
-        className={cn("bg-surface", compact ? "w-36" : "w-full")}
+        className={cn("bg-surface", compact ? "w-full @sm:w-36" : "w-full")}
         aria-label="Referenced table"
       >
         <SelectValue />
@@ -314,7 +330,7 @@ function ReferenceColumn({ col, set, compact, tables }: FieldProps & { tables: T
     >
       <SelectTrigger
         size="sm"
-        className={cn("bg-surface", compact ? "w-32" : "w-full")}
+        className={cn("bg-surface", compact ? "w-full @sm:w-32" : "w-full")}
         aria-label="Referenced column"
       >
         <SelectValue />
@@ -342,7 +358,7 @@ function OnDelete({ col, set, compact }: FieldProps) {
     >
       <SelectTrigger
         size="sm"
-        className={cn("bg-surface", compact ? "w-44" : "w-full")}
+        className={cn("bg-surface", compact ? "w-full @sm:w-44" : "w-full")}
         aria-label="On delete"
       >
         <SelectValue />

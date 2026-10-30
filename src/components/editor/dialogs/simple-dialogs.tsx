@@ -15,14 +15,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ResponsiveDialog, ResponsiveDialogContent } from "@/components/ui/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDbActions } from "@/hooks/use-db-actions";
@@ -127,6 +121,7 @@ export function NameDialog({
   initial,
   submitLabel,
   preview,
+  allowUnchanged = false,
   onSubmit,
   onClose,
 }: Closable & {
@@ -135,6 +130,8 @@ export function NameDialog({
   label: string;
   initial: string;
   submitLabel: string;
+  /** Lets the initial value be submitted as is (a suggested name rather than a rename). */
+  allowUnchanged?: boolean;
   /** Optional SQL preview for the current value. */
   preview?(value: string): string | null;
   onSubmit(value: string): Promise<boolean>;
@@ -149,8 +146,8 @@ export function NameDialog({
     problem = error instanceof Error ? error.message : String(error);
   }
   return (
-    <Dialog open onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-lg">
+    <ResponsiveDialog open onOpenChange={(open) => !open && onClose()}>
+      <ResponsiveDialogContent className="sm:max-w-lg">
         <form
           className="flex flex-col gap-4"
           onSubmit={async (e) => {
@@ -184,21 +181,23 @@ export function NameDialog({
             </Button>
             <Button
               type="submit"
-              disabled={busy || !value.trim() || value.trim() === initial || !!problem}
+              disabled={
+                busy || !value.trim() || (!allowUnchanged && value.trim() === initial) || !!problem
+              }
             >
               {submitLabel}
             </Button>
           </DialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }
 
 export function DdlDialog({ title, sql, onClose }: Closable & { title: string; sql: string }) {
   return (
-    <Dialog open onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-2xl">
+    <ResponsiveDialog open onOpenChange={(open) => !open && onClose()}>
+      <ResponsiveDialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>The SQL that defines this object.</DialogDescription>
@@ -220,8 +219,8 @@ export function DdlDialog({ title, sql, onClose }: Closable & { title: string; s
           </Button>
           <Button onClick={onClose}>Done</Button>
         </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }
 

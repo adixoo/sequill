@@ -37,6 +37,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { queryKeys, useRunStatements } from "@/hooks/use-db";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { STORAGE_KEYS } from "@/lib/constants";
 import { downloadBlob, safeFileName } from "@/lib/data/export";
 import type { Schema } from "@/lib/sqlite/types";
@@ -129,6 +130,7 @@ function DesignerCanvas({
   const [selection, setSelection] = useState<Selection>(null);
   const [dialog, setDialog] = useState<"update" | "saveAs" | null>(null);
   const [panelOpen, setPanelOpen] = useState(false);
+  const isMobile = useIsMobile();
   // Phones: the outline is a sheet. Wide screens: a sidebar that can be hidden.
   const [outlineOpen, setOutlineOpen] = useState(false);
   const [outlineShown, setOutlineShown] = useState(() => readJson(STORAGE_KEYS.visOutline, true));
@@ -273,7 +275,7 @@ function DesignerCanvas({
     setPositions((p) => ({ ...p, [id]: at }));
     focusTable(id, at, table.columns.length);
     // On phones the details live in a sheet; on wider screens they're always beside the canvas.
-    if (window.matchMedia("(max-width: 767px)").matches) setPanelOpen(true);
+    if (isMobile) setPanelOpen(true);
   };
 
   const arrange = () => {

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Bookmark,
   ChevronDown,
   Eye,
   FileCode2,
@@ -11,6 +12,7 @@ import {
   SquareTerminal,
   Table2,
   TableProperties,
+  Trash2,
   Upload,
   Network,
   Zap,
@@ -29,10 +31,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTableCount } from "@/hooks/use-db";
+import { useSavedQueryActions } from "@/hooks/use-saved-queries";
 import { APP_NAME } from "@/lib/constants";
 import { formatCount } from "@/lib/data/format";
+import type { SavedQuery } from "@/lib/data/saved-queries";
 import type { RelationInfo, Schema, SchemaObject } from "@/lib/sqlite/types";
 import { useDialogs } from "@/lib/store/dialogs";
+import { useSavedQueries } from "@/lib/store/saved-queries";
 import { useWorkspace } from "@/lib/store/workspace";
 import { cn } from "@/lib/utils";
 
@@ -176,6 +181,62 @@ function RelationItem({
   );
 }
 
+function SavedQueryItem({ query, onNavigate }: { query: SavedQuery; onNavigate?(): void }) {
+  const openQuery = useWorkspace((s) => s.openQuery);
+  const active = useWorkspace((s) => {
+    const tab = s.tabs.find((t) => t.id === s.activeTabId);
+    return tab?.kind === "query" && tab.savedId === query.id;
+  });
+  const openDialog = useDialogs((s) => s.open);
+  const actions = useSavedQueryActions();
+  const open = () => {
+    openQuery(query.sql, { id: query.id, name: query.name });
+    onNavigate?.();
+  };
+  return (
+    <li className="group/item relative">
+      <button
+        type="button"
+        onClick={open}
+        title={query.sql}
+        className={cn(
+          "flex h-8 w-full items-center gap-2 rounded-xs pr-9 pl-7 text-left text-sm outline-none hover:bg-zebra focus-visible:bg-zebra",
+          active ? "bg-lilac-wash font-medium text-ink" : "text-ink-soft",
+        )}
+        aria-current={active ? "page" : undefined}
+      >
+        <SquareTerminal
+          className={cn("size-3.5 shrink-0", active ? "text-lilac-ink" : "text-ink-muted")}
+        />
+        <span className="truncate">{query.name}</span>
+      </button>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          className="absolute top-1 right-1 flex size-6 items-center justify-center rounded-xs text-ink-muted opacity-0 outline-none group-hover/item:opacity-100 hover:bg-raised focus-visible:opacity-100 data-[state=open]:opacity-100 max-md:opacity-100"
+          aria-label={`Actions for ${query.name}`}
+        >
+          <MoreHorizontal className="size-4" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-48">
+          <DropdownMenuItem onSelect={open}>
+            <SquareTerminal /> Open
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onSelect={() =>
+              openDialog({ kind: "renameSavedQuery", id: query.id, name: query.name })
+            }
+          >
+            <Pencil /> Rename
+          </DropdownMenuItem>
+          <DropdownMenuItem variant="destructive" onSelect={() => actions.remove(query.id)}>
+            <Trash2 /> Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </li>
+  );
+}
+
 function ObjectItem({ object, icon }: { object: SchemaObject; icon: ReactNode }) {
   const openDialog = useDialogs((s) => s.open);
   return (
@@ -209,6 +270,7 @@ interface SidebarProps {
 export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
   const openQuery = useWorkspace((s) => s.openQuery);
   const openDialog = useDialogs((s) => s.open);
+  const savedQueries = useSavedQueries((s) => s.queries);
 
   return (
     <nav aria-label="Database" className={cn("flex h-full min-h-0 flex-col bg-surface", className)}>
@@ -268,6 +330,17 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
               <Group title="Views" count={schema.views.length} icon={<Eye className="size-3.5" />}>
                 {schema.views.map((v) => (
                   <RelationItem key={v.name} relation={v} dbId={dbId} onNavigate={onNavigate} />
+                ))}
+              </Group>
+            )}
+            {savedQueries.length > 0 && (
+              <Group
+                title="Saved queries"
+                count={savedQueries.length}
+                icon={<Bookmark className="size-3.5" />}
+              >
+                {savedQueries.map((q) => (
+                  <SavedQueryItem key={q.id} query={q} onNavigate={onNavigate} />
                 ))}
               </Group>
             )}

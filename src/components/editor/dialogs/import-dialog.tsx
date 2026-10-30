@@ -7,14 +7,8 @@ import { toast } from "sonner";
 import { Loader } from "@/components/pastel/loader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ResponsiveDialog, ResponsiveDialogContent } from "@/components/ui/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -212,8 +206,8 @@ export function ImportDialog({
   const preview = source?.rows.slice(0, IMPORT_PREVIEW_ROWS) ?? [];
 
   return (
-    <Dialog open onOpenChange={(open) => !open && !busy && onClose()}>
-      <DialogContent className="max-h-[92dvh] overflow-y-auto sm:max-w-4xl">
+    <ResponsiveDialog open onOpenChange={(open) => !open && !busy && onClose()}>
+      <ResponsiveDialogContent className="max-h-[92dvh] overflow-y-auto sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle>Import data</DialogTitle>
           <DialogDescription>
@@ -417,7 +411,7 @@ export function ImportDialog({
             Import {source ? formatCount(source.rows.length) : ""} rows
           </Button>
         </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }

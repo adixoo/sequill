@@ -67,7 +67,7 @@ export function FilterBuilder({
       <PopoverTrigger asChild>
         <Button variant={filters.length > 0 ? "secondary" : "ghost"} size="sm" aria-label="Filters">
           <FilterIcon />
-          <span className="max-sm:sr-only">Filter</span>
+          <span>Filter</span>
           {filters.length > 0 && (
             <span className="pn-tnum rounded-full bg-sky px-1.5 font-mono text-[0.6875rem] text-on-accent">
               {filters.length}

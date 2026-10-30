@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
+import { REDUCED_MOTION } from "@/lib/constants";
 
 /** How quickly the page catches up with the wheel (0–1); lower is smoother. */
 const LERP = 0.12;
-const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
 /**
  * Lenis smooth scrolling for the landing page only. Lenis loads after first

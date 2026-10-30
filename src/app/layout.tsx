@@ -26,6 +26,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  // The on-screen keyboard shrinks the page instead of covering it, so drawer fields stay in view.
+  interactiveWidget: "resizes-content",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f7f7f8" },
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0b" },

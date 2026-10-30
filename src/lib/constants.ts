@@ -71,3 +71,6 @@ export const STORAGE_KEYS = {
 
 export const SQLITE_TYPES = ["INTEGER", "REAL", "TEXT", "BLOB", "NUMERIC", "ANY"] as const;
 export const FK_ACTIONS = ["NO ACTION", "RESTRICT", "SET NULL", "SET DEFAULT", "CASCADE"] as const;
+
+/** Media query for users who asked the OS for less motion. */
+export const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";

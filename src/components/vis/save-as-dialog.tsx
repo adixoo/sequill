@@ -4,14 +4,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ResponsiveDialog, ResponsiveDialogContent } from "@/components/ui/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getSqlite } from "@/lib/sqlite/client";
@@ -56,8 +50,8 @@ export function SaveAsDialog({ source, schema, draft, onSaved, onClose }: SaveAs
   };
 
   return (
-    <Dialog open onOpenChange={(open) => !open && !busy && onClose()}>
-      <DialogContent className="sm:max-w-md">
+    <ResponsiveDialog open onOpenChange={(open) => !open && !busy && onClose()}>
+      <ResponsiveDialogContent className="sm:max-w-md">
         <form
           className="flex flex-col gap-4"
           onSubmit={(e) => {
@@ -111,7 +105,7 @@ export function SaveAsDialog({ source, schema, draft, onSaved, onClose }: SaveAs
             </Button>
           </DialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }

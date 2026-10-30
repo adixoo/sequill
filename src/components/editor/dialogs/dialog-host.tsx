@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { Loader } from "@/components/pastel/loader";
 import { useDbActions } from "@/hooks/use-db-actions";
 import { useRunStatements } from "@/hooks/use-db";
+import { useSavedQueryActions } from "@/hooks/use-saved-queries";
 import { buildRenameColumn, buildRenameTable } from "@/lib/sqlite/ddl";
 import { useDialogs } from "@/lib/store/dialogs";
 import { ConfirmSqlDialog, DdlDialog, DeleteDatabaseDialog, NameDialog } from "./simple-dialogs";
@@ -35,6 +36,7 @@ export function DialogHost() {
   const close = useDialogs((s) => s.close);
   const run = useRunStatements();
   const actions = useDbActions();
+  const savedQueries = useSavedQueryActions();
 
   if (!dialog) return null;
   switch (dialog.kind) {
@@ -99,6 +101,36 @@ export function DialogHost() {
                 () => false,
               )
           }
+          onClose={close}
+        />
+      );
+    case "saveQuery":
+      return (
+        <NameDialog
+          title="Save query"
+          description="Saved queries are kept in this browser and work with any database."
+          label="Name"
+          initial={dialog.suggested}
+          allowUnchanged
+          submitLabel="Save"
+          onSubmit={async (name) => {
+            savedQueries.saveAs(dialog.tabId, name);
+            return true;
+          }}
+          onClose={close}
+        />
+      );
+    case "renameSavedQuery":
+      return (
+        <NameDialog
+          title="Rename saved query"
+          label="Name"
+          initial={dialog.name}
+          submitLabel="Rename"
+          onSubmit={async (name) => {
+            savedQueries.rename(dialog.id, name);
+            return true;
+          }}
           onClose={close}
         />
       );

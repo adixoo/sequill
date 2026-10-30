@@ -5,14 +5,15 @@ import type { EditorView } from "@codemirror/view";
 import CodeMirror from "@uiw/react-codemirror";
 import {
   AlertCircle,
-  Bookmark,
+  Check,
   CheckCircle2,
   History,
   Lightbulb,
   Play,
+  Save,
   Trash2,
 } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Loader } from "@/components/pastel/loader";
 import { Button } from "@/components/ui/button";
@@ -27,23 +28,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Toggle } from "@/components/ui/toggle";
 import { useInvalidate } from "@/hooks/use-db";
+import { useSavedQueryActions } from "@/hooks/use-saved-queries";
 import { QUERY_HISTORY_LIMIT, QUERY_RESULT_ROW_LIMIT, STORAGE_KEYS } from "@/lib/constants";
 import { formatCount, formatDuration } from "@/lib/data/format";
 import { getSqlite } from "@/lib/sqlite/client";
 import { errorMessage } from "@/lib/sqlite/errors";
 import type { Schema, StatementResult } from "@/lib/sqlite/types";
 import { readJson, writeJson } from "@/lib/storage";
+import { useSavedQueries } from "@/lib/store/saved-queries";
 import type { ColumnLayout } from "@/lib/store/workspace";
 import { useWorkspace } from "@/lib/store/workspace";
 import { cn } from "@/lib/utils";
 import { ExportMenu } from "../export-menu";
 import { DataGrid } from "../grid/data-grid";
 import { pastelEditorTheme } from "./editor-theme";
-
-interface SavedQuery {
-  name: string;
-  sql: string;
-}
 
 const EMPTY_LAYOUT: ColumnLayout = { hidden: [], order: [], widths: {}, pinned: [] };
 
@@ -107,9 +105,25 @@ export default function QueryConsole({
   const [history, setHistory] = useState<string[]>(() =>
     readJson<string[]>(STORAGE_KEYS.queryHistory, []),
   );
-  const [saved, setSaved] = useState<SavedQuery[]>(() =>
-    readJson<SavedQuery[]>(STORAGE_KEYS.savedQueries, []),
-  );
+  const savedId = useWorkspace((s) => {
+    const tab = s.tabs.find((t) => t.id === tabId);
+    return tab?.kind === "query" ? tab.savedId : undefined;
+  });
+  const savedSql = useSavedQueries((s) => s.queries.find((q) => q.id === savedId)?.sql);
+  const upToDate = savedSql !== undefined && savedSql === sql;
+  const savedQueries = useSavedQueryActions();
+
+  // Ctrl/Cmd+S saves the open query instead of the browser saving the page.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        savedQueries.save(tabId);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [savedQueries, tabId]);
 
   const run = async () => {
     if (!dbId || running) return;
@@ -151,22 +165,6 @@ export default function QueryConsole({
       ...pastelEditorTheme,
     ];
   }, [schema]);
-
-  const saveSnippet = () => {
-    const name =
-      sql
-        .trim()
-        .split("\n")[0]
-        .replace(/^--\s*/, "")
-        .slice(0, 48) || "Untitled query";
-    const next = [{ name, sql }, ...saved.filter((s) => s.sql !== sql)].slice(
-      0,
-      QUERY_HISTORY_LIMIT,
-    );
-    setSaved(next);
-    writeJson(STORAGE_KEYS.savedQueries, next);
-    toast.success(`Saved "${name}"`);
-  };
 
   const result = results[activeResult];
 
@@ -216,24 +214,19 @@ export default function QueryConsole({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm">
-              <Bookmark /> <span className="max-sm:sr-only">Saved</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="max-h-96 w-72">
-            <DropdownMenuItem disabled={!sql.trim()} onSelect={saveSnippet}>
-              <Bookmark /> Save current query
-            </DropdownMenuItem>
-            {saved.length > 0 && <DropdownMenuSeparator />}
-            {saved.map((s) => (
-              <DropdownMenuItem key={s.sql} onSelect={() => updateQuery(tabId, s.sql)}>
-                <span className="truncate">{s.name}</span>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={!sql.trim() || upToDate}
+          onClick={() => savedQueries.save(tabId)}
+          aria-label={upToDate ? "Saved" : "Save query"}
+        >
+          {upToDate ? <Check /> : <Save />}
+          <span className="max-sm:sr-only">{upToDate ? "Saved" : "Save"}</span>
+          {!upToDate && (
+            <Kbd className="ml-1 bg-transparent text-current max-lg:hidden">Ctrl S</Kbd>
+          )}
+        </Button>
         {result && result.columns.length > 0 && !result.error && (
           <div className="ml-auto">
             <ExportMenu

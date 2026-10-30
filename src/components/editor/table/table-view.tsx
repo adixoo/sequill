@@ -1,21 +1,11 @@
 "use client";
 
-import {
-  Plus,
-  RefreshCw,
-  Rows2,
-  Rows3,
-  Search,
-  Table2,
-  Trash2,
-  Upload,
-  Wrench,
-} from "lucide-react";
+import { Plus, RefreshCw, Rows2, Rows3, Search, Trash2, Upload } from "lucide-react";
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { ScrollStrip } from "@/components/ui/scroll-strip";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useRowCount, useRunStatements, useTableRows } from "@/hooks/use-db";
 import { ROWID_ALIAS } from "@/lib/constants";
 import { formatCount, formatDuration, valueToText } from "@/lib/data/format";
@@ -51,6 +41,9 @@ import { StructureView } from "./structure-view";
 
 const EMPTY_SELECTION: ReadonlySet<number> = new Set();
 let inspectorSeq = 0;
+/** Data / Structure are text only, so the chosen one needs a clear fill and weight. */
+const VIEW_ITEM =
+  "px-3 data-[state=on]:bg-sky-wash data-[state=on]:font-medium data-[state=on]:text-ink";
 
 interface TableViewProps {
   dbId: string;
@@ -240,7 +233,9 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex flex-wrap items-center gap-1 border-b-2 border-hairline bg-surface px-2 py-1.5">
+      {/* Phones: the view switch and a sideways-scrolling row of actions, with search below.
+          Wider screens: all on one line. */}
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 border-b-2 border-hairline bg-surface px-2 py-1.5">
         <ToggleGroup
           type="single"
           size="sm"
@@ -248,19 +243,19 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
           value={view.mode}
           onValueChange={(v) => v && patch({ mode: v as TableViewState["mode"] })}
           aria-label="View"
-          className="mr-1"
+          className="shrink-0"
         >
-          <ToggleGroupItem value="data" aria-label="Data">
-            <Table2 /> <span className="max-sm:sr-only">Data</span>
+          <ToggleGroupItem value="data" className={VIEW_ITEM}>
+            Data
           </ToggleGroupItem>
-          <ToggleGroupItem value="structure" aria-label="Structure">
-            <Wrench /> <span className="max-sm:sr-only">Structure</span>
+          <ToggleGroupItem value="structure" className={VIEW_ITEM}>
+            Structure
           </ToggleGroupItem>
         </ToggleGroup>
 
         {view.mode === "data" && (
           <>
-            <InputGroup className="h-8 w-44 max-sm:order-last max-sm:w-full sm:w-56">
+            <InputGroup className="order-last h-8 basis-full sm:order-none sm:w-56 sm:shrink-0 sm:basis-auto">
               <InputGroupAddon>
                 <Search />
               </InputGroupAddon>
@@ -273,77 +268,72 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
                 className="max-md:text-base"
               />
             </InputGroup>
-            <FilterBuilder
-              columns={columnNames}
-              filters={view.filters}
-              match={view.match}
-              open={filtersOpen}
-              onOpenChange={setFiltersOpen}
-              onChange={(filters, match) => patch({ filters, match, page: 0 })}
-            />
-            <ColumnsMenu columns={columnNames} layout={view} onChange={patch} />
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label={density === "compact" ? "Comfortable rows" : "Compact rows"}
-                  onClick={() => setDensity(density === "compact" ? "comfortable" : "compact")}
-                >
-                  {density === "compact" ? <Rows3 /> : <Rows2 />}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Row density</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label="Refresh"
-                  onClick={() => {
-                    void rowsQuery.refetch();
-                    void countQuery.refetch();
-                  }}
-                >
-                  <RefreshCw className={rowsQuery.isFetching ? "animate-spin" : undefined} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Refresh</TooltipContent>
-            </Tooltip>
+            <ScrollStrip
+              fade="surface"
+              scrollLabel="actions"
+              role="toolbar"
+              aria-label={`${relation.name} actions`}
+              className="items-center gap-1 *:shrink-0"
+            >
+              <FilterBuilder
+                columns={columnNames}
+                filters={view.filters}
+                match={view.match}
+                open={filtersOpen}
+                onOpenChange={setFiltersOpen}
+                onChange={(filters, match) => patch({ filters, match, page: 0 })}
+              />
+              <ColumnsMenu columns={columnNames} layout={view} onChange={patch} />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setDensity(density === "compact" ? "comfortable" : "compact")}
+              >
+                {density === "compact" ? <Rows3 /> : <Rows2 />}
+                {density === "compact" ? "Comfortable" : "Compact"}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  void rowsQuery.refetch();
+                  void countQuery.refetch();
+                }}
+              >
+                <RefreshCw className={rowsQuery.isFetching ? "animate-spin" : undefined} />
+                Refresh
+              </Button>
 
-            <div className="ml-auto flex items-center gap-1">
-              {selectedCount > 0 && relation.editable && (
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => confirmDelete([...selection])}
-                >
-                  <Trash2 /> Delete {formatCount(selectedCount)}
-                </Button>
-              )}
-              {relation.editable && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      aria-label="Import rows"
-                      onClick={() => openDialog({ kind: "import", table: relation.name })}
-                    >
-                      <Upload />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Import CSV or JSON into this table</TooltipContent>
-                </Tooltip>
-              )}
-              <ExportMenu name={relation.name} sources={exportSources} disabled={total === 0} />
-              {relation.editable && (
-                <Button size="sm" onClick={() => setInspector({ kind: "new", id: ++inspectorSeq })}>
-                  <Plus /> <span className="max-sm:sr-only">Add row</span>
-                </Button>
-              )}
-            </div>
+              <div className="ml-auto flex items-center gap-1 *:shrink-0">
+                {selectedCount > 0 && relation.editable && (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => confirmDelete([...selection])}
+                  >
+                    <Trash2 /> Delete {formatCount(selectedCount)}
+                  </Button>
+                )}
+                {relation.editable && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => openDialog({ kind: "import", table: relation.name })}
+                  >
+                    <Upload /> Import
+                  </Button>
+                )}
+                <ExportMenu name={relation.name} sources={exportSources} disabled={total === 0} />
+                {relation.editable && (
+                  <Button
+                    size="sm"
+                    onClick={() => setInspector({ kind: "new", id: ++inspectorSeq })}
+                  >
+                    <Plus /> Add row
+                  </Button>
+                )}
+              </div>
+            </ScrollStrip>
           </>
         )}
       </div>

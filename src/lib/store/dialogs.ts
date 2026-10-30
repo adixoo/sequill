@@ -13,6 +13,8 @@ export type DialogSpec =
   | { kind: "deleteDatabase"; db: DbInfo }
   | { kind: "import"; file?: File; table?: string }
   | { kind: "ddl"; title: string; sql: string }
+  | { kind: "saveQuery"; tabId: string; suggested: string }
+  | { kind: "renameSavedQuery"; id: string; name: string }
   | {
       kind: "confirm";
       title: string;

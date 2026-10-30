@@ -30,7 +30,7 @@ export function ColumnsMenu({ columns, layout, onChange }: ColumnsMenuProps) {
           aria-label="Columns"
         >
           <Columns3 />
-          <span className="max-sm:sr-only">Columns</span>
+          <span>Columns</span>
           {layout.hidden.length > 0 && (
             <span className="pn-tnum font-mono text-[0.6875rem] text-ink-muted">
               {columns.length - layout.hidden.length}/{columns.length}

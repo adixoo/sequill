@@ -174,3 +174,49 @@ test("the command palette opens with Ctrl+K and jumps to a table", async ({ page
   await expect(palette).toBeHidden();
   await expect(page.getByRole("grid", { name: "products rows" })).toBeVisible();
 });
+
+test("saves a query, keeps it across reloads, and renames and deletes it", async ({ page }) => {
+  await createSample(page);
+  await page.getByRole("button", { name: "New query" }).first().click();
+  await page.locator(".cm-content").click();
+  await page.keyboard.insertText("-- Top products\nSELECT name FROM products LIMIT 3;");
+
+  // The first save asks for a name, suggested from the leading comment.
+  await page.keyboard.press("Control+s");
+  const dialog = page.getByRole("dialog", { name: "Save query" });
+  await expect(dialog.getByLabel("Name")).toHaveValue("Top products");
+  await dialog.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByRole("tab", { name: "Top products", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Saved", exact: true })).toBeDisabled();
+  const sidebar = page.getByRole("navigation", { name: "Database" });
+  await expect(sidebar.getByRole("button", { name: "Top products", exact: true })).toBeVisible();
+
+  // Edits mark the tab; saving again updates the query without asking.
+  await page.locator(".cm-content").click();
+  await page.keyboard.press("Control+End");
+  await page.keyboard.insertText("\n-- edited");
+  await expect(page.getByRole("tab", { name: "Top products (unsaved changes)" })).toBeVisible();
+  await page.keyboard.press("Control+s");
+  await expect(dialog).toBeHidden();
+  await expect(page.getByRole("tab", { name: "Top products", exact: true })).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByRole("heading", { name: /Pick a table/ })).toBeVisible({
+    timeout: 30_000,
+  });
+  await sidebar.getByRole("button", { name: "Top products", exact: true }).click();
+  await expect(page.locator(".cm-content")).toContainText("-- edited");
+
+  await sidebar.getByRole("button", { name: "Actions for Top products" }).click();
+  await page.getByRole("menuitem", { name: "Rename" }).click();
+  const rename = page.getByRole("dialog", { name: "Rename saved query" });
+  await rename.getByLabel("Name").fill("Best sellers");
+  await rename.getByRole("button", { name: "Rename" }).click();
+  await expect(page.getByRole("tab", { name: "Best sellers", exact: true })).toBeVisible();
+
+  await sidebar.getByRole("button", { name: "Actions for Best sellers" }).click();
+  await page.getByRole("menuitem", { name: "Delete" }).click();
+  await expect(sidebar.getByRole("button", { name: "Best sellers", exact: true })).toBeHidden();
+  await page.getByRole("button", { name: "Undo" }).click();
+  await expect(sidebar.getByRole("button", { name: "Best sellers", exact: true })).toBeVisible();
+});

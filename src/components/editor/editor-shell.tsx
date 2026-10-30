@@ -148,7 +148,13 @@ function Workspace() {
         className="w-72 shrink-0 border-r-2 border-hairline max-md:hidden"
       />
       <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-        <SheetContent side="left" className="w-[min(20rem,88vw)] p-0" aria-describedby={undefined}>
+        {/* No close button: it would sit on the sidebar's theme toggle. Tap outside or Esc closes. */}
+        <SheetContent
+          side="left"
+          showCloseButton={false}
+          className="w-[min(20rem,88vw)] p-0"
+          aria-describedby={undefined}
+        >
           <SheetTitle className="sr-only">Database navigation</SheetTitle>
           <Sidebar dbId={dbId} schema={schema.data} onNavigate={() => setSidebarOpen(false)} />
         </SheetContent>

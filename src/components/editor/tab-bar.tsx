@@ -4,7 +4,9 @@ import { Eye, Menu, Plus, Search, SquareTerminal, Table2, X } from "lucide-react
 import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
+import { ScrollStrip } from "@/components/ui/scroll-strip";
 import type { Schema } from "@/lib/sqlite/types";
+import { useSavedQueries } from "@/lib/store/saved-queries";
 import { useWorkspace } from "@/lib/store/workspace";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +19,8 @@ interface TabBarProps {
 export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
   const { tabs, activeTabId, setActiveTab, closeTab, openQuery, dbId } = useWorkspace();
   const views = new Set(schema?.views.map((v) => v.name));
+  const savedQueries = useSavedQueries((s) => s.queries);
+  const savedSql = new Map(savedQueries.map((q) => [q.id, q.sql]));
   const listRef = useRef<HTMLDivElement>(null);
 
   // The strip has no scrollbar, so bring the active tab into view whenever it changes.
@@ -37,11 +41,13 @@ export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
       >
         <Menu />
       </Button>
-      <div
-        ref={listRef}
+      <ScrollStrip
+        fade="raised"
+        scrollLabel="tabs"
+        scrollRef={listRef}
         role="tablist"
         aria-label="Open tabs"
-        className="no-scrollbar flex min-w-0 flex-1 items-stretch overflow-x-auto overflow-y-hidden"
+        className="items-stretch"
       >
         {tabs.map((tab) => {
           const active = tab.id === activeTabId;
@@ -76,6 +82,12 @@ export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
                 <span className={cn("truncate", active ? "font-medium text-ink" : "text-ink-soft")}>
                   {title}
                 </span>
+                {tab.kind === "query" && tab.savedId && savedSql.get(tab.savedId) !== tab.sql && (
+                  <>
+                    <span aria-hidden className="rounded-pill size-1.5 shrink-0 bg-lilac-ink" />
+                    <span className="sr-only">(unsaved changes)</span>
+                  </>
+                )}
               </button>
               <button
                 type="button"
@@ -105,7 +117,7 @@ export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
             <Plus />
           </Button>
         )}
-      </div>
+      </ScrollStrip>
       <Button
         variant="ghost"
         size="sm"

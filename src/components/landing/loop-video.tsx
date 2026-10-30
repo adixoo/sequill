@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { REDUCED_MOTION } from "@/lib/constants";
 
 interface LoopVideoProps {
   /** Files in public/landing, from scripts/capture-landing.ts. */
@@ -16,7 +17,7 @@ export function LoopVideo({ src, poster, label, position = "center" }: LoopVideo
   useEffect(() => {
     const video = ref.current;
     if (!video) return;
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const query = window.matchMedia(REDUCED_MOTION);
     const sync = () => {
       if (query.matches) video.pause();
       else void video.play().catch(() => {});

@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { DEFAULT_PAGE_SIZE, STORAGE_KEYS } from "@/lib/constants";
 import type { Filter, FilterMatch, SortSpec } from "@/lib/sqlite/sql";
 import { readJson, writeJson } from "@/lib/storage";
+import { newId } from "@/lib/utils";
 
 /** Column layout remembered per table across sessions. */
 export interface ColumnLayout {
@@ -24,7 +25,20 @@ export interface TableViewState extends ColumnLayout {
 
 export type Tab =
   | { id: string; kind: "table"; table: string; view: TableViewState }
-  | { id: string; kind: "query"; title: string; sql: string };
+  | {
+      id: string;
+      kind: "query";
+      title: string;
+      sql: string;
+      /** The saved query this tab edits; Save updates it in place. */
+      savedId?: string;
+    };
+
+/** The saved query a tab is linked to, by id, with the name shown as its title. */
+export interface SavedQueryRef {
+  id: string;
+  name: string;
+}
 
 export type Density = "compact" | "comfortable";
 
@@ -36,7 +50,12 @@ interface WorkspaceState {
   queryCounter: number;
   setDb(dbId: string | null): void;
   openTable(table: string, patch?: Partial<TableViewState>): void;
-  openQuery(sql?: string): void;
+  /** Opens a query tab. A saved query that's already open is brought forward instead. */
+  openQuery(sql?: string, saved?: SavedQueryRef): void;
+  /** Links a tab to the saved query it was just saved as. */
+  linkQuery(tabId: string, saved: SavedQueryRef): void;
+  /** Follows a saved query's rename (`name`) or deletion (`null`) in open tabs. */
+  syncSavedQuery(id: string, name: string | null): void;
   closeTab(id: string): void;
   closeOtherTabs(id: string): void;
   setActiveTab(id: string): void;
@@ -65,8 +84,6 @@ function defaultView(dbId: string | null, table: string): TableViewState {
     mode: "data",
   };
 }
-
-const newId = () => Math.random().toString(36).slice(2, 10);
 
 export const useWorkspace = create<WorkspaceState>()((set, get) => ({
   dbId: null,
@@ -107,10 +124,37 @@ export const useWorkspace = create<WorkspaceState>()((set, get) => ({
     set({ tabs: [...tabs, tab], activeTabId: tab.id });
   },
 
-  openQuery(sql = "") {
-    const n = get().queryCounter + 1;
-    const tab: Tab = { id: newId(), kind: "query", title: `Query ${n}`, sql };
-    set({ tabs: [...get().tabs, tab], activeTabId: tab.id, queryCounter: n });
+  openQuery(sql = "", saved) {
+    const { tabs, queryCounter } = get();
+    const open = saved && tabs.find((t) => t.kind === "query" && t.savedId === saved.id);
+    if (open) {
+      set({ activeTabId: open.id });
+      return;
+    }
+    // Only unnamed tabs use up a "Query n" number.
+    const n = saved ? queryCounter : queryCounter + 1;
+    const tab: Tab = saved
+      ? { id: newId(), kind: "query", title: saved.name, sql, savedId: saved.id }
+      : { id: newId(), kind: "query", title: `Query ${n}`, sql };
+    set({ tabs: [...tabs, tab], activeTabId: tab.id, queryCounter: n });
+  },
+
+  linkQuery(tabId, saved) {
+    set({
+      tabs: get().tabs.map((t) =>
+        t.id === tabId && t.kind === "query" ? { ...t, title: saved.name, savedId: saved.id } : t,
+      ),
+    });
+  },
+
+  syncSavedQuery(id, name) {
+    set({
+      tabs: get().tabs.map((t) => {
+        if (t.kind !== "query" || t.savedId !== id) return t;
+        // A deleted query's tab keeps its text and title but is no longer saved anywhere.
+        return name === null ? { ...t, savedId: undefined } : { ...t, title: name };
+      }),
+    });
   },
 
   closeTab(id) {

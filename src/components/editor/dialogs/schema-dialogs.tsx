@@ -4,14 +4,8 @@ import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ResponsiveDialog, ResponsiveDialogContent } from "@/components/ui/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRunStatements, useSchema } from "@/hooks/use-db";
@@ -67,9 +61,9 @@ function SchemaDialogFrame({
   wide?: boolean;
 }) {
   return (
-    <Dialog open onOpenChange={(open) => !open && onClose()}>
+    <ResponsiveDialog open onOpenChange={(open) => !open && onClose()}>
       {/* Header and footer stay put; only the fields between them scroll. */}
-      <DialogContent
+      <ResponsiveDialogContent
         className={cn(
           "flex max-h-[90dvh] flex-col gap-0 p-0",
           wide ? "sm:max-w-3xl" : "sm:max-w-xl",
@@ -90,12 +84,13 @@ function SchemaDialogFrame({
             {children}
             {sql && <SqlPreview sql={sql} />}
           </div>
-          <DialogFooter className="m-0 flex-row flex-wrap items-center justify-end">
-            {/* Until the form is complete there's no SQL to preview; say what's missing instead. */}
+          <DialogFooter className="m-0 sm:items-center">
+            {/* Until the form is complete there's no SQL to preview; say what's missing instead.
+                In a phone drawer it takes its own line above the buttons. */}
             {!sql && problem && (
               <p
                 role="status"
-                className="basis-full text-xs text-ink-muted sm:mr-auto sm:grow sm:basis-0"
+                className="basis-full text-xs text-ink-muted sm:mr-auto sm:basis-auto"
               >
                 {problem}
               </p>
@@ -108,8 +103,8 @@ function SchemaDialogFrame({
             </Button>
           </DialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }
 

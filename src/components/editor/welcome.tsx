@@ -85,7 +85,8 @@ export function NoTab({ schema }: { schema: Schema | undefined }) {
             <Plus /> New table
           </Button>
         </div>
-        <p className="flex items-center gap-2 text-sm text-ink-muted">
+        {/* A keyboard shortcut: not shown on touch devices, which usually have no keyboard. */}
+        <p className="flex items-center gap-2 text-sm text-ink-muted pointer-coarse:hidden">
           <Kbd>Ctrl K</Kbd> jumps to any table or action.
         </p>
       </m.div>
