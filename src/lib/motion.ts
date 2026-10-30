@@ -1,6 +1,6 @@
 /**
  * Pastel Noir motion tokens for the `motion` library (seconds and bezier arrays).
- * Mirrors the --dur-* and --ease-* variables in src/styles/tokens.css.
+ * Mirrors the --dur-* and --ease-* tokens in src/app/globals.css.
  */
 import type { Transition } from "motion/react";
 

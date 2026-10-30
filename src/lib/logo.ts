@@ -4,7 +4,7 @@
  * near-black ground. One source for the <Logo> component, the footer, the Open
  * Graph image and the icon files scripts/generate-icons.ts writes. Images render
  * outside the page, so colours are the token values, not CSS variables;
- * logo.test.ts checks they match src/styles/tokens.css.
+ * logo.test.ts checks they match the tokens in src/app/globals.css.
  */
 
 export const LOGO_SIZE = 512;

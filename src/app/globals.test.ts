@@ -2,13 +2,22 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const css = readFileSync(join(import.meta.dir, "tokens.css"), "utf8");
+const css = readFileSync(join(import.meta.dir, "globals.css"), "utf8");
 
-/** Collects `--name: value` pairs from every block whose selector matches. */
+/**
+ * Collects `--name: value` pairs from every block whose selector matches. Text
+ * before a block can include statements such as `@import …;`, so the selector
+ * is what follows the last semicolon.
+ */
 function readVars(selector: RegExp): Map<string, string> {
   const vars = new Map<string, string>();
   for (const block of css.matchAll(/([^{}]+)\{([^}]*)\}/g)) {
-    if (!selector.test(block[1].replace(/\/\*[\s\S]*?\*\//g, "").trim())) continue;
+    const text = block[1]
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .split(";")
+      .at(-1)!
+      .trim();
+    if (!selector.test(text)) continue;
     for (const decl of block[2].matchAll(/--([\w-]+):\s*([^;]+);/g))
       vars.set(decl[1], decl[2].trim());
   }

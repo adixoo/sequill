@@ -84,7 +84,8 @@ not at `C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe`, set
 
 ```
 src/
-  app/                 routes: landing (/), editor (/app), schema visualizer (/vis), manifest, icon
+  app/                 routes: landing (/), editor (/app), schema visualizer (/vis), manifest, icon;
+                       globals.css holds the Pastel Noir tokens (dark as designed, derived light theme)
   components/
     providers.tsx      app-wide providers used by the root layout
     landing/           landing page (/) sections
@@ -99,7 +100,6 @@ src/
     data/              formatting, import inference, export, grid layout helpers
     vis/               diagram model, draft design rules and SQL, auto-layout
     store/             Zustand stores (workspace tabs, dialogs)
-  styles/tokens.css    Pastel Noir tokens, dark as designed plus a derived light theme
   sw/sw.ts             service worker (Serwist precache)
 ```
 
@@ -146,7 +146,7 @@ Two extra hues mark unsaved schema changes: `--added` (green) and `--edited` (bl
 `-ink` and `-wash` like the pastels and brighter than mint and sky so they don't read as either.
 Scrollbars are thin gray pills (`--scrollbar-thumb`) that appear only while their scroll area is
 hovered or focused; touch devices keep the browser's overlay scrollbars.
-`src/styles/tokens.test.ts` checks WCAG contrast for every text and background pair in both themes.
+`src/app/globals.test.ts` checks WCAG contrast for every text and background pair in both themes.
 
 ## Limitations
 

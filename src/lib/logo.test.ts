@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { LOGO_COLORS, LOGO_SMALL_MAX, logoShapes, logoSvg } from "./logo";
 
-const tokens = readFileSync(join(import.meta.dir, "..", "styles", "tokens.css"), "utf8");
+const tokens = readFileSync(join(import.meta.dir, "..", "app", "globals.css"), "utf8");
 const token = (name: string) => tokens.match(new RegExp(`--${name}:\\s*(#[0-9a-f]{6})`, "i"))?.[1];
 
 describe("logo", () => {
