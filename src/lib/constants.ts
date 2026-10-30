@@ -6,7 +6,7 @@ export const APP_TAGLINE = "Your SQLite files, edited right in the browser";
 export const MAKER = {
   name: "adibitz",
   url: "https://adibitz.com",
-  appsUrl: "https://adibitz.com/app",
+  appsUrl: "https://adibitz.com/apps",
 } as const;
 /** A course on databases, from beginner to advanced, linked from the landing page. */
 export const LEARN_URL = "https://database.adibitz.com/";
