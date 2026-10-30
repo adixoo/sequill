@@ -5,9 +5,20 @@ import { APP_NAME, APP_TAGLINE } from "@/lib/constants";
 import { resolveSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
-const dmSans = DM_Sans({ variable: "--font-dm-sans", subsets: ["latin"] });
-const jetbrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"] });
-const caveat = Caveat({ variable: "--font-caveat", subsets: ["latin"] });
+// Only the weights the UI uses (font-normal/medium/semibold/bold and the CSS in
+// globals.css and landing.css); Google then serves each file trimmed to them.
+// Add a weight here before using it, or the browser fakes it from the nearest one.
+const dmSans = DM_Sans({
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+});
+const jetbrainsMono = JetBrains_Mono({
+  weight: ["400", "500", "600"],
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+});
+const caveat = Caveat({ weight: "400", variable: "--font-caveat", subsets: ["latin"] });
 
 const TITLE = `${APP_NAME} · offline SQLite editor`;
 const DESCRIPTION = `${APP_TAGLINE}. Open, browse and edit SQLite databases with nothing uploaded: SQLite runs in your browser and works offline.`;
