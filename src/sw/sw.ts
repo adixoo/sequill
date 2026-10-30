@@ -2,7 +2,7 @@
 /**
  * Service worker: precaches the whole static export (pages, chunks, fonts and
  * the SQLite runtime) so the app opens with no network after the first visit.
- * Bundled and given its precache list by scripts/build-sw.ts after `next build`.
+ * Bundled and given its precache list by `serwist build` (serwist.config.mjs) after `next build`.
  */
 import { Serwist, type PrecacheEntry, type SerwistGlobalConfig, type SerwistPlugin } from "serwist";
 

@@ -7,6 +7,9 @@ export const MAKER = { name: "adibitz", url: "https://adibitz.com" } as const;
 /** A course on databases, from beginner to advanced, linked from the landing page. */
 export const LEARN_URL = "https://database.adibitz.com/";
 
+/** The service worker, built into the export by `serwist build` (serwist.config.mjs). */
+export const SERVICE_WORKER_URL = "/sw.js";
+
 /** SQLite WASM runtime copied into public/ by scripts/copy-sqlite-wasm.ts. */
 export const SQLITE_RUNTIME_URL = "/sqlite/index.mjs";
 export const SQLITE_WASM_URL = "/sqlite/sqlite3.wasm";

@@ -9,17 +9,6 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
-/** Registers the service worker in production builds (it only exists after `bun run build`). */
-export function ServiceWorkerRegistrar() {
-  useEffect(() => {
-    if (process.env.NODE_ENV !== "production" || !("serviceWorker" in navigator)) return;
-    navigator.serviceWorker
-      .register("/sw.js")
-      .catch((error) => console.warn("Service worker registration failed", error));
-  }, []);
-  return null;
-}
-
 const STANDALONE = "(display-mode: standalone)";
 const subscribeStandalone = (onChange: () => void) => {
   const query = window.matchMedia(STANDALONE);

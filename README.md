@@ -48,7 +48,7 @@ and a schema visualizer and designer at `/vis`.
 Next.js 16 (App Router, static export) · Bun · TypeScript · Tailwind CSS 4 · shadcn/ui (Radix) ·
 Motion (`motion/react`, lazy-loaded) · TanStack Query and Virtual · Zustand · CodeMirror 6 · PapaParse ·
 React Flow (`@xyflow/react`) and dagre for the schema diagram ·
-Comlink · Serwist · Changesets · ESLint + Prettier · Bun test + Playwright.
+Comlink · Serwist (`@serwist/next`, configurator mode) · Changesets · ESLint + Prettier · Bun test + Playwright.
 
 ## Getting started
 
@@ -62,20 +62,20 @@ into `public/sqlite/` (see `scripts/copy-sqlite-wasm.ts`).
 
 ## Scripts
 
-| Script                     | What it does                                                            |
-| -------------------------- | ----------------------------------------------------------------------- |
-| `bun run dev`              | Development server (Turbopack). No service worker in dev.               |
-| `bun run build`            | Static export to `out/`, then bundles the service worker (`out/sw.js`). |
-| `bun run start`            | Serves `out/` like a static host.                                       |
-| `bun run typecheck`        | TypeScript for the app and the service worker.                          |
-| `bun run lint`             | ESLint (Next.js rules, Prettier-compatible).                            |
-| `bun run format`           | Prettier (with Tailwind class sorting); `format:check` to verify.       |
-| `bun run test`             | Unit and integration tests (`bun test`, SQLite in memory).              |
-| `bun run test:e2e`         | Playwright against the production build. Run `bun run build` first.     |
-| `bun run analyze`          | Next.js bundle analyzer (Turbopack).                                    |
-| `bun run icons`            | Regenerates every icon from the logo in `src/lib/logo.ts`.              |
-| `bun run changeset`        | Describe a change for the changelog.                                    |
-| `bun run version-packages` | Apply changesets: bump the version and update `CHANGELOG.md`.           |
+| Script                     | What it does                                                         |
+| -------------------------- | -------------------------------------------------------------------- |
+| `bun run dev`              | Development server (Turbopack). No service worker in dev.            |
+| `bun run build`            | Static export to `out/`, including the service worker (`out/sw.js`). |
+| `bun run start`            | Serves `out/` like a static host.                                    |
+| `bun run typecheck`        | TypeScript for the app and the service worker.                       |
+| `bun run lint`             | ESLint (Next.js rules, Prettier-compatible).                         |
+| `bun run format`           | Prettier (with Tailwind class sorting); `format:check` to verify.    |
+| `bun run test`             | Unit and integration tests (`bun test`, SQLite in memory).           |
+| `bun run test:e2e`         | Playwright against the production build. Run `bun run build` first.  |
+| `bun run analyze`          | Next.js bundle analyzer (Turbopack).                                 |
+| `bun run icons`            | Regenerates every icon from the logo in `src/lib/logo.ts`.           |
+| `bun run changeset`        | Describe a change for the changelog.                                 |
+| `bun run version-packages` | Apply changesets: bump the version and update `CHANGELOG.md`.        |
 
 End-to-end tests (and `scripts/capture-landing.ts`) run in the installed Brave browser. If Brave is
 not at `C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe`, set `BRAVE_PATH`.
@@ -100,7 +100,7 @@ src/
     data/              formatting, import inference, export, grid layout helpers
     vis/               diagram model, draft design rules and SQL, auto-layout
     store/             Zustand stores (workspace tabs, dialogs)
-  sw/sw.ts             service worker (Serwist precache)
+  sw/sw.ts             service worker source (Serwist precache), built by serwist.config.mjs
 ```
 
 - **SQLite in a worker.** `lib/sqlite/worker.ts` loads the runtime from `public/sqlite/` (bundling it
@@ -112,7 +112,10 @@ src/
 - **Loading.** The landing page ships none of the editor code. `/app` and `/vis` show a staged boot loader
   (engine → storage → interface) while the editor UI downloads in parallel; CodeMirror, the CSV parser,
   schema dialogs and the command palette load on first use. Motion features load after first paint.
-- **Offline.** `scripts/build-sw.ts` bundles `src/sw/sw.ts` with Bun and precaches every file in `out/`.
+- **Offline.** After `next build`, `serwist build` (Serwist's Next.js configurator mode, set up in
+  `serwist.config.mjs`) bundles `src/sw/sw.ts` into the export as `out/sw.js`. It precaches every
+  chunk, style and font, the SQLite runtime, the icons, the manifest and the three pages.
+  `SerwistProvider` in `components/providers.tsx` registers it in production builds.
 - **Landing pictures.** The screenshots and the clip in `public/landing/` are captured from the real app
   with the sample shop open. Regenerate them against a running app with `node scripts/capture-landing.ts`
   (Node, not Bun: Bun can't drive Playwright's browser on Windows). The file reader on the landing page
