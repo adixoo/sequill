@@ -149,7 +149,6 @@ Two extra hues mark unsaved schema changes: `--added` (green) and `--edited` (bl
 `-ink` and `-wash` like the pastels and brighter than mint and sky so they don't read as either.
 Scrollbars are thin gray pills (`--scrollbar-thumb`) that appear only while their scroll area is
 hovered or focused; touch devices keep the browser's overlay scrollbars.
-`src/app/globals.test.ts` checks WCAG contrast for every text and background pair in both themes.
 
 ## Limitations
 
