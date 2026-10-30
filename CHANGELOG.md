@@ -1,5 +1,11 @@
 # sqlite-browser-editor
 
+## 0.2.2
+
+### Patch Changes
+
+- The installed app and a browser tab no longer lock each other out. A window in the background lets go of your databases and takes them back when it's shown; opening the app in another window hands them over, and the window that let go offers "Use here". "Try again" on the loading error now really retries. The footer also links to more apps by adibitz.
+
 ## 0.2.1
 
 ### Patch Changes
