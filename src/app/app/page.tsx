@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { EditorBoot } from "@/components/editor/editor-boot";
+import { EditorBoot } from "@/components/app/editor-boot";
 
 export const metadata: Metadata = {
   title: "Editor",

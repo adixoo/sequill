@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Loader } from "@/components/pastel/loader";
+import { Loader } from "@/components/common/pastel/loader";
 import { useDbActions } from "@/hooks/use-db-actions";
 import { useRunStatements } from "@/hooks/use-db";
 import { useSavedQueryActions } from "@/hooks/use-saved-queries";

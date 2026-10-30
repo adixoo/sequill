@@ -19,10 +19,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
-import { DatabaseSwitcher } from "@/components/app/database-switcher";
-import { Logo } from "@/components/logo";
-import { InstallButton } from "@/components/pwa";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { DatabaseSwitcher } from "@/components/common/database-switcher";
+import { Logo } from "@/components/common/logo";
+import { InstallButton } from "@/components/common/pwa";
+import { ThemeToggle } from "@/components/common/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

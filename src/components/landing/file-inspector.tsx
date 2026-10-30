@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useId, useState, type DragEvent } from "react";
-import { Mark, Note } from "@/components/pastel/annotation";
+import { Mark, Note } from "@/components/common/pastel/annotation";
 import { DB_FILE_ACCEPT } from "@/lib/constants";
 import { formatBytes, formatCount } from "@/lib/data/format";
 import {

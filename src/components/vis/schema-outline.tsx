@@ -37,7 +37,12 @@ import {
   type DiagramTable,
 } from "@/lib/vis/model";
 import { cn } from "@/lib/utils";
-import { ColumnIcon, ColumnName, tableChangeClass, tableChangeLabel } from "./change-marks";
+import {
+  ColumnIcon,
+  ColumnName,
+  tableChangeClass,
+  tableChangeLabel,
+} from "@/components/common/change-marks";
 import { ColorDot } from "./color-picker";
 import { ColumnEditPopover, ColumnType, isEditableTable, type SchemaEditor } from "./column-editor";
 

@@ -2,7 +2,7 @@
 
 import { Download } from "lucide-react";
 import { useState } from "react";
-import { useInstallPrompt } from "@/components/pwa";
+import { useInstallPrompt } from "@/components/common/pwa";
 import { Tile } from "./tile";
 
 /**

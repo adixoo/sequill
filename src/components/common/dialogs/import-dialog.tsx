@@ -4,7 +4,7 @@ import Papa from "papaparse";
 import { FileUp } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Loader } from "@/components/pastel/loader";
+import { Loader } from "@/components/common/pastel/loader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";

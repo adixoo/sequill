@@ -7,7 +7,12 @@ import { colorInk, colorWash, type TableColor } from "@/lib/vis/colors";
 import { handleId, TABLE_HEADER_HEIGHT, TABLE_ROW_HEIGHT, TABLE_WIDTH } from "@/lib/vis/layout";
 import { TABLE_HANDLE, type DiagramTable } from "@/lib/vis/model";
 import { cn } from "@/lib/utils";
-import { ColumnIcon, ColumnName, tableChangeClass, tableChangeLabel } from "./change-marks";
+import {
+  ColumnIcon,
+  ColumnName,
+  tableChangeClass,
+  tableChangeLabel,
+} from "@/components/common/change-marks";
 import { ColumnEditPopover, ColumnType, isEditableTable, type SchemaEditor } from "./column-editor";
 
 export type TableNodeData = {

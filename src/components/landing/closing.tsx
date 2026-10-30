@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { InstallButton } from "@/components/pwa";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { InstallButton } from "@/components/common/pwa";
+import { ThemeToggle } from "@/components/common/theme-toggle";
 import { APP_NAME, APP_TAGLINE, LEARN_URL, MAKER } from "@/lib/constants";
 import { WORDMARK_HEIGHTS, WORDMARK_TONES } from "@/lib/logo";
 import { Shot, Tile } from "./tile";

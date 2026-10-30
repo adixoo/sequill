@@ -1,6 +1,6 @@
 "use client";
 
-import { AppBoot } from "@/components/app/app-boot";
+import { AppBoot } from "@/components/common/app-boot";
 
 const loadEditor = () => import("./editor-shell").then((m) => m.default);
 

@@ -3,7 +3,7 @@
 import { RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type ComponentType } from "react";
-import { Loader, type LoaderStage } from "@/components/pastel/loader";
+import { Loader, type LoaderStage } from "@/components/common/pastel/loader";
 import { Button } from "@/components/ui/button";
 import { bootSqlite } from "@/lib/sqlite/client";
 import { errorMessage } from "@/lib/sqlite/errors";

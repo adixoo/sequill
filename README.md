@@ -86,11 +86,13 @@ not at `C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe`, set
 src/
   app/                 routes: landing (/), editor (/app), schema visualizer (/vis), manifest, icon
   components/
-    pastel/            design-system components (chip, annotation marks, loader, stat, steps…)
-    landing/           landing page sections
-    app/               shared boot screen (SQLite + UI chunk) and providers
-    editor/            sidebar, tabs, grid, table view, console, dialogs, command palette
-    vis/               schema diagram: table cards, canvas, inspector, React Flow theme
+    providers.tsx      app-wide providers used by the root layout
+    landing/           landing page (/) sections
+    app/               editor (/app): sidebar, tabs, grid, table view, console, command palette
+    vis/               schema visualizer (/vis): table cards, canvas, outline, inspector, save flow
+    common/            shared by more than one page: boot screen, database switcher, dialogs,
+                       logo, theme toggle, PWA install, change marks
+      pastel/          design-system components (chip, annotation marks, loader, stat, steps…)
     ui/                shadcn/ui primitives mapped onto the design tokens
   lib/
     sqlite/            worker (OPFS + catalog), session, SQL/DDL builders, introspection, dump

@@ -2,7 +2,7 @@
 
 import { KeyRound, Link2, ListPlus, Pencil, Plus, Trash2 } from "lucide-react";
 import type { ReactNode } from "react";
-import { CodeBlock } from "@/components/pastel/code-block";
+import { CodeBlock } from "@/components/common/pastel/code-block";
 import { Button } from "@/components/ui/button";
 import { buildDrop, buildDropColumn } from "@/lib/sqlite/ddl";
 import type { RelationInfo, Schema } from "@/lib/sqlite/types";

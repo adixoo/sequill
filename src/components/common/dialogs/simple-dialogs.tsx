@@ -3,7 +3,7 @@
 import { Copy } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { CodeBlock } from "@/components/pastel/code-block";
+import { CodeBlock } from "@/components/common/pastel/code-block";
 import {
   AlertDialog,
   AlertDialogAction,

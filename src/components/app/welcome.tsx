@@ -2,7 +2,7 @@
 
 import { FolderOpen, Plus, Sparkles, SquareTerminal, Table2 } from "lucide-react";
 import { m } from "motion/react";
-import { Mark, Note } from "@/components/pastel/annotation";
+import { Mark, Note } from "@/components/common/pastel/annotation";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
 import { useDbActions } from "@/hooks/use-db-actions";

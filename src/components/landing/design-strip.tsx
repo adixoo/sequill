@@ -1,4 +1,4 @@
-import { ColumnIcon, ColumnName } from "@/components/vis/change-marks";
+import { ColumnIcon, ColumnName } from "@/components/common/change-marks";
 import type { DiagramColumn } from "@/lib/vis/model";
 import { cn } from "@/lib/utils";
 

@@ -3,8 +3,8 @@
 import { LazyMotion, MotionConfig } from "motion/react";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
-import { ServiceWorkerRegistrar } from "@/components/pwa";
-import { ThemeMigration, THEMES } from "@/components/theme-toggle";
+import { ServiceWorkerRegistrar } from "@/components/common/pwa";
+import { ThemeMigration, THEMES } from "@/components/common/theme-toggle";
 
 const loadMotionFeatures = () => import("@/lib/motion-features").then((m) => m.default);
 

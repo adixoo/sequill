@@ -3,12 +3,12 @@
 import { ArrowRight, ExternalLink, Plus, Trash2, Unlink } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Check, ColumnFields } from "@/components/editor/dialogs/column-fields";
+import { Check, ColumnFields } from "@/components/common/dialogs/column-fields";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTableCount } from "@/hooks/use-db";
-import { ColumnIcon, ColumnName } from "./change-marks";
+import { ColumnIcon, ColumnName } from "@/components/common/change-marks";
 import { ColorSwatches } from "./color-picker";
 import { formatCount } from "@/lib/data/format";
 import type { TableColor } from "@/lib/vis/colors";

@@ -4,12 +4,12 @@ import { Table2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AppProviders } from "@/components/app/app-providers";
-import { DatabaseSwitcher } from "@/components/app/database-switcher";
-import { DialogHost } from "@/components/editor/dialogs/dialog-host";
-import { Logo } from "@/components/logo";
-import { Loader } from "@/components/pastel/loader";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { AppProviders } from "@/components/common/app-providers";
+import { DatabaseSwitcher } from "@/components/common/database-switcher";
+import { DialogHost } from "@/components/common/dialogs/dialog-host";
+import { Logo } from "@/components/common/logo";
+import { Loader } from "@/components/common/pastel/loader";
+import { ThemeToggle } from "@/components/common/theme-toggle";
 import {
   AlertDialog,
   AlertDialogAction,

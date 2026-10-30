@@ -2,7 +2,7 @@
 
 import { Pencil, RotateCcw, Trash2, Undo2 } from "lucide-react";
 import { useEffect, useRef, type ReactNode } from "react";
-import { ColumnFields } from "@/components/editor/dialogs/column-fields";
+import { ColumnFields } from "@/components/common/dialogs/column-fields";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import type { Schema } from "@/lib/sqlite/types";

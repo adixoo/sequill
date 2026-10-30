@@ -1,4 +1,4 @@
-import { Loader } from "@/components/pastel/loader";
+import { Loader } from "@/components/common/pastel/loader";
 
 export default function Loading() {
   return (
