@@ -4,6 +4,11 @@ export const MARKS = {
     viewBox: "0 0 320 160",
     paths: ["M16 140 C 60 60, 150 22, 286 40", "M286 40 l-31 13 M286 40 l-27 -21"],
   },
+  /** `curve` turned a quarter turn: it leaves to the left and rises to point up. */
+  rise: {
+    viewBox: "0 0 160 320",
+    paths: ["M140 304 C 60 260, 22 170, 40 34", "M40 34 l13 31 M40 34 l-21 27"],
+  },
   straight: {
     viewBox: "0 0 300 80",
     paths: ["M12 46 C 90 38, 180 44, 280 36", "M280 36 l-25 17 M280 36 l-27 -13"],

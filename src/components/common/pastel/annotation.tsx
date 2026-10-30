@@ -61,8 +61,10 @@ export function Note({ children, className, delay = 0, size = "md" }: NoteProps)
         size === "lg" && "text-3xl md:text-4xl",
         className,
       )}
-      initial={{ clipPath: "inset(0 100% 0 0)" }}
-      whileInView={{ clipPath: "inset(0 0% 0 0)" }}
+      // Handwriting overhangs its box (slanted ends, descenders), so the revealed area
+      // reaches past it on the right, top and bottom instead of clipping those strokes.
+      initial={{ clipPath: "inset(-40% 100% -40% 0)" }}
+      whileInView={{ clipPath: "inset(-40% -10% -40% 0)" }}
       viewport={{ once: true, margin: "-10% 0px" }}
       transition={{ duration: dur.write, ease: "linear", delay }}
     >

@@ -49,9 +49,14 @@ export function NoDatabase() {
             <Plus /> New empty
           </Button>
         </div>
-        <div className="relative flex items-end gap-2 pl-2">
-          <Mark name="curve" flip className="w-20" delay={0.5} />
-          <Note delay={1.1} size="sm">
+        {/*
+          The arrow rises from the note and points up at "Open a .sqlite file". Dropping
+          files is a mouse thing, so touch devices don't get the hint.
+        */}
+        <div className="relative -mt-4 flex items-end gap-1 pl-6 pointer-coarse:hidden">
+          <Mark name="rise" className="w-8 shrink-0" delay={0.5} />
+          {/* Lowered so the arrow's tail meets the middle of the text. */}
+          <Note delay={1.1} size="sm" className="translate-y-2.5">
             or drop a file anywhere
           </Note>
         </div>
