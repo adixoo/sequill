@@ -39,9 +39,15 @@ test("the first screen links to both products", async ({ page }) => {
     "/vis",
   );
   await expect(nav.getByRole("button", { name: "Install app" })).toBeVisible();
-  await expect(
-    page.getByRole("contentinfo").getByRole("link", { name: "adibitz" }),
-  ).toHaveAttribute("href", "https://adibitz.com");
+  const footer = page.getByRole("contentinfo");
+  await expect(footer.getByRole("link", { name: "adibitz", exact: true })).toHaveAttribute(
+    "href",
+    "https://adibitz.com",
+  );
+  await expect(footer.getByRole("link", { name: "More apps by adibitz" })).toHaveAttribute(
+    "href",
+    "https://adibitz.com/apps",
+  );
   await expect(
     page.getByRole("link", { name: "Learn them from beginner to advanced" }),
   ).toHaveAttribute("href", "https://database.adibitz.com/");
