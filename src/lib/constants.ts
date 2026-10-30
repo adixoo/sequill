@@ -28,6 +28,15 @@ export const VFS_DIRECTORY = ".pastel-sqlite";
 export const VFS_SLOTS_PER_DB = 3;
 export const VFS_MIN_CAPACITY = 8;
 
+/**
+ * Windows of the app (tabs, the installed app) hand the database files to each other over
+ * this BroadcastChannel. A window that can't get them asks the holder and retries; the
+ * holder may be finishing a write, so allow a few seconds.
+ */
+export const STORAGE_CHANNEL = "sequill-storage";
+export const STORAGE_RETRY_MS = 250;
+export const STORAGE_RETRIES = 40;
+
 /** Catalog database that maps file ids to display names, sizes and timestamps. */
 export const CATALOG_PATH = "/__catalog.sqlite3";
 export const DB_FILE_PREFIX = "/db-";

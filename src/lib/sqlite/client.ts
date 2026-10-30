@@ -1,7 +1,7 @@
 /** Browser-side handle to the SQLite worker. Created lazily so pages that never need it stay light. */
 import * as Comlink from "comlink";
 import type { SqliteWorkerApi } from "./worker";
-import type { BootProgress } from "./types";
+import type { BootProgress, StorageState } from "./types";
 
 let remote: Comlink.Remote<SqliteWorkerApi> | null = null;
 /** Rejects if the worker script itself fails to load or crashes (Comlink calls would hang forever). */
@@ -30,4 +30,9 @@ export function getSqlite(): Comlink.Remote<SqliteWorkerApi> {
 export function bootSqlite(onProgress: (p: BootProgress) => void): Promise<string> {
   const api = getSqlite();
   return Promise.race([api.init(Comlink.proxy(onProgress)), crashed!]);
+}
+
+/** Calls `listener` whenever this window gets or loses the database files; returns the current state. */
+export function watchStorage(listener: (state: StorageState) => void): Promise<StorageState> {
+  return getSqlite().watchStorage(Comlink.proxy(listener));
 }

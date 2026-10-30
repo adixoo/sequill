@@ -152,8 +152,10 @@ hovered or focused; touch devices keep the browser's overlay scrollbars.
 
 ## Limitations
 
-- One tab at a time: the OPFS pool is held exclusively by the tab that opened it. Other tabs show an
-  error until it closes.
+- One window at a time: the OPFS pool is held exclusively, and the installed app and a browser tab
+  of the site count as two windows. A window in the background releases the files and takes them
+  back when it's shown; opening the app in another window hands the files over (on a
+  `BroadcastChannel`), and the window that let go says so and offers **Use here**.
 - Databases live in this browser's site storage. Clearing site data deletes them, so download copies of
   anything important. The app asks the browser for persistent storage to make eviction less likely.
 - Very large databases are limited by the browser's storage quota and memory for exports.

@@ -2,6 +2,11 @@
 /**
  * Dedicated worker that owns SQLite. Databases live in OPFS through the
  * opfs-sahpool VFS; a small catalog database keeps their display names.
+ *
+ * The VFS holds every file exclusively, so only one window of the app can use
+ * the databases at a time. Windows hand them over on a BroadcastChannel: a
+ * window that can't get them claims them, and the holder closes its databases
+ * and pauses the VFS. A window in the background releases them on its own.
  */
 import type { Database, SAHPoolUtil, Sqlite3Static } from "@sqlite.org/sqlite-wasm";
 import * as Comlink from "comlink";
@@ -9,6 +14,9 @@ import {
   CATALOG_PATH,
   DB_FILE_PREFIX,
   DB_FILE_SUFFIX,
+  STORAGE_CHANNEL,
+  STORAGE_RETRIES,
+  STORAGE_RETRY_MS,
   VFS_DIRECTORY,
   VFS_MIN_CAPACITY,
   VFS_NAME,
@@ -16,11 +24,12 @@ import {
   SQLITE_RUNTIME_URL,
 } from "@/lib/constants";
 import { SqliteSession } from "./session";
-import type { BootProgress, CellValue, DbInfo, Schema, SqlStatement } from "./types";
+import type { BootProgress, CellValue, DbInfo, Schema, SqlStatement, StorageState } from "./types";
 
 interface Engine {
   sqlite3: Sqlite3Static;
   pool: SAHPoolUtil;
+  /** Reopened whenever this window takes the files back. */
   catalog: SqliteSession;
 }
 
@@ -33,6 +42,110 @@ const idFromPath = (path: string) =>
     ? path.slice(DB_FILE_PREFIX.length, -DB_FILE_SUFFIX.length)
     : null;
 
+// ---------------------------------------------------------------------------
+// One call at a time, so the files are never released in the middle of a write.
+
+let queue: Promise<unknown> = Promise.resolve();
+
+function exclusive<T>(fn: () => Promise<T> | T): Promise<T> {
+  const run = queue.then(fn, fn);
+  queue = run.catch(() => undefined);
+  return run;
+}
+
+// ---------------------------------------------------------------------------
+// Handing the files between windows.
+
+const windowId = crypto.randomUUID();
+const channel = new BroadcastChannel(STORAGE_CHANNEL);
+let storage: StorageState = "active";
+let onStorage: ((state: StorageState) => void) | null = null;
+
+const TAKEN_MESSAGE =
+  "Your databases are open in another window. Use them here to continue in this window.";
+
+function setStorage(state: StorageState): void {
+  storage = state;
+  // The page may be gone or frozen; a lost notification must not fail the call.
+  void Promise.resolve(onStorage?.(state)).catch(() => undefined);
+}
+
+function claim(): void {
+  channel.postMessage({ type: "claim", from: windowId });
+}
+
+channel.addEventListener("message", ({ data }: MessageEvent<{ type?: string; from?: string }>) => {
+  if (data?.type !== "claim" || data.from === windowId) return;
+  void exclusive(async () => {
+    await releaseFiles();
+    setStorage("taken");
+  });
+});
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** True when the files are held by another window (OPFS allows one access handle per file). */
+function isHeldElsewhere(error: unknown): boolean {
+  return (
+    error instanceof Error &&
+    (error.name === "NoModificationAllowedError" ||
+      /another open Access Handle/i.test(error.message))
+  );
+}
+
+/** Runs `take` until it succeeds, asking whichever window holds the files to let go. */
+async function withClaims<T>(take: () => Promise<T>): Promise<T> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await take();
+    } catch (error) {
+      if (!isHeldElsewhere(error) || attempt >= STORAGE_RETRIES) throw error;
+      claim();
+      await sleep(STORAGE_RETRY_MS);
+    }
+  }
+}
+
+function openCatalog(sqlite3: Sqlite3Static, pool: SAHPoolUtil): SqliteSession {
+  const catalogDb: Database = new pool.OpfsSAHPoolDb(CATALOG_PATH);
+  return new SqliteSession(sqlite3, catalogDb);
+}
+
+/** Closes every database and pauses the VFS, so another window can open the files. */
+async function releaseFiles(): Promise<void> {
+  if (!engine || storage !== "active") return;
+  const e = await engine.catch(() => null);
+  if (!e) return;
+  closeCurrent();
+  e.catalog.db.close();
+  e.pool.pauseVfs();
+}
+
+/** Takes the files back after this window released them or another window took them. */
+async function acquireFiles(): Promise<Engine> {
+  const e = await getEngine();
+  if (storage === "active") return e;
+  try {
+    await withClaims(() => e.pool.unpauseVfs());
+  } catch (error) {
+    if (!isHeldElsewhere(error)) throw error;
+    setStorage("taken");
+    throw new Error(TAKEN_MESSAGE, { cause: error });
+  }
+  e.catalog = openCatalog(e.sqlite3, e.pool);
+  setStorage("active");
+  return e;
+}
+
+/** The engine, ready to use: takes the files back if this window let them go on its own. */
+async function ready(): Promise<Engine> {
+  if (storage === "taken") throw new Error(TAKEN_MESSAGE);
+  if (storage === "released") return acquireFiles();
+  return getEngine();
+}
+
+// ---------------------------------------------------------------------------
+
 async function boot(onProgress?: (p: BootProgress) => void): Promise<Engine> {
   onProgress?.({ stage: "engine", message: "Loading SQLite engine" });
   // Loaded at runtime from public/ (see scripts/copy-sqlite-wasm.ts); bundling it breaks.
@@ -41,29 +154,38 @@ async function boot(onProgress?: (p: BootProgress) => void): Promise<Engine> {
   );
   const sqlite3 = await runtime.default();
   onProgress?.({ stage: "storage", message: "Opening browser storage" });
+  // `forceReinitIfPreviouslyFailed` is supported at runtime but missing from the package's types.
+  // Without it a failed attempt is cached, and retrying in this window could never work.
+  const options: Parameters<Sqlite3Static["installOpfsSAHPoolVfs"]>[0] & {
+    forceReinitIfPreviouslyFailed: boolean;
+  } = {
+    name: VFS_NAME,
+    directory: VFS_DIRECTORY,
+    initialCapacity: VFS_MIN_CAPACITY,
+    preserveOnInitFailure: true,
+    forceReinitIfPreviouslyFailed: true,
+  };
   let pool: SAHPoolUtil;
   try {
-    pool = await sqlite3.installOpfsSAHPoolVfs({
-      name: VFS_NAME,
-      directory: VFS_DIRECTORY,
-      initialCapacity: VFS_MIN_CAPACITY,
-      preserveOnInitFailure: true,
-    });
+    pool = await withClaims(() => sqlite3.installOpfsSAHPoolVfs(options));
   } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error);
     throw new Error(
-      "Browser storage is busy or unavailable. Close other tabs running this app, or check that " +
-        "this browser supports the Origin Private File System. " +
-        `(${error instanceof Error ? error.message : String(error)})`,
+      isHeldElsewhere(error)
+        ? "Your databases are open in another window that isn't responding. Close other " +
+            `windows or tabs of this app, then try again. (${detail})`
+        : "Browser storage is unavailable. Check that this browser supports the Origin " +
+            `Private File System and isn't in private browsing. (${detail})`,
     );
   }
-  const catalogDb: Database = new pool.OpfsSAHPoolDb(CATALOG_PATH);
-  const catalog = new SqliteSession(sqlite3, catalogDb);
+  const catalog = openCatalog(sqlite3, pool);
   catalog.query(
     `CREATE TABLE IF NOT EXISTS databases (
        id TEXT PRIMARY KEY, name TEXT NOT NULL, size INTEGER NOT NULL DEFAULT 0,
        created_at INTEGER NOT NULL, updated_at INTEGER NOT NULL)`,
   );
   reconcile(pool, catalog);
+  setStorage("active");
   return { sqlite3, pool, catalog };
 }
 
@@ -90,9 +212,9 @@ function reconcile(pool: SAHPoolUtil, catalog: SqliteSession): void {
   }
 }
 
-function getEngine(): Promise<Engine> {
+function getEngine(onProgress?: (p: BootProgress) => void): Promise<Engine> {
   if (!engine) {
-    engine = boot().catch((error) => {
+    engine = boot(onProgress).catch((error) => {
       engine = null;
       throw error;
     });
@@ -163,25 +285,53 @@ async function touch(): Promise<void> {
   ]);
 }
 
+/** A data call: queued behind any other call, and run only while this window holds the files. */
+function op<A extends unknown[], R>(fn: (...args: A) => Promise<R>): (...args: A) => Promise<R> {
+  return (...args) =>
+    exclusive(async () => {
+      await ready();
+      return fn(...args);
+    });
+}
+
 const api = {
-  async init(onProgress?: (p: BootProgress) => void): Promise<string> {
-    if (!engine) {
-      engine = boot(onProgress).catch((error) => {
-        engine = null;
-        throw error;
-      });
-    }
-    const { sqlite3 } = await engine;
-    onProgress?.({ stage: "ready", message: "Ready" });
-    return sqlite3.version.libVersion;
+  /** Boots the engine, or takes the files back if another window has them. */
+  init(onProgress?: (p: BootProgress) => void): Promise<string> {
+    return exclusive(async () => {
+      const { sqlite3 } = engine ? await acquireFiles() : await getEngine(onProgress);
+      onProgress?.({ stage: "ready", message: "Ready" });
+      return sqlite3.version.libVersion;
+    });
   },
 
-  async listDatabases(): Promise<DbInfo[]> {
+  /** Calls `listener` whenever this window gets or loses the files. */
+  watchStorage(listener: (state: StorageState) => void): StorageState {
+    onStorage = listener;
+    return storage;
+  },
+
+  /** Lets go of the files while this window is in the background. */
+  release(): Promise<void> {
+    return exclusive(async () => {
+      if (storage !== "active") return;
+      await releaseFiles();
+      setStorage("released");
+    });
+  },
+
+  /** Takes the files back (this window is showing again, or the user chose to use it here). */
+  acquire(): Promise<void> {
+    return exclusive(async () => {
+      if (engine) await acquireFiles();
+    });
+  },
+
+  listDatabases: op(async (): Promise<DbInfo[]> => {
     const { catalog } = await getEngine();
     return catalog.objects("SELECT * FROM databases ORDER BY updated_at DESC").map(toInfo);
-  },
+  }),
 
-  async createDatabase(name: string, seedSql?: string): Promise<DbInfo> {
+  createDatabase: op(async (name: string, seedSql?: string): Promise<DbInfo> => {
     const { sqlite3, pool } = await getEngine();
     await reserveSlotForOneMore();
     const id = crypto.randomUUID();
@@ -197,9 +347,9 @@ const api = {
       pool.unlink(filePath(id));
       throw error;
     }
-  },
+  }),
 
-  async importDatabase(name: string, bytes: Uint8Array): Promise<DbInfo> {
+  importDatabase: op(async (name: string, bytes: Uint8Array): Promise<DbInfo> => {
     const { pool } = await getEngine();
     await reserveSlotForOneMore();
     const id = crypto.randomUUID();
@@ -212,77 +362,71 @@ const api = {
       );
     }
     return register(id, name, bytes.byteLength);
-  },
+  }),
 
-  async exportDatabase(id: string): Promise<Uint8Array> {
+  exportDatabase: op(async (id: string): Promise<Uint8Array> => {
     const { pool } = await getEngine();
     const bytes = pool.exportFile(filePath(id));
     return Comlink.transfer(bytes, [bytes.buffer]);
-  },
+  }),
 
-  async renameDatabase(id: string, name: string): Promise<DbInfo> {
+  renameDatabase: op(async (id: string, name: string): Promise<DbInfo> => {
     const { catalog } = await getEngine();
     if (!name.trim()) throw new Error("The name is empty");
     catalog.query("UPDATE databases SET name = ? WHERE id = ?", [name.trim(), id]);
     return getInfo(id);
-  },
+  }),
 
-  async deleteDatabase(id: string): Promise<void> {
+  deleteDatabase: op(async (id: string): Promise<void> => {
     const { pool, catalog } = await getEngine();
     if (current?.id === id) closeCurrent();
     pool.unlink(filePath(id));
     catalog.query("DELETE FROM databases WHERE id = ?", [id]);
-  },
+  }),
 
-  async open(id: string): Promise<{ info: DbInfo; schema: Schema }> {
+  open: op(async (id: string): Promise<{ info: DbInfo; schema: Schema }> => {
     const s = await session(id);
     return { info: await getInfo(id), schema: s.schema() };
-  },
+  }),
 
-  async schema(id: string): Promise<Schema> {
-    return (await session(id)).schema();
-  },
+  schema: op(async (id: string): Promise<Schema> => (await session(id)).schema()),
 
-  async count(id: string, sql: string, params: CellValue[]): Promise<number> {
-    return (await session(id)).count(sql, params);
-  },
+  count: op(async (id: string, sql: string, params: CellValue[]): Promise<number> =>
+    (await session(id)).count(sql, params),
+  ),
 
-  async query(id: string, sql: string, params: CellValue[] = [], limit?: number) {
+  query: op(async (id: string, sql: string, params: CellValue[] = [], limit?: number) => {
     const result = (await session(id)).query(sql, params, limit);
     if (result.changes > 0) await touch();
     return result;
-  },
+  }),
 
-  async execScript(id: string, sql: string, rowLimit: number) {
+  execScript: op(async (id: string, sql: string, rowLimit: number) => {
     const results = (await session(id)).execScript(sql, rowLimit);
     await touch();
     return results;
-  },
+  }),
 
-  async explainScript(id: string, sql: string) {
-    return (await session(id)).explainScript(sql);
-  },
+  explainScript: op(async (id: string, sql: string) => (await session(id)).explainScript(sql)),
 
-  async transaction(id: string, statements: SqlStatement[]): Promise<number> {
+  transaction: op(async (id: string, statements: SqlStatement[]): Promise<number> => {
     const changes = (await session(id)).transaction(statements);
     await touch();
     return changes;
-  },
+  }),
 
-  async applyDesign(id: string, statements: string[]): Promise<void> {
+  applyDesign: op(async (id: string, statements: string[]): Promise<void> => {
     (await session(id)).applyDesign(statements);
     await touch();
-  },
+  }),
 
-  async insertMany(id: string, sql: string, rows: CellValue[][]): Promise<number> {
+  insertMany: op(async (id: string, sql: string, rows: CellValue[][]): Promise<number> => {
     const inserted = (await session(id)).insertMany(sql, rows);
     await touch();
     return inserted;
-  },
+  }),
 
-  async dump(id: string): Promise<string> {
-    return (await session(id)).dump();
-  },
+  dump: op(async (id: string): Promise<string> => (await session(id)).dump()),
 };
 
 export type SqliteWorkerApi = typeof api;
