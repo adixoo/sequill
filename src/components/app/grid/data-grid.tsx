@@ -120,6 +120,10 @@ export function DataGrid({
   const totalWidth = ROW_NUMBER_WIDTH + laid.reduce((sum, c) => sum + c.width, 0);
   const selected = selection ?? new Set<number>();
 
+  // The React Compiler skips this component because the virtualizer's functions can't be
+  // memoized. That is safe as long as the virtualizer stays here: never pass it, or values
+  // read from it, to a memoized child or hook, or they would go stale.
+  // eslint-disable-next-line react-hooks/incompatible-library -- known and handled, see above
   const virtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => scrollRef.current,
