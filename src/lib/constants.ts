@@ -2,8 +2,12 @@
 
 export const APP_NAME = "Sequill";
 export const APP_TAGLINE = "Your SQLite files, edited right in the browser";
-/** Who builds and maintains the app, credited in the landing page footer. */
-export const MAKER = { name: "adibitz", url: "https://adibitz.com" } as const;
+/** Who builds and maintains the app, credited in the landing page footer with a link to their other apps. */
+export const MAKER = {
+  name: "adibitz",
+  url: "https://adibitz.com",
+  appsUrl: "https://adibitz.com/app",
+} as const;
 /** A course on databases, from beginner to advanced, linked from the landing page. */
 export const LEARN_URL = "https://database.adibitz.com/";
 

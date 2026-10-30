@@ -131,6 +131,15 @@ export function SiteFooter() {
           >
             {MAKER.name}
           </a>
+          .{" "}
+          <a
+            href={MAKER.appsUrl}
+            rel="noreferrer"
+            target="_blank"
+            className="font-semibold text-ink underline underline-offset-4"
+          >
+            More apps by {MAKER.name}
+          </a>
         </p>
         <a
           href="#top"
