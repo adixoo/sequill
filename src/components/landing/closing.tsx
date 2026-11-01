@@ -1,7 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import { InstallButton } from "@/components/common/pwa";
 import { ThemeToggle } from "@/components/common/theme-toggle";
-import { APP_NAME, APP_TAGLINE, LEARN_URL, MAKER } from "@/lib/constants";
+import { APP_NAME, APP_TAGLINE, LEARN_URL, MAKER, PRODUCT_HUNT } from "@/lib/constants";
 import { WORDMARK_HEIGHTS, WORDMARK_TONES } from "@/lib/logo";
 import { Shot, Tile } from "./tile";
 
@@ -141,12 +142,23 @@ export function SiteFooter() {
             More apps by {MAKER.name}
           </a>
         </p>
-        <a
-          href="#top"
-          className="ln-press inline-flex h-10 items-center rounded-(--ln-radius) bg-raised px-4 font-semibold"
-        >
-          Back to top
-        </a>
+        <div className="flex flex-wrap items-center gap-4">
+          <a href={PRODUCT_HUNT.url} rel="noopener noreferrer" target="_blank">
+            <Image
+              src={PRODUCT_HUNT.badgeUrl}
+              alt={`${APP_NAME} - Private SQLite editor & visual schema designer. | Product Hunt`}
+              width={PRODUCT_HUNT.badgeWidth}
+              height={PRODUCT_HUNT.badgeHeight}
+              unoptimized
+            />
+          </a>
+          <a
+            href="#top"
+            className="ln-press inline-flex h-10 items-center rounded-(--ln-radius) bg-raised px-4 font-semibold"
+          >
+            Back to top
+          </a>
+        </div>
       </div>
       <div
         role="img"

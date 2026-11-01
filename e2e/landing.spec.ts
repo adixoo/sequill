@@ -48,6 +48,10 @@ test("the first screen links to both products", async ({ page }) => {
     "href",
     "https://adibitz.com/apps",
   );
+  await expect(footer.getByRole("link", { name: /Product Hunt/ })).toHaveAttribute(
+    "href",
+    /^https:\/\/www\.producthunt\.com\/products\/sequill/,
+  );
   await expect(
     page.getByRole("link", { name: "Learn them from beginner to advanced" }),
   ).toHaveAttribute("href", "https://database.adibitz.com/");

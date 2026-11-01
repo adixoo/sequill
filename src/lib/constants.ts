@@ -10,6 +10,14 @@ export const MAKER = {
 } as const;
 /** A course on databases, from beginner to advanced, linked from the landing page. */
 export const LEARN_URL = "https://database.adibitz.com/";
+/** The Product Hunt listing and its featured badge, shown in the landing page footer. */
+export const PRODUCT_HUNT = {
+  url: "https://www.producthunt.com/products/sequill?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-sequill-2",
+  badgeUrl:
+    "https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1299860&theme=dark&t=1793516957452",
+  badgeWidth: 250,
+  badgeHeight: 54,
+} as const;
 
 /** The service worker, built into the export by `serwist build` (serwist.config.mjs). */
 export const SERVICE_WORKER_URL = "/sw.js";
