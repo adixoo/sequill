@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Caveat, DM_Sans, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import { Providers } from "@/components/providers";
-import { APP_NAME, APP_TAGLINE } from "@/lib/constants";
+import { APP_NAME, APP_TAGLINE, CLOUDFLARE_ANALYTICS } from "@/lib/constants";
 import { resolveSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -54,6 +55,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col">
         <Providers>{children}</Providers>
+        <Script
+          src={CLOUDFLARE_ANALYTICS.scriptUrl}
+          data-cf-beacon={JSON.stringify({ token: CLOUDFLARE_ANALYTICS.token })}
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

@@ -18,6 +18,11 @@ export const PRODUCT_HUNT = {
   badgeWidth: 250,
   badgeHeight: 54,
 } as const;
+/** Cloudflare Web Analytics beacon, loaded on every page by the root layout. */
+export const CLOUDFLARE_ANALYTICS = {
+  scriptUrl: "https://static.cloudflareinsights.com/beacon.min.js",
+  token: "628b710cbe5845818d94afeb26e8aa96",
+} as const;
 
 /** The service worker, built into the export by `serwist build` (serwist.config.mjs). */
 export const SERVICE_WORKER_URL = "/sw.js";
