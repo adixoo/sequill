@@ -1,7 +1,7 @@
-import { Download01Icon } from "@hugeicons/core-free-icons";
+import { Download01Icon, GithubIcon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { Icon } from "@/components/ui/icon";
-import { APP_NAME } from "@/lib/constants";
+import { APP_NAME, WEB_REPO_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { LinkTile, Shot, Tile } from "./tile";
 
@@ -36,8 +36,8 @@ const RUN_TILE = [
 ];
 
 /**
- * First screen: the name with what it is, links to both products, the file
- * reader and installing, the editor, and the two rails. It fills the screen and
+ * First screen: the name with what it is, links to both products, the GitHub
+ * repo and installing, the editor, and the two rails. It fills the screen and
  * grows past it when a short or zoomed window can't hold the rails' text.
  */
 export function Hero() {
@@ -68,10 +68,13 @@ export function Hero() {
           <li className="lg:col-span-3">
             <Tile
               as="a"
-              href="#your-file"
-              className="ln-press flex h-full min-h-16 items-center py-3"
+              href={WEB_REPO_URL}
+              rel="noopener noreferrer"
+              target="_blank"
+              className="ln-press flex h-full min-h-16 items-center justify-between gap-3 py-3"
             >
-              Try your own file
+              Star it on GitHub
+              <Icon icon={GithubIcon} aria-hidden className="size-5 shrink-0" />
             </Tile>
           </li>
           <li className="lg:col-span-3">
