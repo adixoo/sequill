@@ -53,7 +53,7 @@ export function Faq() {
             key={question}
             name="faq"
             open={i === 0}
-            className="group rounded-(--ln-radius) bg-surface transition-colors duration-200 open:bg-mint open:text-(--on-accent)"
+            className="group rounded-(--ln-radius) bg-surface open:bg-mint open:text-(--on-accent)"
           >
             <summary className="ln-press flex min-h-16 cursor-pointer items-center justify-between gap-6 rounded-(--ln-radius) px-5 py-4 font-semibold group-open:bg-transparent lg:min-h-[72px] lg:px-6">
               {question}

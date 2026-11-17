@@ -257,4 +257,53 @@
   .ln-faq details[open] .ln-plus-bar:last-child {
     transform: rotate(0deg);
   }
+  .ln-faq details {
+    transition:
+      background-color var(--dur-base) var(--ease-move),
+      color var(--dur-base) var(--ease-move);
+  }
+
+  /*
+   * The answer slides open and shut instead of jumping, so the one closing and
+   * the one opening move together. Needs height to animate to `auto`; other
+   * browsers keep the native instant toggle.
+   */
+  @supports (interpolate-size: allow-keywords) {
+    @media (prefers-reduced-motion: no-preference) {
+      .ln-faq details {
+        interpolate-size: allow-keywords;
+      }
+      .ln-faq details::details-content {
+        block-size: 0;
+        overflow: hidden;
+        transition:
+          block-size var(--dur-base) var(--ease-move),
+          content-visibility var(--dur-base) var(--ease-move) allow-discrete;
+      }
+      .ln-faq details[open]::details-content {
+        block-size: auto;
+      }
+      .ln-faq details > :not(summary) {
+        opacity: 0;
+        transform: translateY(-8px);
+        transition:
+          opacity var(--dur-quick) var(--ease-exit),
+          transform var(--dur-quick) var(--ease-exit);
+      }
+      .ln-faq details[open] > :not(summary) {
+        opacity: 1;
+        transform: none;
+        transition:
+          opacity var(--dur-base) var(--ease-enter) 80ms,
+          transform var(--dur-base) var(--ease-enter) 80ms;
+      }
+      /* A closed answer is never styled while hidden, so give its fade a place to start. */
+      @starting-style {
+        .ln-faq details[open] > :not(summary) {
+          opacity: 0;
+          transform: translateY(-8px);
+        }
+      }
+    }
+  }
 }
