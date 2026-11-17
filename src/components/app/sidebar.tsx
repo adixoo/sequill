@@ -21,7 +21,6 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { DatabaseSwitcher } from "@/components/common/database-switcher";
 import { Logo } from "@/components/common/logo";
-import { InstallButton } from "@/components/common/pwa";
 import { ThemeToggle } from "@/components/common/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
@@ -288,10 +287,11 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
           <Logo size={24} className="rounded-md" />
           {APP_NAME}
         </Link>
-        <div className="ml-auto flex items-center">
-          <InstallButton className="px-2" />
-          <ThemeToggle />
-        </div>
+        <span aria-hidden className="text-ink-muted">
+          /
+        </span>
+        <span className="text-sm font-semibold text-ink">Editor</span>
+        <ThemeToggle className="ml-auto" />
       </div>
 
       <div className="border-b-2 border-hairline p-2">
