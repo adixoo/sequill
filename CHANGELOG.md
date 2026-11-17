@@ -1,5 +1,14 @@
 # sqlite-browser-editor
 
+## 0.3.1
+
+### Patch Changes
+
+- 8f642d5: The site footer links to the source code of both the web app and the desktop app on GitHub.
+- 4a1e9e6: The home page now introduces the desktop app: large databases kept as real files on a native SQLite engine, and a built-in MCP server that lets AI assistants such as Claude, Cursor and VS Code work with your databases, with a link to the download page. The FAQ answer on database size mentions it too.
+- d41797a: The home page moves more smoothly: FAQ answers slide open and shut instead of jumping, and the big tagline line speeds up as you scroll and turns round when you scroll back up. Both stay still for reduced motion.
+- 1ebe441: An address that doesn't exist now shows a "Page not found" page in the site's own design, in your theme, with links back to the home page, the editor, the schema designer and the desktop download.
+
 ## 0.3.0
 
 ### Minor Changes
