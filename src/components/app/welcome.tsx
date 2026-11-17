@@ -49,11 +49,11 @@ export function NoDatabase() {
               />
             </label>
           </Button>
-          <Button size="lg" variant="outline" onClick={() => void actions.createSample()}>
-            <Icon icon={SparklesIcon} /> Try the sample
-          </Button>
-          <Button size="lg" variant="ghost" onClick={() => openDialog({ kind: "newDatabase" })}>
+          <Button size="lg" variant="outline" onClick={() => openDialog({ kind: "newDatabase" })}>
             <Icon icon={PlusSignIcon} /> New empty
+          </Button>
+          <Button size="lg" variant="ghost" onClick={() => void actions.createSample()}>
+            <Icon icon={SparklesIcon} /> Try the sample
           </Button>
         </div>
         {/*
