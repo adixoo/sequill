@@ -49,3 +49,6 @@ next-env.d.ts
 
 # tasteskill working files (direction sheet, inspector screenshots)
 /.taste-skill/
+
+# Claude Code local settings, skills and launch config
+/.claude/
