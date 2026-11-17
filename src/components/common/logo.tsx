@@ -1,5 +1,3 @@
-import { LOGO_COLORS, LOGO_RADIUS, LOGO_SIZE, logoShapes } from "@/lib/logo";
-
 interface LogoProps {
   /** Rendered size in CSS pixels; 32 and under draws the simpler mark. */
   size: number;
@@ -10,16 +8,18 @@ interface LogoProps {
 export function Logo({ size, className }: LogoProps) {
   return (
     <svg
-      viewBox={`0 0 ${LOGO_SIZE} ${LOGO_SIZE}`}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 512 512"
+      className={className}
       width={size}
       height={size}
-      aria-hidden
-      className={className}
     >
-      <rect width={LOGO_SIZE} height={LOGO_SIZE} rx={LOGO_RADIUS} fill={LOGO_COLORS.ground} />
-      {logoShapes(size).map((shape) => (
-        <path key={shape.d} d={shape.d} fill={shape.fill} />
-      ))}
+      <rect width={size} height={size} rx="112" fill="#0a0a0b" />
+      <path d="M150 64H362Q400 64 400 102V124Q256 172 112 124V102Q112 64 150 64Z" fill="#ffb3a1" />
+      <path d="M112 150Q256 198 400 150V192Q256 240 112 192Z" fill="#f5e1a4" />
+      <path d="M112 218Q256 266 400 218V256L256 456L112 256Z" fill="#a6e3c4" />
+      <path d="M256 286a26 26 0 1 0 0 52a26 26 0 1 0 0-52Z" fill="#0a0a0b" />
+      <path d="M248 330H264V412L256 426L248 412Z" fill="#0a0a0b" />
     </svg>
   );
 }

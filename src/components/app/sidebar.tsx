@@ -285,7 +285,7 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
           href="/"
           className="flex items-center gap-2 rounded-xs font-semibold tracking-[-0.015em] text-ink outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <Logo size={24} className="rounded-[6px]" />
+          <Logo size={24} className="rounded-md" />
           {APP_NAME}
         </Link>
         <div className="ml-auto flex items-center">
