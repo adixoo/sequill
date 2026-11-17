@@ -3,6 +3,7 @@ import { CapabilityShelf } from "@/components/landing/capability-shelf";
 import { CloseUps } from "@/components/landing/close-ups";
 import { Closing, Marquee, SiteFooter } from "@/components/landing/closing";
 import { DesignStrip } from "@/components/landing/design-strip";
+import { DesktopApp } from "@/components/landing/desktop-app";
 import { Faq } from "@/components/landing/faq";
 import { Hero } from "@/components/landing/hero";
 import { Intro } from "@/components/landing/intro";
@@ -50,6 +51,7 @@ export default function Home() {
         <CapabilityShelf />
         <DesignStrip />
         <CloseUps />
+        <DesktopApp />
         <Faq />
         <Closing />
       </main>

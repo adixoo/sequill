@@ -31,6 +31,14 @@ test("the download page offers this system's installer and every system's files"
 
 test("the landing page links to the download page", async ({ page }) => {
   await page.goto("/");
+  const desktop = page.locator("#desktop");
+  await expect(
+    desktop.getByRole("heading", { level: 2, name: "Also on your desktop" }),
+  ).toBeVisible();
+  await expect(desktop.getByRole("link", { name: "Download the desktop app" })).toHaveAttribute(
+    "href",
+    "/download",
+  );
   await expect(page.getByRole("link", { name: "or get the desktop app" })).toHaveAttribute(
     "href",
     "/download",

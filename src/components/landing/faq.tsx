@@ -25,7 +25,7 @@ const QUESTIONS: [string, string][] = [
   ],
   [
     "How big can a database be?",
-    "As big as this browser’s storage quota for the site allows, which is usually a large share of free disk space. Very large exports are limited by memory.",
+    "As big as this browser’s storage quota for the site allows, which is usually a large share of free disk space. Very large exports are limited by memory. The desktop app has no browser quota: it keeps databases as files on your computer.",
   ],
   [
     "Does it work on a phone?",
