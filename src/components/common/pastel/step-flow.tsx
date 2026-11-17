@@ -1,5 +1,6 @@
-import { ChevronRight } from "lucide-react";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { Fragment } from "react";
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 import { ACCENT_CLASSES, STEP_ACCENTS } from "./accent";
 
@@ -16,7 +17,11 @@ export function StepFlow({ steps, className }: { steps: Step[]; className?: stri
         <Fragment key={step.title}>
           {i > 0 && (
             <li aria-hidden className="flex justify-center text-strong">
-              <ChevronRight className="size-6 rotate-90 lg:rotate-0" strokeWidth={2.5} />
+              <Icon
+                icon={ArrowRight01Icon}
+                className="size-6 rotate-90 lg:rotate-0"
+                strokeWidth={2.5}
+              />
             </li>
           )}
           <li className="flex-1 rounded-md bg-surface p-6 ring-2 ring-hairline ring-inset">

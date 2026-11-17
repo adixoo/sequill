@@ -1,6 +1,7 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { CodeBlock } from "@/components/common/pastel/code-block";
+import { Icon } from "@/components/ui/icon";
 import { Tile } from "./tile";
 
 /** The desktop app's MCP settings as its README gives them for Claude Desktop. */
@@ -42,7 +43,8 @@ export function DesktopApp() {
                 className="ln-press group inline-flex h-12 items-center gap-3 rounded-(--ln-radius) bg-mint px-6 font-semibold text-(--on-accent)"
               >
                 Download the desktop app
-                <ArrowRight
+                <Icon
+                  icon={ArrowRight02Icon}
                   aria-hidden
                   className="size-5 transition-transform duration-200 group-hover:translate-x-1"
                 />

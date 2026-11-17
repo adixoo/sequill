@@ -1,21 +1,21 @@
 "use client";
 
 import {
-  ChevronDown,
-  ChevronsDownUp,
-  ChevronsUpDown,
-  ExternalLink,
-  Eye,
-  MoreHorizontal,
-  PanelLeftClose,
-  Pencil,
-  Plus,
-  RotateCcw,
-  Search,
-  Table2,
-  Trash2,
-  Undo2,
-} from "lucide-react";
+  ArrowDown01Icon,
+  Delete02Icon,
+  LinkSquare02Icon,
+  MoreHorizontalIcon,
+  PanelLeftOpenIcon,
+  PencilEdit01Icon,
+  PlusSignIcon,
+  Search01Icon,
+  TableIcon,
+  Undo02Icon,
+  Undo03Icon,
+  UnfoldLessIcon,
+  UnfoldMoreIcon,
+  ViewIcon,
+} from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import type { TableColor } from "@/lib/vis/colors";
@@ -122,7 +123,7 @@ export function SchemaOutline({
       <div className="flex items-center gap-1 border-b-2 border-hairline p-2">
         <InputGroup className="h-8 flex-1">
           <InputGroupAddon>
-            <Search />
+            <Icon icon={Search01Icon} />
           </InputGroupAddon>
           <InputGroupInput
             type="search"
@@ -140,7 +141,7 @@ export function SchemaOutline({
           title={allCollapsed ? "Expand all" : "Collapse all"}
           onClick={() => setExpanded(allCollapsed ? new Set(tables.map((t) => t.id)) : new Set())}
         >
-          {allCollapsed ? <ChevronsUpDown /> : <ChevronsDownUp />}
+          {allCollapsed ? <Icon icon={UnfoldMoreIcon} /> : <Icon icon={UnfoldLessIcon} />}
         </Button>
         {onClose && (
           <Button
@@ -150,7 +151,7 @@ export function SchemaOutline({
             title="Hide sidebar"
             onClick={onClose}
           >
-            <PanelLeftClose />
+            <Icon icon={PanelLeftOpenIcon} />
           </Button>
         )}
       </div>
@@ -159,7 +160,7 @@ export function SchemaOutline({
         {visible.map(({ table, columns }) => {
           const open = !!q || expanded.has(table.id);
           const selected = table.id === selectedId;
-          const Icon = table.kind === "view" ? Eye : Table2;
+          const icon = table.kind === "view" ? ViewIcon : TableIcon;
           return (
             <li key={table.id}>
               <div
@@ -175,7 +176,8 @@ export function SchemaOutline({
                   aria-label={`${open ? "Collapse" : "Expand"} ${table.name}`}
                   className="flex size-7 shrink-0 items-center justify-center rounded-xs text-ink-muted outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <ChevronDown
+                  <Icon
+                    icon={ArrowDown01Icon}
                     className={cn(
                       "size-3.5 transition-transform duration-150",
                       !open && "-rotate-90",
@@ -202,6 +204,7 @@ export function SchemaOutline({
                     className="flex h-full min-w-0 flex-1 items-center gap-2 pr-1 text-left text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <Icon
+                      icon={icon}
                       className={cn(
                         "size-3.5 shrink-0",
                         table.kind === "view" && "text-lilac-ink",
@@ -281,7 +284,7 @@ export function SchemaOutline({
                         onClick={() => addColumnTo(table)}
                         className="flex h-7 w-full items-center gap-2 rounded-r-xs pr-2 pl-2.5 text-left text-[0.8125rem] text-ink-muted outline-none hover:bg-zebra hover:text-ink focus-visible:ring-2 focus-visible:ring-ring"
                       >
-                        <Plus className="size-3" aria-hidden /> Add column
+                        <Icon icon={PlusSignIcon} className="size-3" aria-hidden /> Add column
                       </button>
                     </li>
                   )}
@@ -369,7 +372,7 @@ function TableMenu({
           aria-label={`Actions for ${table.name}`}
           className={cn("size-7 shrink-0", rowAction)}
         >
-          <MoreHorizontal />
+          <Icon icon={MoreHorizontalIcon} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -390,14 +393,14 @@ function TableMenu({
                 afterClose.current = onAddColumn;
               }}
             >
-              <Plus /> Add column
+              <Icon icon={PlusSignIcon} /> Add column
             </DropdownMenuItem>
             <DropdownMenuItem
               onSelect={() => {
                 afterClose.current = onRename;
               }}
             >
-              <Pencil /> Rename table
+              <Icon icon={PencilEdit01Icon} /> Rename table
             </DropdownMenuItem>
           </>
         )}
@@ -407,13 +410,13 @@ function TableMenu({
               editor.onChange(renameTable(editor.draft, table, table.originalName ?? table.name))
             }
           >
-            <Undo2 /> Undo rename
+            <Icon icon={Undo03Icon} /> Undo rename
           </DropdownMenuItem>
         )}
         {canOpen && existing && (
           <DropdownMenuItem asChild>
             <Link href={`/app?table=${encodeURIComponent(table.originalName ?? table.name)}`}>
-              <ExternalLink /> Open in editor
+              <Icon icon={LinkSquare02Icon} /> Open in editor
             </Link>
           </DropdownMenuItem>
         )}
@@ -424,14 +427,14 @@ function TableMenu({
               <DropdownMenuItem
                 onSelect={() => editor.onChange(dropTable(editor.draft, table, false))}
               >
-                <RotateCcw /> Restore table
+                <Icon icon={Undo02Icon} /> Restore table
               </DropdownMenuItem>
             ) : (
               <DropdownMenuItem
                 variant="destructive"
                 onSelect={() => editor.onChange(dropTable(editor.draft, table))}
               >
-                <Trash2 /> Delete table
+                <Icon icon={Delete02Icon} /> Delete table
               </DropdownMenuItem>
             )}
           </>

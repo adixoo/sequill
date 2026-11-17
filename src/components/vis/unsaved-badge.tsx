@@ -1,6 +1,7 @@
 "use client";
 
-import { AlertCircle, Check, Loader2 } from "lucide-react";
+import { AlertCircleIcon, Loading03Icon, Tick02Icon } from "@hugeicons/core-free-icons";
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 
 export type SaveState =
@@ -24,14 +25,14 @@ export function UnsavedBadge({ state, dbName, onClick }: UnsavedBadgeProps) {
   if (state.kind === "saved") {
     return (
       <span role="status" className={cn(pill, "bg-mint-wash text-mint-ink")}>
-        <Check className="size-3.5" strokeWidth={3} aria-hidden /> Saved
+        <Icon icon={Tick02Icon} className="size-3.5" strokeWidth={3} aria-hidden /> Saved
       </span>
     );
   }
   if (state.kind === "saving") {
     return (
       <span role="status" className={cn(pill, "bg-raised text-ink-soft")}>
-        <Loader2 className="size-3.5 animate-spin" aria-hidden /> Saving…
+        <Icon icon={Loading03Icon} className="size-3.5 animate-spin" aria-hidden /> Saving…
       </span>
     );
   }
@@ -45,7 +46,7 @@ export function UnsavedBadge({ state, dbName, onClick }: UnsavedBadgeProps) {
         title="Fix these before saving"
         className={cn(pill, "bg-rose-wash text-rose-ink hover:bg-rose-wash/80")}
       >
-        <AlertCircle className="size-3.5" aria-hidden /> Unsaved · {label}
+        <Icon icon={AlertCircleIcon} className="size-3.5" aria-hidden /> Unsaved · {label}
       </button>
     );
   }

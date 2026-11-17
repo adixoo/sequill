@@ -1,6 +1,12 @@
 "use client";
 
-import { ChevronDown, DatabaseZap, Download, FilePlus2, Undo2 } from "lucide-react";
+import {
+  ArrowDown01Icon,
+  DatabaseLightningIcon,
+  Download01Icon,
+  FileAddIcon,
+  Undo03Icon,
+} from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
 import { changeSummary, type Draft } from "@/lib/vis/model";
 
 interface SaveMenuProps {
@@ -43,7 +50,7 @@ export function SaveMenu({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon-sm" aria-label="Save options" title="Save options">
-          <ChevronDown />
+          <Icon icon={ArrowDown01Icon} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-72">
@@ -66,7 +73,7 @@ export function SaveMenu({
         <DropdownMenuSeparator />
         {dbName && (
           <DropdownMenuItem disabled={blocked} onSelect={onUpdate} className="items-start py-2">
-            <DatabaseZap className="mt-0.5" />
+            <Icon icon={DatabaseLightningIcon} className="mt-0.5" />
             <span className="flex flex-col">
               <span className="font-medium">Review and save to {dbName}</span>
               <span className="text-xs text-ink-muted">See the SQL before it runs</span>
@@ -74,7 +81,7 @@ export function SaveMenu({
           </DropdownMenuItem>
         )}
         <DropdownMenuItem disabled={blocked} onSelect={onSaveAsNew} className="items-start py-2">
-          <FilePlus2 className="mt-0.5" />
+          <Icon icon={FileAddIcon} className="mt-0.5" />
           <span className="flex flex-col">
             <span className="font-medium">
               {dbName ? "Save as a new database" : "Save as database"}
@@ -87,14 +94,14 @@ export function SaveMenu({
           </span>
         </DropdownMenuItem>
         <DropdownMenuItem disabled={blocked} onSelect={onDownload}>
-          <Download /> Download SQL
+          <Icon icon={Download01Icon} /> Download SQL
           <span className="ml-auto text-xs text-ink-muted">
             {statements.length} {statements.length === 1 ? "statement" : "statements"}
           </span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" onSelect={onDiscard}>
-          <Undo2 /> Discard changes
+          <Icon icon={Undo03Icon} /> Discard changes
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

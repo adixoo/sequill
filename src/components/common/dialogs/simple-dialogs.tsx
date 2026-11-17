@@ -1,6 +1,6 @@
 "use client";
 
-import { Copy } from "lucide-react";
+import { Copy01Icon } from "@hugeicons/core-free-icons";
 import { useState } from "react";
 import { toast } from "sonner";
 import { CodeBlock } from "@/components/common/pastel/code-block";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
 import { ResponsiveDialog, ResponsiveDialogContent } from "@/components/ui/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -215,7 +216,7 @@ export function DdlDialog({ title, sql, onClose }: Closable & { title: string; s
               }
             }}
           >
-            <Copy /> Copy
+            <Icon icon={Copy01Icon} /> Copy
           </Button>
           <Button onClick={onClose}>Done</Button>
         </DialogFooter>

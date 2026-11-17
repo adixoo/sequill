@@ -1,10 +1,11 @@
 "use client";
 
-import { RotateCcw } from "lucide-react";
+import { Undo02Icon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type ComponentType } from "react";
 import { Loader, type LoaderStage } from "@/components/common/pastel/loader";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { bootSqlite } from "@/lib/sqlite/client";
 import { errorMessage } from "@/lib/sqlite/errors";
 import type { BootStage } from "@/lib/sqlite/types";
@@ -81,7 +82,7 @@ export function AppBoot({ load, name }: AppBootProps) {
                 start();
               }}
             >
-              <RotateCcw /> Try again
+              <Icon icon={Undo02Icon} /> Try again
             </Button>
             <Button variant="ghost" asChild>
               <Link href="/">Back to home</Link>

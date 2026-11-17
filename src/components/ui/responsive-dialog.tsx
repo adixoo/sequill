@@ -3,10 +3,11 @@
 import * as React from "react";
 import { cn } from "cn";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { XIcon } from "lucide-react";
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogOverlay, DialogPortal } from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 /**
@@ -104,7 +105,7 @@ function DrawerContent({
         {showCloseButton && (
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
             <Button variant="ghost" className="absolute top-3 right-3" size="icon-sm">
-              <XIcon />
+              <Icon icon={Cancel01Icon} />
               <span className="sr-only">Close</span>
             </Button>
           </DialogPrimitive.Close>

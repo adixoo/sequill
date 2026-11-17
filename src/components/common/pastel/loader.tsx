@@ -1,4 +1,5 @@
-import { Check } from "lucide-react";
+import { Tick02Icon } from "@hugeicons/core-free-icons";
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 import { MARKS } from "./marks";
 
@@ -57,7 +58,9 @@ export function Loader({ label = "Loading", stages, className, size = "lg" }: Lo
                   s.state === "pending" && "ring-2 ring-hairline ring-inset",
                 )}
               >
-                {s.state === "done" && <Check className="size-3" strokeWidth={3} />}
+                {s.state === "done" && (
+                  <Icon icon={Tick02Icon} className="size-3" strokeWidth={3} />
+                )}
                 {s.state === "active" && (
                   <span className="size-1.5 animate-pulse rounded-full bg-sky-ink" />
                 )}

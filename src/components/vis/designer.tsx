@@ -19,21 +19,22 @@ import {
 } from "@xyflow/react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  Eye,
-  EyeOff,
-  LayoutGrid,
-  Maximize,
-  PanelLeftClose,
-  PanelLeftOpen,
-  PanelRight,
-  Plus,
-  X,
-} from "lucide-react";
+  Cancel01Icon,
+  FullScreenIcon,
+  GridViewIcon,
+  PanelLeftCloseIcon,
+  PanelLeftOpenIcon,
+  PanelRightIcon,
+  PlusSignIcon,
+  ViewIcon,
+  ViewOffSlashIcon,
+} from "@hugeicons/core-free-icons";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import { ConfirmSqlDialog } from "@/components/common/dialogs/simple-dialogs";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { queryKeys, useRunStatements } from "@/hooks/use-db";
@@ -512,7 +513,11 @@ function DesignerCanvas({
                   aria-pressed={outlineShown}
                   onClick={() => showOutline(!outlineShown)}
                 >
-                  {outlineShown ? <PanelLeftClose /> : <PanelLeftOpen />}
+                  {outlineShown ? (
+                    <Icon icon={PanelLeftOpenIcon} />
+                  ) : (
+                    <Icon icon={PanelLeftCloseIcon} />
+                  )}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>{outlineShown ? "Hide sidebar" : "Show sidebar"}</TooltipContent>
@@ -524,10 +529,10 @@ function DesignerCanvas({
               aria-label="Tables and columns"
               onClick={() => setOutlineOpen(true)}
             >
-              <PanelLeftOpen />
+              <Icon icon={PanelLeftCloseIcon} />
             </Button>
             <Button size="sm" onClick={addTable}>
-              <Plus /> Add table
+              <Icon icon={PlusSignIcon} /> Add table
             </Button>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -537,7 +542,7 @@ function DesignerCanvas({
                   aria-label="Auto-arrange tables"
                   onClick={arrange}
                 >
-                  <LayoutGrid />
+                  <Icon icon={GridViewIcon} />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Auto-arrange</TooltipContent>
@@ -550,7 +555,7 @@ function DesignerCanvas({
                   aria-label="Fit everything in view"
                   onClick={() => void flow.fitView({ padding: 0.15, duration: 400 })}
                 >
-                  <Maximize />
+                  <Icon icon={FullScreenIcon} />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Fit to screen</TooltipContent>
@@ -567,7 +572,7 @@ function DesignerCanvas({
                     setShowViews(!showViews);
                   }}
                 >
-                  {showViews ? <Eye /> : <EyeOff />}
+                  {showViews ? <Icon icon={ViewIcon} /> : <Icon icon={ViewOffSlashIcon} />}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>{showViews ? "Hide views" : "Show views"}</TooltipContent>
@@ -580,7 +585,7 @@ function DesignerCanvas({
                 aria-label="Details"
                 onClick={() => setPanelOpen(true)}
               >
-                <PanelRight />
+                <Icon icon={PanelRightIcon} />
               </Button>
             )}
           </Panel>
@@ -605,7 +610,7 @@ function DesignerCanvas({
             aria-label="Close details"
             onClick={() => setSelection(null)}
           >
-            <X />
+            <Icon icon={Cancel01Icon} />
           </Button>
           {inspector}
         </aside>

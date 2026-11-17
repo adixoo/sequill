@@ -1,7 +1,13 @@
 "use client";
 
-import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowLeft01Icon,
+  ArrowLeftDoubleIcon,
+  ArrowRight01Icon,
+  ArrowRightDoubleIcon,
+} from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
   Select,
   SelectContent,
@@ -42,7 +48,7 @@ export function Pagination({
         onClick={() => onPageChange(0)}
         aria-label="First page"
       >
-        <ChevronFirst />
+        <Icon icon={ArrowLeftDoubleIcon} />
       </Button>
       <Button
         variant="ghost"
@@ -51,7 +57,7 @@ export function Pagination({
         onClick={() => onPageChange(page - 1)}
         aria-label="Previous page"
       >
-        <ChevronLeft />
+        <Icon icon={ArrowLeft01Icon} />
       </Button>
       <span className="pn-tnum px-1 font-mono text-xs text-ink-soft">
         {page + 1}/{pages}
@@ -63,7 +69,7 @@ export function Pagination({
         onClick={() => onPageChange(page + 1)}
         aria-label="Next page"
       >
-        <ChevronRight />
+        <Icon icon={ArrowRight01Icon} />
       </Button>
       <Button
         variant="ghost"
@@ -72,7 +78,7 @@ export function Pagination({
         onClick={() => onPageChange(pages - 1)}
         aria-label="Last page"
       >
-        <ChevronLast />
+        <Icon icon={ArrowRightDoubleIcon} />
       </Button>
       <Select value={String(pageSize)} onValueChange={(v) => onPageSizeChange(Number(v))}>
         <SelectTrigger

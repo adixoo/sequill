@@ -1,12 +1,13 @@
 "use client";
 
-import { FileDown } from "lucide-react";
+import { FileDownloadIcon } from "@hugeicons/core-free-icons";
 import { AnimatePresence, m } from "motion/react";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { AppProviders } from "@/components/common/app-providers";
 import { Loader } from "@/components/common/pastel/loader";
+import { Icon } from "@/components/ui/icon";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { isDataFile, isDatabaseFile, useDbActions } from "@/hooks/use-db-actions";
 import { useDatabases, useRestoreLastDatabase, useSchema } from "@/hooks/use-db";
@@ -183,7 +184,7 @@ function Workspace() {
             transition={quick}
             className="pointer-events-none fixed inset-3 z-50 flex flex-col items-center justify-center gap-3 rounded-md border-2 border-dashed border-sky-ink bg-canvas/85 backdrop-blur-sm"
           >
-            <FileDown className="size-10 text-sky-ink" aria-hidden />
+            <Icon icon={FileDownloadIcon} className="size-10 text-sky-ink" aria-hidden />
             <p className="text-lg font-semibold text-ink">Drop to open</p>
             <p className="text-sm text-ink-soft">
               .sqlite / .db files open as databases · CSV and JSON import into tables

@@ -1,6 +1,6 @@
 "use client";
 
-import { Table2 } from "lucide-react";
+import { TableIcon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,6 +21,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { useDatabases, useRestoreLastDatabase, useSchema } from "@/hooks/use-db";
 import { APP_NAME } from "@/lib/constants";
 import { useWorkspace } from "@/lib/store/workspace";
@@ -95,7 +96,7 @@ function Visualizer() {
         <div ref={setBadgeSlot} className="flex items-center" />
         <div className="ml-auto flex items-center gap-1">
           <Button variant="ghost" size="sm" onClick={() => leave({ kind: "editor" })}>
-            <Table2 /> <span className="max-sm:sr-only">Editor</span>
+            <Icon icon={TableIcon} /> <span className="max-sm:sr-only">Editor</span>
           </Button>
           <ThemeToggle />
         </div>

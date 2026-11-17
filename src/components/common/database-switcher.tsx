@@ -1,17 +1,17 @@
 "use client";
 
 import {
-  ChevronsUpDown,
-  Database,
-  Download,
-  FileCode2,
-  FolderOpen,
-  PencilRuler,
-  Pencil,
-  Plus,
-  Sparkles,
-  Trash2,
-} from "lucide-react";
+  DatabaseIcon,
+  Delete02Icon,
+  Download01Icon,
+  FileScriptIcon,
+  FolderOpenIcon,
+  PencilEdit01Icon,
+  PencilRulerIcon,
+  PlusSignIcon,
+  SparklesIcon,
+  UnfoldMoreIcon,
+} from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -21,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
 import { useDbActions } from "@/hooks/use-db-actions";
 import { useDatabases } from "@/hooks/use-db";
 import { DB_FILE_ACCEPT } from "@/lib/constants";
@@ -83,9 +84,9 @@ export function DatabaseSwitcher({
           ) : (
             <span className="flex min-w-0 items-center gap-2">
               {blankDesign?.active ? (
-                <PencilRuler className="text-ink-muted" aria-hidden />
+                <Icon icon={PencilRulerIcon} className="text-ink-muted" aria-hidden />
               ) : (
-                <Database className="text-ink-muted" aria-hidden />
+                <Icon icon={DatabaseIcon} className="text-ink-muted" aria-hidden />
               )}
               <span className="truncate text-sm font-semibold text-ink">{label}</span>
               {current && (
@@ -95,7 +96,7 @@ export function DatabaseSwitcher({
               )}
             </span>
           )}
-          <ChevronsUpDown className="text-ink-muted" />
+          <Icon icon={UnfoldMoreIcon} className="text-ink-muted" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -109,7 +110,7 @@ export function DatabaseSwitcher({
             onSelect={() => switchTo(d.id)}
             className={cn(d.id === current?.id && "bg-sky-wash")}
           >
-            <Database />
+            <Icon icon={DatabaseIcon} />
             <span className="truncate">{d.name}</span>
             {hasUnsavedDesign(d.id) && (
               <span
@@ -132,7 +133,7 @@ export function DatabaseSwitcher({
             onSelect={blankDesign.onSelect}
             className={cn(blankDesign.active && "bg-sky-wash")}
           >
-            <PencilRuler /> Blank design
+            <Icon icon={PencilRulerIcon} /> Blank design
             {hasUnsavedDesign(BLANK_DESIGN) && (
               <span className="pn-table-head ml-auto text-peach-ink">draft</span>
             )}
@@ -140,11 +141,11 @@ export function DatabaseSwitcher({
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={() => openDialog({ kind: "newDatabase" })}>
-          <Plus /> New empty database
+          <Icon icon={PlusSignIcon} /> New empty database
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <label className="cursor-pointer">
-            <FolderOpen /> Open a file…
+            <Icon icon={FolderOpenIcon} /> Open a file…
             <input
               type="file"
               accept={DB_FILE_ACCEPT}
@@ -158,7 +159,7 @@ export function DatabaseSwitcher({
           </label>
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={() => void actions.createSample()}>
-          <Sparkles /> Create sample database
+          <Icon icon={SparklesIcon} /> Create sample database
         </DropdownMenuItem>
         {current && (
           <>
@@ -167,23 +168,23 @@ export function DatabaseSwitcher({
               {current.name}
             </DropdownMenuLabel>
             <DropdownMenuItem onSelect={() => void actions.download(current)}>
-              <Download /> Download .sqlite
+              <Icon icon={Download01Icon} /> Download .sqlite
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => void actions.downloadDump(current)}>
-              <FileCode2 /> Download SQL dump
+              <Icon icon={FileScriptIcon} /> Download SQL dump
             </DropdownMenuItem>
             <DropdownMenuItem
               onSelect={() =>
                 openDialog({ kind: "renameDatabase", dbId: current.id, name: current.name })
               }
             >
-              <Pencil /> Rename
+              <Icon icon={PencilEdit01Icon} /> Rename
             </DropdownMenuItem>
             <DropdownMenuItem
               variant="destructive"
               onSelect={() => openDialog({ kind: "deleteDatabase", db: current })}
             >
-              <Trash2 /> Delete from browser
+              <Icon icon={Delete02Icon} /> Delete from browser
             </DropdownMenuItem>
           </>
         )}

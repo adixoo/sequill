@@ -1,9 +1,17 @@
 "use client";
 
-import { Braces, CornerDownRight, Download, KeyRound, Trash2, Upload } from "lucide-react";
+import {
+  ArrowMoveDownRightIcon,
+  BracesIcon,
+  Delete02Icon,
+  Download01Icon,
+  Key01Icon,
+  Upload01Icon,
+} from "@hugeicons/core-free-icons";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Icon } from "@/components/ui/icon";
 import { Label } from "@/components/ui/label";
 import {
   Sheet,
@@ -185,7 +193,11 @@ function InspectorForm({
               <li key={c.name} className="flex flex-col gap-1.5">
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                   {c.pk > 0 && (
-                    <KeyRound className="size-3.5 text-butter-ink" aria-label="Primary key" />
+                    <Icon
+                      icon={Key01Icon}
+                      className="size-3.5 text-butter-ink"
+                      aria-label="Primary key"
+                    />
                   )}
                   <Label htmlFor={id} className="font-semibold text-ink">
                     {c.name}
@@ -203,7 +215,7 @@ function InspectorForm({
                       className="ml-auto h-auto p-0 text-sky-ink"
                       onClick={() => onFollowForeignKey(c.name, shown)}
                     >
-                      <CornerDownRight /> {fk.table}
+                      <Icon icon={ArrowMoveDownRightIcon} /> {fk.table}
                     </Button>
                   )}
                 </div>
@@ -278,11 +290,11 @@ function InspectorForm({
                           }))
                         }
                       >
-                        <Braces className="size-3" /> Format JSON
+                        <Icon icon={BracesIcon} className="size-3" /> Format JSON
                       </button>
                     )}
                     <label className="flex cursor-pointer items-center gap-1 underline-offset-2 hover:underline">
-                      <Upload className="size-3" /> Upload file
+                      <Icon icon={Upload01Icon} className="size-3" /> Upload file
                       <input
                         type="file"
                         className="sr-only"
@@ -307,7 +319,7 @@ function InspectorForm({
                           )
                         }
                       >
-                        <Download className="size-3" /> Download
+                        <Icon icon={Download01Icon} className="size-3" /> Download
                       </button>
                     )}
                   </div>
@@ -321,7 +333,7 @@ function InspectorForm({
         <SheetFooter className="flex-row items-center border-t-2 border-hairline">
           {!isNew && onDelete && (
             <Button type="button" variant="destructive" onClick={onDelete}>
-              <Trash2 /> Delete
+              <Icon icon={Delete02Icon} /> Delete
             </Button>
           )}
           <span className="ml-auto text-xs text-ink-muted">

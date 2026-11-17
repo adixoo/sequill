@@ -1,13 +1,14 @@
 "use client";
 
 import Papa from "papaparse";
-import { FileUp } from "lucide-react";
+import { FileUploadIcon } from "@hugeicons/core-free-icons";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Loader } from "@/components/common/pastel/loader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
 import { ResponsiveDialog, ResponsiveDialogContent } from "@/components/ui/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -224,7 +225,7 @@ export function ImportDialog({
         ) : (
           <div className="flex flex-col gap-5">
             <label className="flex cursor-pointer items-center gap-3 rounded-sm border-2 border-dashed border-strong bg-raised px-4 py-3 text-sm hover:bg-zebra">
-              <FileUp className="size-5 text-ink-muted" />
+              <Icon icon={FileUploadIcon} className="size-5 text-ink-muted" />
               <span className="flex-1 truncate text-ink-soft">
                 {file ? file.name : "Choose a .csv, .tsv or .json file"}
               </span>

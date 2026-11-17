@@ -1,6 +1,6 @@
 "use client";
 
-import { Download } from "lucide-react";
+import { Download01Icon } from "@hugeicons/core-free-icons";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
 import {
   downloadBlob,
   EXPORT_FORMATS,
@@ -59,7 +60,7 @@ export function ExportMenu({ name, sources, disabled }: ExportMenuProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" disabled={disabled} aria-label="Export">
-          <Download />
+          <Icon icon={Download01Icon} />
           <span>Export</span>
         </Button>
       </DropdownMenuTrigger>

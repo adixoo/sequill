@@ -1,9 +1,10 @@
 "use client";
 
-import { Pencil, RotateCcw, Trash2, Undo2 } from "lucide-react";
+import { Delete02Icon, PencilEdit01Icon, Undo02Icon, Undo03Icon } from "@hugeicons/core-free-icons";
 import { useEffect, useRef, type ReactNode } from "react";
 import { ColumnFields } from "@/components/common/dialogs/column-fields";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import type { Schema } from "@/lib/sqlite/types";
 import {
@@ -55,7 +56,8 @@ export function ColumnType({ column, editable }: { column: DiagramColumn; editab
         {column.notNull && !column.pk && <span aria-label="not null">*</span>}
       </span>
       {editable && (
-        <Pencil
+        <Icon
+          icon={PencilEdit01Icon}
           aria-hidden
           className={cn(
             swap,
@@ -149,7 +151,7 @@ function ColumnEditor({
           className="self-start"
           onClick={() => editor.onChange(revertColumn(draft, table, column.key))}
         >
-          <RotateCcw /> Restore column
+          <Icon icon={Undo02Icon} /> Restore column
         </Button>
       </div>
     );
@@ -177,7 +179,7 @@ function ColumnEditor({
             if (!existing) onClose();
           }}
         >
-          <Trash2 />
+          <Icon icon={Delete02Icon} />
         </Button>
       </div>
       <ColumnFields
@@ -201,7 +203,7 @@ function ColumnEditor({
               className="ml-auto shrink-0"
               onClick={() => editor.onChange(revertColumn(draft, table, column.key))}
             >
-              <Undo2 /> Undo
+              <Icon icon={Undo03Icon} /> Undo
             </Button>
           )}
         </div>

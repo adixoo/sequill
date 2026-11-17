@@ -1,8 +1,17 @@
 "use client";
 
-import { Eye, Menu, Plus, Search, SquareTerminal, Table2, X } from "lucide-react";
+import {
+  Cancel01Icon,
+  CommandLineIcon,
+  Menu01Icon,
+  PlusSignIcon,
+  Search01Icon,
+  TableIcon,
+  ViewIcon,
+} from "@hugeicons/core-free-icons";
 import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Kbd } from "@/components/ui/kbd";
 import { ScrollStrip } from "@/components/ui/scroll-strip";
 import type { Schema } from "@/lib/sqlite/types";
@@ -39,7 +48,7 @@ export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
         aria-label="Open sidebar"
         onClick={onOpenSidebar}
       >
-        <Menu />
+        <Icon icon={Menu01Icon} />
       </Button>
       <ScrollStrip
         fade="raised"
@@ -51,7 +60,8 @@ export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
       >
         {tabs.map((tab) => {
           const active = tab.id === activeTabId;
-          const Icon = tab.kind === "query" ? SquareTerminal : views.has(tab.table) ? Eye : Table2;
+          const icon =
+            tab.kind === "query" ? CommandLineIcon : views.has(tab.table) ? ViewIcon : TableIcon;
           const title = tab.kind === "query" ? tab.title : tab.table;
           return (
             <div
@@ -70,6 +80,7 @@ export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
                 className="flex h-full min-w-0 items-center gap-2 pr-8 pl-3 text-sm outline-none focus-visible:bg-zebra"
               >
                 <Icon
+                  icon={icon}
                   className={cn(
                     "size-3.5 shrink-0",
                     active
@@ -98,7 +109,7 @@ export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
                   active ? "opacity-100" : "opacity-0 group-hover/tab:opacity-100",
                 )}
               >
-                <X className="size-3.5" />
+                <Icon icon={Cancel01Icon} className="size-3.5" />
               </button>
               {active && (
                 <span aria-hidden className="absolute inset-x-0 bottom-0 h-0.5 bg-sky-ink" />
@@ -114,7 +125,7 @@ export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
             aria-label="New query"
             onClick={() => openQuery()}
           >
-            <Plus />
+            <Icon icon={PlusSignIcon} />
           </Button>
         )}
       </ScrollStrip>
@@ -125,7 +136,7 @@ export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
         onClick={onOpenPalette}
         aria-label="Command palette"
       >
-        <Search />
+        <Icon icon={Search01Icon} />
         <span className="max-lg:hidden">Jump to…</span>
         <Kbd className="max-lg:hidden">Ctrl K</Kbd>
       </Button>

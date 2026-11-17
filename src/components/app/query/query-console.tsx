@@ -4,19 +4,20 @@ import { SQLite, sql as sqlLanguage } from "@codemirror/lang-sql";
 import type { EditorView } from "@codemirror/view";
 import CodeMirror from "@uiw/react-codemirror";
 import {
-  AlertCircle,
-  Check,
-  CheckCircle2,
-  History,
-  Lightbulb,
-  Play,
-  Save,
-  Trash2,
-} from "lucide-react";
+  AlertCircleIcon,
+  BulbIcon,
+  CheckmarkCircle02Icon,
+  Delete02Icon,
+  FloppyDiskIcon,
+  HistoryIcon,
+  PlayIcon,
+  Tick02Icon,
+} from "@hugeicons/core-free-icons";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Loader } from "@/components/common/pastel/loader";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Kbd } from "@/components/ui/kbd";
 import {
   DropdownMenu,
@@ -55,7 +56,7 @@ function ResultView({ result }: { result: StatementResult }) {
   if (result.error) {
     return (
       <div role="alert" className="flex items-start gap-2 bg-rose-wash p-4 text-sm text-ink">
-        <AlertCircle className="mt-0.5 size-4 shrink-0 text-rose-ink" aria-hidden />
+        <Icon icon={AlertCircleIcon} className="mt-0.5 size-4 shrink-0 text-rose-ink" aria-hidden />
         <div>
           <p className="font-medium">Error</p>
           <p className="font-mono text-[0.8125rem]">{result.error}</p>
@@ -66,7 +67,7 @@ function ResultView({ result }: { result: StatementResult }) {
   if (result.columns.length === 0) {
     return (
       <div className="flex items-center gap-2 p-4 text-sm text-ink-soft">
-        <CheckCircle2 className="size-4 text-mint-ink" aria-hidden />
+        <Icon icon={CheckmarkCircle02Icon} className="size-4 text-mint-ink" aria-hidden />
         Done. {formatCount(result.changes)} {result.changes === 1 ? "row" : "rows"} changed in{" "}
         {formatDuration(result.durationMs)}.
       </div>
@@ -172,7 +173,7 @@ export default function QueryConsole({
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex flex-wrap items-center gap-1 border-b-2 border-hairline bg-surface px-2 py-1.5">
         <Button size="sm" onClick={() => void run()} disabled={running || !sql.trim()}>
-          <Play /> Run
+          <Icon icon={PlayIcon} /> Run
           <Kbd className="ml-1 bg-transparent text-current max-sm:hidden">Ctrl ↵</Kbd>
         </Button>
         <Toggle
@@ -181,12 +182,12 @@ export default function QueryConsole({
           onPressedChange={setExplain}
           aria-label="Explain query plan instead of running"
         >
-          <Lightbulb /> <span className="max-sm:sr-only">Explain</span>
+          <Icon icon={BulbIcon} /> <span className="max-sm:sr-only">Explain</span>
         </Toggle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="sm" disabled={history.length === 0}>
-              <History /> <span className="max-sm:sr-only">History</span>
+              <Icon icon={HistoryIcon} /> <span className="max-sm:sr-only">History</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="max-h-96 w-[min(28rem,90vw)]">
@@ -210,7 +211,7 @@ export default function QueryConsole({
                 writeJson(STORAGE_KEYS.queryHistory, []);
               }}
             >
-              <Trash2 /> Clear history
+              <Icon icon={Delete02Icon} /> Clear history
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -221,7 +222,7 @@ export default function QueryConsole({
           onClick={() => savedQueries.save(tabId)}
           aria-label={upToDate ? "Saved" : "Save query"}
         >
-          {upToDate ? <Check /> : <Save />}
+          {upToDate ? <Icon icon={Tick02Icon} /> : <Icon icon={FloppyDiskIcon} />}
           <span className="max-sm:sr-only">{upToDate ? "Saved" : "Save"}</span>
           {!upToDate && (
             <Kbd className="ml-1 bg-transparent text-current max-lg:hidden">Ctrl S</Kbd>
@@ -298,9 +299,17 @@ export default function QueryConsole({
                     )}
                   >
                     {r.error ? (
-                      <AlertCircle className="size-3 text-rose-ink" aria-label="failed" />
+                      <Icon
+                        icon={AlertCircleIcon}
+                        className="size-3 text-rose-ink"
+                        aria-label="failed"
+                      />
                     ) : (
-                      <CheckCircle2 className="size-3 text-mint-ink" aria-label="ok" />
+                      <Icon
+                        icon={CheckmarkCircle02Icon}
+                        className="size-3 text-mint-ink"
+                        aria-label="ok"
+                      />
                     )}
                     <span className="max-w-48 truncate">{r.sql.replace(/\s+/g, " ")}</span>
                   </button>

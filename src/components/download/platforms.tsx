@@ -1,5 +1,6 @@
-import { Download } from "lucide-react";
+import { Download01Icon } from "@hugeicons/core-free-icons";
 import { type TileTone, Tile } from "@/components/landing/tile";
+import { Icon } from "@/components/ui/icon";
 import { DESKTOP_REPO } from "@/lib/constants";
 import { formatBytes } from "@/lib/data/format";
 import { type DesktopOs, OS_NAMES, type ReleaseFile } from "@/lib/releases";
@@ -73,7 +74,8 @@ function PlatformRow({ os, files, flip }: { os: DesktopOs; files: ReleaseFile[];
               </span>
               <span className="flex shrink-0 items-center gap-3 font-semibold">
                 <span className="pn-tnum">{formatBytes(file.size)}</span>
-                <Download
+                <Icon
+                  icon={Download01Icon}
                   aria-hidden
                   className="size-5 transition-transform duration-200 group-hover:translate-y-0.5"
                 />

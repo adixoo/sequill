@@ -1,6 +1,7 @@
 "use client";
 
-import { Ban, Check, Pipette } from "lucide-react";
+import { ColorPickerIcon, Tick02Icon, UnavailableIcon } from "@hugeicons/core-free-icons";
+import { Icon } from "@/components/ui/icon";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { colorFill, colorInk, colorLabel, PRESET_COLORS, type TableColor } from "@/lib/vis/colors";
@@ -33,7 +34,7 @@ export function ColorSwatches({ value, onChange, label }: ColorSwatchesProps) {
           value === null && "ring-ink-soft",
         )}
       >
-        <Ban className="size-3.5" aria-hidden />
+        <Icon icon={UnavailableIcon} className="size-3.5" aria-hidden />
       </button>
       {PRESET_COLORS.map((c) => {
         const selected = value === c.value;
@@ -49,7 +50,14 @@ export function ColorSwatches({ value, onChange, label }: ColorSwatchesProps) {
             className={cn(swatch, selected && "ring-2 ring-ink ring-offset-2 ring-offset-surface")}
             style={{ background: colorFill(c.value) }}
           >
-            {selected && <Check className="size-3.5 text-on-accent" strokeWidth={3} aria-hidden />}
+            {selected && (
+              <Icon
+                icon={Tick02Icon}
+                className="size-3.5 text-on-accent"
+                strokeWidth={3}
+                aria-hidden
+              />
+            )}
           </button>
         );
       })}
@@ -85,10 +93,10 @@ export function ColorSwatches({ value, onChange, label }: ColorSwatchesProps) {
             aria-hidden
             className="flex size-4 items-center justify-center rounded-full bg-surface"
           >
-            <Check className="size-3 text-ink" strokeWidth={3} />
+            <Icon icon={Tick02Icon} className="size-3 text-ink" strokeWidth={3} />
           </span>
         ) : (
-          <Pipette className="size-3.5 text-on-accent" aria-hidden />
+          <Icon icon={ColorPickerIcon} className="size-3.5 text-on-accent" aria-hidden />
         )}
       </label>
     </div>

@@ -46,6 +46,7 @@ a schema visualizer and designer at `/vis`, and the desktop app's downloads at `
 ## Stack
 
 Next.js 16 (App Router, static export) · Bun · TypeScript · Tailwind CSS 4 · shadcn/ui (Radix) ·
+Hugeicons (free set, through `components/ui/icon.tsx`) ·
 Motion (`motion/react`, lazy-loaded) · TanStack Query and Virtual · Zustand · CodeMirror 6 · PapaParse ·
 React Flow (`@xyflow/react`) and dagre for the schema diagram ·
 Comlink · Serwist (`@serwist/next`, configurator mode) · Changesets · ESLint + Prettier · Bun test + Playwright.

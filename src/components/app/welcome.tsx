@@ -1,9 +1,16 @@
 "use client";
 
-import { FolderOpen, Plus, Sparkles, SquareTerminal, Table2 } from "lucide-react";
+import {
+  CommandLineIcon,
+  FolderOpenIcon,
+  PlusSignIcon,
+  SparklesIcon,
+  TableIcon,
+} from "@hugeicons/core-free-icons";
 import { m } from "motion/react";
 import { Mark, Note } from "@/components/common/pastel/annotation";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Kbd } from "@/components/ui/kbd";
 import { useDbActions } from "@/hooks/use-db-actions";
 import { DB_FILE_ACCEPT } from "@/lib/constants";
@@ -29,7 +36,7 @@ export function NoDatabase() {
         <div className="flex flex-wrap gap-2">
           <Button size="lg" asChild>
             <label className="cursor-pointer">
-              <FolderOpen /> Open a .sqlite file
+              <Icon icon={FolderOpenIcon} /> Open a .sqlite file
               <input
                 type="file"
                 accept={DB_FILE_ACCEPT}
@@ -43,10 +50,10 @@ export function NoDatabase() {
             </label>
           </Button>
           <Button size="lg" variant="outline" onClick={() => void actions.createSample()}>
-            <Sparkles /> Try the sample
+            <Icon icon={SparklesIcon} /> Try the sample
           </Button>
           <Button size="lg" variant="ghost" onClick={() => openDialog({ kind: "newDatabase" })}>
-            <Plus /> New empty
+            <Icon icon={PlusSignIcon} /> New empty
           </Button>
         </div>
         {/*
@@ -80,14 +87,14 @@ export function NoTab({ schema }: { schema: Schema | undefined }) {
         <div className="flex flex-wrap gap-2">
           {first && (
             <Button onClick={() => openTable(first.name)}>
-              <Table2 /> Open {first.name}
+              <Icon icon={TableIcon} /> Open {first.name}
             </Button>
           )}
           <Button variant="outline" onClick={() => openQuery()}>
-            <SquareTerminal /> New query
+            <Icon icon={CommandLineIcon} /> New query
           </Button>
           <Button variant="ghost" onClick={() => openDialog({ kind: "createTable" })}>
-            <Plus /> New table
+            <Icon icon={PlusSignIcon} /> New table
           </Button>
         </div>
         {/* A keyboard shortcut: not shown on touch devices, which usually have no keyboard. */}

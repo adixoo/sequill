@@ -1,9 +1,10 @@
 "use client";
 
-import { Download } from "lucide-react";
+import { Download01Icon } from "@hugeicons/core-free-icons";
 import { useState } from "react";
 import { useInstallPrompt } from "@/components/common/pwa";
 import { Tile } from "@/components/landing/tile";
+import { Icon } from "@/components/ui/icon";
 
 /**
  * The download page's tile that installs the web app. Browsers without an install prompt (Safari,
@@ -30,7 +31,7 @@ export function InstallTile() {
       <span className="leading-snug">
         {hint ? "Install from your browser’s menu" : "Install app"}
       </span>
-      <Download aria-hidden className="size-5 shrink-0" />
+      <Icon icon={Download01Icon} aria-hidden className="size-5 shrink-0" />
     </Tile>
   );
 }

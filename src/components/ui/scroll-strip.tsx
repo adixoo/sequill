@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import { cn } from "cn";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { useHorizontalScroll } from "@/hooks/use-horizontal-scroll";
 
 /** The bar colour each arrow's fade blends into. */
@@ -36,12 +37,12 @@ export function ScrollStrip({
     <div className="relative flex min-w-0 flex-1">
       {canScrollStart && (
         <ScrollArrow side="start" fade={fade} label={scrollLabel} onClick={() => scrollPage(-1)}>
-          <ChevronLeft />
+          <Icon icon={ArrowLeft01Icon} />
         </ScrollArrow>
       )}
       {canScrollEnd && (
         <ScrollArrow side="end" fade={fade} label={scrollLabel} onClick={() => scrollPage(1)}>
-          <ChevronRight />
+          <Icon icon={ArrowRight01Icon} />
         </ScrollArrow>
       )}
       <div

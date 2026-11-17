@@ -1,18 +1,18 @@
 "use client";
 
 import {
-  ArrowDown,
-  ArrowUp,
-  ChevronDown,
-  EyeOff,
-  Filter,
-  KeyRound,
-  Link2,
-  Pencil,
-  Pin,
-  PinOff,
-  Trash2,
-} from "lucide-react";
+  ArrowDown01Icon,
+  ArrowDown02Icon,
+  ArrowUp02Icon,
+  Delete02Icon,
+  FilterIcon,
+  Key01Icon,
+  Link02Icon,
+  PencilEdit01Icon,
+  PinIcon,
+  PinOffIcon,
+  ViewOffSlashIcon,
+} from "@hugeicons/core-free-icons";
 import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
   DropdownMenu,
@@ -21,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
 import { ROW_NUMBER_WIDTH } from "@/lib/constants";
 import { clampWidth, type LaidOutColumn } from "@/lib/data/grid";
 import type { SortSpec } from "@/lib/sqlite/sql";
@@ -124,10 +125,15 @@ export function GridHeaderCell({
         className="flex h-full min-w-0 flex-1 items-center gap-1.5 pl-3 text-left outline-none focus-visible:bg-zebra disabled:cursor-default"
       >
         {info.pk && (
-          <KeyRound className="size-3 shrink-0 text-butter-ink" aria-label="Primary key" />
+          <Icon
+            icon={Key01Icon}
+            className="size-3 shrink-0 text-butter-ink"
+            aria-label="Primary key"
+          />
         )}
         {info.fk && (
-          <Link2
+          <Icon
+            icon={Link02Icon}
             className="size-3 shrink-0 text-sky-ink"
             aria-label={`References ${info.fk.table}`}
           />
@@ -143,7 +149,11 @@ export function GridHeaderCell({
         )}
         {sortSpec && (
           <span className="ml-auto flex shrink-0 items-center text-sky-ink">
-            {sortSpec.desc ? <ArrowDown className="size-3.5" /> : <ArrowUp className="size-3.5" />}
+            {sortSpec.desc ? (
+              <Icon icon={ArrowDown02Icon} className="size-3.5" />
+            ) : (
+              <Icon icon={ArrowUp02Icon} className="size-3.5" />
+            )}
             {sort!.length > 1 && <span className="font-mono text-[0.625rem]">{sortIndex + 1}</span>}
             <span className="sr-only">
               {sortSpec.desc ? "sorted descending" : "sorted ascending"}
@@ -156,42 +166,43 @@ export function GridHeaderCell({
           className="mr-1 flex size-6 shrink-0 items-center justify-center rounded-xs text-ink-muted opacity-0 outline-none group-hover/head:opacity-100 hover:bg-zebra focus-visible:opacity-100 data-[state=open]:opacity-100"
           aria-label={`Column options for ${col.name}`}
         >
-          <ChevronDown className="size-3.5" />
+          <Icon icon={ArrowDown01Icon} className="size-3.5" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-48">
           {onSort && (
             <>
               <DropdownMenuItem onSelect={() => onSort(col.name, false, false)}>
-                <ArrowUp /> Sort ascending
+                <Icon icon={ArrowUp02Icon} /> Sort ascending
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => onSort(col.name, true, false)}>
-                <ArrowDown /> Sort descending
+                <Icon icon={ArrowDown02Icon} /> Sort descending
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>
           )}
           {onColumnAction && (
             <DropdownMenuItem onSelect={() => onColumnAction("filter", col.name)}>
-              <Filter /> Filter by column
+              <Icon icon={FilterIcon} /> Filter by column
             </DropdownMenuItem>
           )}
           <DropdownMenuItem onSelect={() => onTogglePin(col.name)}>
-            {col.pinned ? <PinOff /> : <Pin />} {col.pinned ? "Unpin" : "Pin to left"}
+            {col.pinned ? <Icon icon={PinOffIcon} /> : <Icon icon={PinIcon} />}{" "}
+            {col.pinned ? "Unpin" : "Pin to left"}
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => onHide(col.name)}>
-            <EyeOff /> Hide column
+            <Icon icon={ViewOffSlashIcon} /> Hide column
           </DropdownMenuItem>
           {onColumnAction && info.editable && (
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem onSelect={() => onColumnAction("rename", col.name)}>
-                <Pencil /> Rename column
+                <Icon icon={PencilEdit01Icon} /> Rename column
               </DropdownMenuItem>
               <DropdownMenuItem
                 variant="destructive"
                 onSelect={() => onColumnAction("drop", col.name)}
               >
-                <Trash2 /> Drop column
+                <Icon icon={Delete02Icon} /> Drop column
               </DropdownMenuItem>
             </>
           )}

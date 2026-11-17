@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowDown, Download } from "lucide-react";
+import { ArrowDown02Icon, Download01Icon } from "@hugeicons/core-free-icons";
 import { useSyncExternalStore } from "react";
 import { Tile } from "@/components/landing/tile";
+import { Icon } from "@/components/ui/icon";
 import { DESKTOP_REPO } from "@/lib/constants";
 import { formatBytes } from "@/lib/data/format";
 import { type DeviceOs, detectOs } from "@/lib/platform";
@@ -66,7 +67,7 @@ function offerFor(os: DeviceOs | null, files: readonly ReleaseFile[]): Offer {
 export function PrimaryDownload({ files }: { files: ReleaseFile[] }) {
   const os = useSyncExternalStore(noSubscribe, readOs, () => null);
   const offer = offerFor(os, files);
-  const Icon = offer.download ? Download : ArrowDown;
+  const icon = offer.download ? Download01Icon : ArrowDown02Icon;
   return (
     <div className="flex flex-1 flex-col gap-(--ln-gap)">
       <Tile
@@ -76,6 +77,7 @@ export function PrimaryDownload({ files }: { files: ReleaseFile[] }) {
         className="ln-press group flex min-h-48 flex-1 flex-col justify-between gap-8"
       >
         <Icon
+          icon={icon}
           aria-hidden
           className="size-10 transition-transform duration-200 group-hover:translate-y-1"
         />

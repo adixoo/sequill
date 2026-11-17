@@ -1,8 +1,9 @@
 "use client";
 
 import { Handle, Position, useUpdateNodeInternals, type Node, type NodeProps } from "@xyflow/react";
-import { Eye, Table2 } from "lucide-react";
+import { TableIcon, ViewIcon } from "@hugeicons/core-free-icons";
 import { memo, useEffect, useState } from "react";
+import { Icon } from "@/components/ui/icon";
 import { colorInk, colorWash, type TableColor } from "@/lib/vis/colors";
 import { handleId, TABLE_HEADER_HEIGHT, TABLE_ROW_HEIGHT, TABLE_WIDTH } from "@/lib/vis/layout";
 import { TABLE_HANDLE, type DiagramTable } from "@/lib/vis/model";
@@ -67,7 +68,7 @@ export const TableNode = memo(function TableNode({ id, data, selected }: NodePro
   const handleKey = table.columns.map((c) => c.name).join("\n");
   useEffect(() => updateNodeInternals(id), [id, handleKey, updateNodeInternals]);
   const dropped = table.change === "dropped";
-  const Icon = table.kind === "view" ? Eye : Table2;
+  const icon = table.kind === "view" ? ViewIcon : TableIcon;
   return (
     <div
       className={cn(
@@ -91,6 +92,7 @@ export const TableNode = memo(function TableNode({ id, data, selected }: NodePro
       >
         <SideHandles column={TABLE_HANDLE} anchorOnly />
         <Icon
+          icon={icon}
           className={cn(
             "size-3.5 shrink-0",
             table.kind === "view" ? "text-lilac-ink" : "text-ink-muted",

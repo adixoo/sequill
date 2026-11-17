@@ -60,8 +60,10 @@ What we look for in a change:
 - **Safe SQL.** Values are always bound parameters, never pasted into SQL. Table and column names go
   through `quoteIdent`. Anything that deletes or rewrites data shows its SQL first.
 - **The design system.** Colours, radii, type and motion come from the tokens in
-  `src/app/globals.css` (see [Design system](README.md#design-system)); no hard-coded colours. Check
-  your change in both the dark and the light theme, at phone width as well as on a desktop.
+  `src/app/globals.css` (see [Design system](README.md#design-system)); no hard-coded colours. Icons
+  come from the free [Hugeicons](https://hugeicons.com) set (`@hugeicons/core-free-icons`), drawn with
+  `Icon` from `src/components/ui/icon.tsx`. Check your change in both the dark and the light theme, at
+  phone width as well as on a desktop.
 - **Accessible.** Real buttons and links, everything reachable by keyboard with a visible focus, alt
   text on pictures, and nothing that relies on colour alone. Animations stop for
   `prefers-reduced-motion`.

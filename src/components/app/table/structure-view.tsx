@@ -1,9 +1,17 @@
 "use client";
 
-import { KeyRound, Link2, ListPlus, Pencil, Plus, Trash2 } from "lucide-react";
+import {
+  Delete02Icon,
+  Key01Icon,
+  Link02Icon,
+  ListPlusIcon,
+  PencilEdit01Icon,
+  PlusSignIcon,
+} from "@hugeicons/core-free-icons";
 import type { ReactNode } from "react";
 import { CodeBlock } from "@/components/common/pastel/code-block";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { buildDrop, buildDropColumn } from "@/lib/sqlite/ddl";
 import type { RelationInfo, Schema } from "@/lib/sqlite/types";
 import { useDialogs } from "@/lib/store/dialogs";
@@ -66,7 +74,7 @@ export function StructureView({ relation, schema }: { relation: RelationInfo; sc
               size="sm"
               onClick={() => open({ kind: "renameTable", table: relation.name })}
             >
-              <Pencil /> Rename
+              <Icon icon={PencilEdit01Icon} /> Rename
             </Button>
           )}
           {relation.kind !== "virtual" && (
@@ -83,7 +91,7 @@ export function StructureView({ relation, schema }: { relation: RelationInfo; sc
                 )
               }
             >
-              <Trash2 /> Drop {kindLabel}
+              <Icon icon={Delete02Icon} /> Drop {kindLabel}
             </Button>
           )}
         </div>
@@ -97,7 +105,7 @@ export function StructureView({ relation, schema }: { relation: RelationInfo; sc
                 size="sm"
                 onClick={() => open({ kind: "addColumn", table: relation.name })}
               >
-                <Plus /> Add column
+                <Icon icon={PlusSignIcon} /> Add column
               </Button>
             )
           }
@@ -125,7 +133,8 @@ export function StructureView({ relation, schema }: { relation: RelationInfo; sc
                       <td className={`${td} font-medium text-ink`}>
                         <span className="flex items-center gap-1.5">
                           {c.pk > 0 && (
-                            <KeyRound
+                            <Icon
+                              icon={Key01Icon}
                               className="size-3.5 text-butter-ink"
                               aria-label="Primary key"
                             />
@@ -150,7 +159,7 @@ export function StructureView({ relation, schema }: { relation: RelationInfo; sc
                           {c.hidden >= 2 && <span className="pn-table-head">generated</span>}
                           {fk && (
                             <span className="flex items-center gap-1 text-xs text-sky-ink">
-                              <Link2 className="size-3" /> {fk.table}
+                              <Icon icon={Link02Icon} className="size-3" /> {fk.table}
                               {fk.to ? `.${fk.to}` : ""}
                               {fk.onDelete !== "NO ACTION" && (
                                 <span className="text-ink-muted">
@@ -176,7 +185,7 @@ export function StructureView({ relation, schema }: { relation: RelationInfo; sc
                                 open({ kind: "renameColumn", table: relation.name, column: c.name })
                               }
                             >
-                              <Pencil />
+                              <Icon icon={PencilEdit01Icon} />
                             </Button>
                             <Button
                               variant="ghost"
@@ -198,7 +207,7 @@ export function StructureView({ relation, schema }: { relation: RelationInfo; sc
                                 })
                               }
                             >
-                              <Trash2 />
+                              <Icon icon={Delete02Icon} />
                             </Button>
                           </span>
                         </td>
@@ -228,7 +237,7 @@ export function StructureView({ relation, schema }: { relation: RelationInfo; sc
                 size="sm"
                 onClick={() => open({ kind: "createIndex", table: relation.name })}
               >
-                <ListPlus /> Create index
+                <Icon icon={ListPlusIcon} /> Create index
               </Button>
             }
           >
@@ -265,7 +274,7 @@ export function StructureView({ relation, schema }: { relation: RelationInfo; sc
                           )
                         }
                       >
-                        <Trash2 />
+                        <Icon icon={Delete02Icon} />
                       </Button>
                     )}
                   </li>
@@ -294,7 +303,7 @@ export function StructureView({ relation, schema }: { relation: RelationInfo; sc
                         )
                       }
                     >
-                      <Trash2 />
+                      <Icon icon={Delete02Icon} />
                     </Button>
                   </div>
                   {t.sql && <CodeBlock fileName={`${t.name}.sql`} code={t.sql} />}

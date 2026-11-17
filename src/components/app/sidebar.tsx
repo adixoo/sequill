@@ -1,22 +1,22 @@
 "use client";
 
 import {
-  Bookmark,
-  ChevronDown,
-  Eye,
-  FileCode2,
-  ListTree,
-  MoreHorizontal,
-  Pencil,
-  Plus,
-  SquareTerminal,
-  Table2,
-  TableProperties,
-  Trash2,
-  Upload,
-  Network,
-  Zap,
-} from "lucide-react";
+  ArrowDown01Icon,
+  Bookmark02Icon,
+  CommandLineIcon,
+  Delete02Icon,
+  FileScriptIcon,
+  FlashIcon,
+  HierarchySquare02Icon,
+  LayoutTable01Icon,
+  ListTreeIcon,
+  MoreHorizontalIcon,
+  PencilEdit01Icon,
+  PlusSignIcon,
+  TableIcon,
+  Upload01Icon,
+  ViewIcon,
+} from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { DatabaseSwitcher } from "@/components/common/database-switcher";
@@ -30,6 +30,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
 import { useTableCount } from "@/hooks/use-db";
 import { useSavedQueryActions } from "@/hooks/use-saved-queries";
 import { APP_NAME } from "@/lib/constants";
@@ -64,7 +65,8 @@ function Group({
           aria-expanded={open}
           className="flex h-8 flex-1 items-center gap-1.5 rounded-xs px-2 text-left outline-none focus-visible:bg-zebra"
         >
-          <ChevronDown
+          <Icon
+            icon={ArrowDown01Icon}
             className={cn(
               "size-3.5 text-ink-muted transition-transform duration-150",
               !open && "-rotate-90",
@@ -97,7 +99,7 @@ function RelationItem({
   });
   const openDialog = useDialogs((s) => s.open);
   const count = useTableCount(dbId, relation.name, relation.kind !== "virtual");
-  const Icon = relation.kind === "view" ? Eye : Table2;
+  const icon = relation.kind === "view" ? ViewIcon : TableIcon;
   return (
     <li className="group/item relative">
       <button
@@ -112,7 +114,10 @@ function RelationItem({
         )}
         aria-current={active ? "page" : undefined}
       >
-        <Icon className={cn("size-3.5 shrink-0", active ? "text-sky-ink" : "text-ink-muted")} />
+        <Icon
+          icon={icon}
+          className={cn("size-3.5 shrink-0", active ? "text-sky-ink" : "text-ink-muted")}
+        />
         <span className="truncate">{relation.name}</span>
         {count.data !== undefined && (
           <span className="pn-tnum ml-auto font-mono text-[0.6875rem] text-ink-muted">
@@ -125,7 +130,7 @@ function RelationItem({
           className="absolute top-1 right-1 flex size-6 items-center justify-center rounded-xs text-ink-muted opacity-0 outline-none group-hover/item:opacity-100 hover:bg-raised focus-visible:opacity-100 data-[state=open]:opacity-100 max-md:opacity-100"
           aria-label={`Actions for ${relation.name}`}
         >
-          <MoreHorizontal className="size-4" />
+          <Icon icon={MoreHorizontalIcon} className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-48">
           <DropdownMenuItem
@@ -134,7 +139,7 @@ function RelationItem({
               onNavigate?.();
             }}
           >
-            <Table2 /> Browse data
+            <Icon icon={TableIcon} /> Browse data
           </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={() => {
@@ -142,29 +147,29 @@ function RelationItem({
               onNavigate?.();
             }}
           >
-            <TableProperties /> Structure
+            <Icon icon={LayoutTable01Icon} /> Structure
           </DropdownMenuItem>
           {relation.kind === "table" && (
             <>
               <DropdownMenuItem
                 onSelect={() => openDialog({ kind: "addColumn", table: relation.name })}
               >
-                <Plus /> Add column
+                <Icon icon={PlusSignIcon} /> Add column
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() => openDialog({ kind: "createIndex", table: relation.name })}
               >
-                <ListTree /> Create index
+                <Icon icon={ListTreeIcon} /> Create index
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() => openDialog({ kind: "import", table: relation.name })}
               >
-                <Upload /> Import rows
+                <Icon icon={Upload01Icon} /> Import rows
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() => openDialog({ kind: "renameTable", table: relation.name })}
               >
-                <Pencil /> Rename
+                <Icon icon={PencilEdit01Icon} /> Rename
               </DropdownMenuItem>
             </>
           )}
@@ -172,7 +177,7 @@ function RelationItem({
             <DropdownMenuItem
               onSelect={() => openDialog({ kind: "ddl", title: relation.name, sql: relation.sql! })}
             >
-              <FileCode2 /> Show SQL
+              <Icon icon={FileScriptIcon} /> Show SQL
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
@@ -205,7 +210,8 @@ function SavedQueryItem({ query, onNavigate }: { query: SavedQuery; onNavigate?(
         )}
         aria-current={active ? "page" : undefined}
       >
-        <SquareTerminal
+        <Icon
+          icon={CommandLineIcon}
           className={cn("size-3.5 shrink-0", active ? "text-lilac-ink" : "text-ink-muted")}
         />
         <span className="truncate">{query.name}</span>
@@ -215,21 +221,21 @@ function SavedQueryItem({ query, onNavigate }: { query: SavedQuery; onNavigate?(
           className="absolute top-1 right-1 flex size-6 items-center justify-center rounded-xs text-ink-muted opacity-0 outline-none group-hover/item:opacity-100 hover:bg-raised focus-visible:opacity-100 data-[state=open]:opacity-100 max-md:opacity-100"
           aria-label={`Actions for ${query.name}`}
         >
-          <MoreHorizontal className="size-4" />
+          <Icon icon={MoreHorizontalIcon} className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-48">
           <DropdownMenuItem onSelect={open}>
-            <SquareTerminal /> Open
+            <Icon icon={CommandLineIcon} /> Open
           </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={() =>
               openDialog({ kind: "renameSavedQuery", id: query.id, name: query.name })
             }
           >
-            <Pencil /> Rename
+            <Icon icon={PencilEdit01Icon} /> Rename
           </DropdownMenuItem>
           <DropdownMenuItem variant="destructive" onSelect={() => actions.remove(query.id)}>
-            <Trash2 /> Delete
+            <Icon icon={Delete02Icon} /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -298,7 +304,7 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
             <Group
               title="Tables"
               count={schema.tables.length}
-              icon={<Table2 className="size-3.5" />}
+              icon={<Icon icon={TableIcon} className="size-3.5" />}
               action={
                 <Button
                   variant="ghost"
@@ -306,7 +312,7 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
                   aria-label="New table"
                   onClick={() => openDialog({ kind: "createTable" })}
                 >
-                  <Plus />
+                  <Icon icon={PlusSignIcon} />
                 </Button>
               }
             >
@@ -327,7 +333,11 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
               )}
             </Group>
             {schema.views.length > 0 && (
-              <Group title="Views" count={schema.views.length} icon={<Eye className="size-3.5" />}>
+              <Group
+                title="Views"
+                count={schema.views.length}
+                icon={<Icon icon={ViewIcon} className="size-3.5" />}
+              >
                 {schema.views.map((v) => (
                   <RelationItem key={v.name} relation={v} dbId={dbId} onNavigate={onNavigate} />
                 ))}
@@ -337,7 +347,7 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
               <Group
                 title="Saved queries"
                 count={savedQueries.length}
-                icon={<Bookmark className="size-3.5" />}
+                icon={<Icon icon={Bookmark02Icon} className="size-3.5" />}
               >
                 {savedQueries.map((q) => (
                   <SavedQueryItem key={q.id} query={q} onNavigate={onNavigate} />
@@ -348,10 +358,14 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
               <Group
                 title="Indexes"
                 count={schema.indexes.length}
-                icon={<ListTree className="size-3.5" />}
+                icon={<Icon icon={ListTreeIcon} className="size-3.5" />}
               >
                 {schema.indexes.map((o) => (
-                  <ObjectItem key={o.name} object={o} icon={<ListTree className="size-3.5" />} />
+                  <ObjectItem
+                    key={o.name}
+                    object={o}
+                    icon={<Icon icon={ListTreeIcon} className="size-3.5" />}
+                  />
                 ))}
               </Group>
             )}
@@ -359,10 +373,14 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
               <Group
                 title="Triggers"
                 count={schema.triggers.length}
-                icon={<Zap className="size-3.5" />}
+                icon={<Icon icon={FlashIcon} className="size-3.5" />}
               >
                 {schema.triggers.map((o) => (
-                  <ObjectItem key={o.name} object={o} icon={<Zap className="size-3.5" />} />
+                  <ObjectItem
+                    key={o.name}
+                    object={o}
+                    icon={<Icon icon={FlashIcon} className="size-3.5" />}
+                  />
                 ))}
               </Group>
             )}
@@ -380,7 +398,7 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
               onNavigate?.();
             }}
           >
-            <SquareTerminal /> New query
+            <Icon icon={CommandLineIcon} /> New query
           </Button>
           <Button
             variant="ghost"
@@ -388,7 +406,7 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
             aria-label="Import CSV or JSON"
             onClick={() => openDialog({ kind: "import" })}
           >
-            <Upload />
+            <Icon icon={Upload01Icon} />
           </Button>
           <Button
             variant="ghost"
@@ -398,7 +416,7 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
             asChild
           >
             <Link href="/vis">
-              <Network />
+              <Icon icon={HierarchySquare02Icon} />
             </Link>
           </Button>
         </div>

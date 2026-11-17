@@ -1,10 +1,17 @@
 "use client";
 
-import { ArrowRight, ExternalLink, Plus, Trash2, Unlink } from "lucide-react";
+import {
+  ArrowRight02Icon,
+  Delete02Icon,
+  LinkSquare02Icon,
+  PlusSignIcon,
+  Unlink02Icon,
+} from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Check, ColumnFields } from "@/components/common/dialogs/column-fields";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTableCount } from "@/hooks/use-db";
@@ -75,7 +82,7 @@ function ColumnList({
               aria-label={`Remove ${col.name || "column"}`}
               onClick={() => onChange(columns.filter((_, j) => j !== i))}
             >
-              <Trash2 />
+              <Icon icon={Delete02Icon} />
             </Button>
           }
         />
@@ -87,7 +94,7 @@ function ColumnList({
         className="self-start"
         onClick={() => onChange([...columns, emptyColumn(`column_${columns.length + 1}`)])}
       >
-        <Plus /> Add column
+        <Icon icon={PlusSignIcon} /> Add column
       </Button>
     </div>
   );
@@ -125,7 +132,7 @@ function ExistingTableDetails({ table, dbId }: { table: DiagramTable; dbId: stri
       {dbId && table.change !== "dropped" && (
         <Button variant="outline" size="sm" asChild className="self-start">
           <Link href={`/app?table=${encodeURIComponent(dbName)}`}>
-            <ExternalLink /> Open in editor
+            <Icon icon={LinkSquare02Icon} /> Open in editor
           </Link>
         </Button>
       )}
@@ -182,7 +189,11 @@ export function Inspector(props: InspectorProps) {
           <Section title={edge.draft ? "New relationship" : "Relationship"}>
             <p className="flex flex-wrap items-center gap-1.5 font-mono text-sm text-ink">
               {source?.name}.{edge.sourceColumn}
-              <ArrowRight className="size-3.5 text-ink-muted" aria-label="references" />
+              <Icon
+                icon={ArrowRight02Icon}
+                className="size-3.5 text-ink-muted"
+                aria-label="references"
+              />
               {target?.name}
               {edge.targetColumn !== TABLE_HANDLE && `.${edge.targetColumn}`}
             </p>
@@ -201,7 +212,7 @@ export function Inspector(props: InspectorProps) {
                 className="self-start"
                 onClick={() => props.onDisconnect(edge)}
               >
-                <Unlink /> Remove relationship
+                <Icon icon={Unlink02Icon} /> Remove relationship
               </Button>
             ) : (
               <p className="text-xs text-ink-muted">
@@ -226,7 +237,7 @@ export function Inspector(props: InspectorProps) {
           title="New table"
           action={
             <Button variant="ghost" size="sm" onClick={() => props.onRemoveDraftTable(def.id)}>
-              <Trash2 /> Remove
+              <Icon icon={Delete02Icon} /> Remove
             </Button>
           }
         >

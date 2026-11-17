@@ -1,7 +1,8 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 
 export type TileTone =
@@ -53,7 +54,8 @@ export function LinkTile({
       )}
     >
       {children}
-      <ArrowRight
+      <Icon
+        icon={ArrowRight02Icon}
         aria-hidden
         className="size-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
       />

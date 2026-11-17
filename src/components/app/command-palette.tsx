@@ -1,21 +1,21 @@
 "use client";
 
 import {
-  Database,
-  Download,
-  Eye,
-  FileCode2,
-  FolderOpen,
-  Moon,
-  Network,
-  Plus,
-  Sparkles,
-  SquareTerminal,
-  Sun,
-  Table2,
-  TableProperties,
-  Upload,
-} from "lucide-react";
+  CommandLineIcon,
+  DatabaseIcon,
+  Download01Icon,
+  FileScriptIcon,
+  FolderOpenIcon,
+  HierarchySquare02Icon,
+  LayoutTable01Icon,
+  Moon02Icon,
+  PlusSignIcon,
+  SparklesIcon,
+  Sun03Icon,
+  TableIcon,
+  Upload01Icon,
+  ViewIcon,
+} from "@hugeicons/core-free-icons";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useRef } from "react";
@@ -29,6 +29,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
+import { Icon } from "@/components/ui/icon";
 import { useDbActions } from "@/hooks/use-db-actions";
 import { useDatabases } from "@/hooks/use-db";
 import { DB_FILE_ACCEPT } from "@/lib/constants";
@@ -92,7 +93,7 @@ export default function CommandPalette({ open, onOpenChange, schema }: CommandPa
                     value={`open ${r.name}`}
                     onSelect={runAndClose(() => openTable(r.name, { mode: "data" }))}
                   >
-                    {r.kind === "view" ? <Eye /> : <Table2 />}
+                    {r.kind === "view" ? <Icon icon={ViewIcon} /> : <Icon icon={TableIcon} />}
                     {r.name}
                   </CommandItem>
                 ))}
@@ -102,7 +103,7 @@ export default function CommandPalette({ open, onOpenChange, schema }: CommandPa
                     value={`structure of ${r.name}`}
                     onSelect={runAndClose(() => openTable(r.name, { mode: "structure" }))}
                   >
-                    <TableProperties />
+                    <Icon icon={LayoutTable01Icon} />
                     Structure of {r.name}
                   </CommandItem>
                 ))}
@@ -116,7 +117,7 @@ export default function CommandPalette({ open, onOpenChange, schema }: CommandPa
                     value={`saved query ${q.name} ${q.id}`}
                     onSelect={runAndClose(() => openQuery(q.sql, { id: q.id, name: q.name }))}
                   >
-                    <SquareTerminal /> {q.name}
+                    <Icon icon={CommandLineIcon} /> {q.name}
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -124,24 +125,24 @@ export default function CommandPalette({ open, onOpenChange, schema }: CommandPa
             {dbId && (
               <CommandGroup heading="Actions">
                 <CommandItem onSelect={runAndClose(() => openQuery())}>
-                  <SquareTerminal /> New query
+                  <Icon icon={CommandLineIcon} /> New query
                 </CommandItem>
                 <CommandItem onSelect={runAndClose(() => openDialog({ kind: "createTable" }))}>
-                  <Plus /> New table
+                  <Icon icon={PlusSignIcon} /> New table
                 </CommandItem>
                 <CommandItem onSelect={runAndClose(() => openDialog({ kind: "import" }))}>
-                  <Upload /> Import CSV or JSON
+                  <Icon icon={Upload01Icon} /> Import CSV or JSON
                 </CommandItem>
                 <CommandItem onSelect={runAndClose(() => router.push("/vis"))}>
-                  <Network /> Open schema diagram
+                  <Icon icon={HierarchySquare02Icon} /> Open schema diagram
                 </CommandItem>
                 {current && (
                   <>
                     <CommandItem onSelect={runAndClose(() => void actions.download(current))}>
-                      <Download /> Download {current.name}
+                      <Icon icon={Download01Icon} /> Download {current.name}
                     </CommandItem>
                     <CommandItem onSelect={runAndClose(() => void actions.downloadDump(current))}>
-                      <FileCode2 /> Download SQL dump
+                      <Icon icon={FileScriptIcon} /> Download SQL dump
                     </CommandItem>
                   </>
                 )}
@@ -157,7 +158,7 @@ export default function CommandPalette({ open, onOpenChange, schema }: CommandPa
                     value={`switch to ${d.name} ${d.id}`}
                     onSelect={runAndClose(() => setDb(d.id))}
                   >
-                    <Database /> Switch to {d.name}
+                    <Icon icon={DatabaseIcon} /> Switch to {d.name}
                   </CommandItem>
                 ))}
               <CommandItem
@@ -166,13 +167,13 @@ export default function CommandPalette({ open, onOpenChange, schema }: CommandPa
                   fileInput.current?.click();
                 }}
               >
-                <FolderOpen /> Open a database file
+                <Icon icon={FolderOpenIcon} /> Open a database file
               </CommandItem>
               <CommandItem onSelect={runAndClose(() => openDialog({ kind: "newDatabase" }))}>
-                <Plus /> New empty database
+                <Icon icon={PlusSignIcon} /> New empty database
               </CommandItem>
               <CommandItem onSelect={runAndClose(() => void actions.createSample())}>
-                <Sparkles /> Create sample database
+                <Icon icon={SparklesIcon} /> Create sample database
               </CommandItem>
             </CommandGroup>
             <CommandSeparator />
@@ -180,8 +181,8 @@ export default function CommandPalette({ open, onOpenChange, schema }: CommandPa
               <CommandItem
                 onSelect={runAndClose(() => setTheme(resolvedTheme === "dark" ? "light" : "dark"))}
               >
-                {resolvedTheme === "dark" ? <Sun /> : <Moon />} Switch to{" "}
-                {resolvedTheme === "dark" ? "light" : "dark"} mode
+                {resolvedTheme === "dark" ? <Icon icon={Sun03Icon} /> : <Icon icon={Moon02Icon} />}{" "}
+                Switch to {resolvedTheme === "dark" ? "light" : "dark"} mode
               </CommandItem>
             </CommandGroup>
           </CommandList>

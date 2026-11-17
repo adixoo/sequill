@@ -2,16 +2,15 @@
 
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
-  Check,
-  ClipboardCopy,
-  Copy,
-  CopyPlus,
-  CornerDownRight,
-  Filter,
-  PanelRightOpen,
-  SquareSlash,
-  Trash2,
-} from "lucide-react";
+  ArrowMoveDownRightIcon,
+  Copy01Icon,
+  CopyPlusIcon,
+  Delete02Icon,
+  FilterIcon,
+  PanelRightOpenIcon,
+  SquareSlashIcon,
+  Tick02Icon,
+} from "@hugeicons/core-free-icons";
 import {
   useMemo,
   useRef,
@@ -31,6 +30,7 @@ import {
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ROW_HEIGHT, ROW_NUMBER_WIDTH } from "@/lib/constants";
 import { textToValue, valueToText } from "@/lib/data/format";
@@ -454,7 +454,9 @@ export function DataGrid({
                                   : "opacity-0 group-hover/row:opacity-100",
                               )}
                             >
-                              {isSelected && <Check className="size-3" strokeWidth={3} />}
+                              {isSelected && (
+                                <Icon icon={Tick02Icon} className="size-3" strokeWidth={3} />
+                              )}
                             </span>
                             <span className="pn-tnum">{rowOffset + r + 1}</span>
                           </button>
@@ -528,7 +530,8 @@ export function DataGrid({
       </ContextMenuTrigger>
       <ContextMenuContent className="w-56">
         <ContextMenuItem disabled={!active} onSelect={() => void copySelection()}>
-          <ClipboardCopy /> {selected.size > 0 ? `Copy ${selected.size} rows` : "Copy value"}
+          <Icon icon={Copy01Icon} />{" "}
+          {selected.size > 0 ? `Copy ${selected.size} rows` : "Copy value"}
           <ContextMenuShortcut>Ctrl C</ContextMenuShortcut>
         </ContextMenuItem>
         {cursor && (
@@ -545,28 +548,28 @@ export function DataGrid({
               }
             }}
           >
-            <Copy /> Copy row as JSON
+            <Icon icon={Copy01Icon} /> Copy row as JSON
           </ContextMenuItem>
         )}
         {cursor && onOpenRow && (
           <ContextMenuItem onSelect={() => onOpenRow(cursor.row)}>
-            <PanelRightOpen /> Open row
+            <Icon icon={PanelRightOpenIcon} /> Open row
             <ContextMenuShortcut>⇧ Enter</ContextMenuShortcut>
           </ContextMenuItem>
         )}
         {cursor && onDuplicateRow && (
           <ContextMenuItem onSelect={() => onDuplicateRow(cursor.row)}>
-            <CopyPlus /> Duplicate row
+            <Icon icon={CopyPlusIcon} /> Duplicate row
           </ContextMenuItem>
         )}
         {active?.col && onFilterByValue && (
           <ContextMenuItem onSelect={() => onFilterByValue(active.col.name, active.value)}>
-            <Filter /> Filter by this value
+            <Icon icon={FilterIcon} /> Filter by this value
           </ContextMenuItem>
         )}
         {active?.col && activeInfo?.fk && active.value !== null && onFollowForeignKey && (
           <ContextMenuItem onSelect={() => onFollowForeignKey(active.col.name, active.value)}>
-            <CornerDownRight /> Go to {activeInfo.fk.table}
+            <Icon icon={ArrowMoveDownRightIcon} /> Go to {activeInfo.fk.table}
           </ContextMenuItem>
         )}
         {cursor && active?.value !== null && canEditColumn(cursor.col) && (
@@ -575,7 +578,7 @@ export function DataGrid({
               void onEdit?.([{ row: cursor.row, column: laid[cursor.col].name, value: null }])
             }
           >
-            <SquareSlash /> Set to NULL
+            <Icon icon={SquareSlashIcon} /> Set to NULL
           </ContextMenuItem>
         )}
         {onDeleteRows && cursor && (
@@ -585,7 +588,8 @@ export function DataGrid({
               variant="destructive"
               onSelect={() => onDeleteRows(selected.size > 0 ? [...selected] : [cursor.row])}
             >
-              <Trash2 /> {selected.size > 1 ? `Delete ${selected.size} rows` : "Delete row"}
+              <Icon icon={Delete02Icon} />{" "}
+              {selected.size > 1 ? `Delete ${selected.size} rows` : "Delete row"}
               <ContextMenuShortcut>Del</ContextMenuShortcut>
             </ContextMenuItem>
           </>

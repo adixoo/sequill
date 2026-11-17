@@ -1,8 +1,9 @@
 "use client";
 
-import { Filter as FilterIcon, Plus, X } from "lucide-react";
+import { Cancel01Icon, FilterIcon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
@@ -66,7 +67,7 @@ export function FilterBuilder({
     <Popover open={open} onOpenChange={handleOpen}>
       <PopoverTrigger asChild>
         <Button variant={filters.length > 0 ? "secondary" : "ghost"} size="sm" aria-label="Filters">
-          <FilterIcon />
+          <Icon icon={FilterIcon} />
           <span>Filter</span>
           {filters.length > 0 && (
             <span className="pn-tnum rounded-full bg-sky px-1.5 font-mono text-[0.6875rem] text-on-accent">
@@ -127,7 +128,7 @@ export function FilterBuilder({
                     aria-label="Remove filter"
                     onClick={() => setDraft((d) => d.filter((x) => x.id !== f.id))}
                   >
-                    <X />
+                    <Icon icon={Cancel01Icon} />
                   </Button>
                   <Select value={f.op} onValueChange={(op) => update(f.id, { op: op as FilterOp })}>
                     <SelectTrigger size="sm" className="w-full" aria-label="Condition">
@@ -172,7 +173,7 @@ export function FilterBuilder({
               size="sm"
               onClick={() => setDraft((d) => [...d, newFilter(columns[0])])}
             >
-              <Plus /> Add filter
+              <Icon icon={PlusSignIcon} /> Add filter
             </Button>
             <div className="flex gap-2">
               {filters.length > 0 && (

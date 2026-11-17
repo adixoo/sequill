@@ -1,4 +1,5 @@
-import { KeyRound, Link2, Minus } from "lucide-react";
+import { Key01Icon, Link02Icon, MinusSignIcon } from "@hugeicons/core-free-icons";
+import { Icon } from "@/components/ui/icon";
 import type { DiagramColumn, DiagramTable } from "@/lib/vis/model";
 import { cn } from "@/lib/utils";
 
@@ -10,11 +11,24 @@ import { cn } from "@/lib/utils";
 /** The icon before a column name: deleted, primary key or foreign key. */
 export function ColumnIcon({ column }: { column: DiagramColumn }) {
   if (column.change === "dropped") {
-    return <Minus className="size-3 text-rose-ink" aria-label="Deleted when you save" />;
+    return (
+      <Icon
+        icon={MinusSignIcon}
+        className="size-3 text-rose-ink"
+        aria-label="Deleted when you save"
+      />
+    );
   }
-  if (column.pk) return <KeyRound className="size-3 text-butter-ink" aria-label="Primary key" />;
+  if (column.pk)
+    return <Icon icon={Key01Icon} className="size-3 text-butter-ink" aria-label="Primary key" />;
   if (column.fk) {
-    return <Link2 className="size-3 text-sky-ink" aria-label={`References ${column.fk.table}`} />;
+    return (
+      <Icon
+        icon={Link02Icon}
+        className="size-3 text-sky-ink"
+        aria-label={`References ${column.fk.table}`}
+      />
+    );
   }
   return null;
 }

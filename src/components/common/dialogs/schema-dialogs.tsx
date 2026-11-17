@@ -1,10 +1,16 @@
 "use client";
 
-import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import {
+  ArrowDown02Icon,
+  ArrowUp02Icon,
+  Delete02Icon,
+  PlusSignIcon,
+} from "@hugeicons/core-free-icons";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
 import { ResponsiveDialog, ResponsiveDialogContent } from "@/components/ui/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -187,7 +193,7 @@ export function CreateTableDialog({ onClose }: { onClose(): void }) {
                   disabled={i === 0}
                   onClick={() => move(i, -1)}
                 >
-                  <ArrowUp />
+                  <Icon icon={ArrowUp02Icon} />
                 </Button>
                 <Button
                   type="button"
@@ -197,7 +203,7 @@ export function CreateTableDialog({ onClose }: { onClose(): void }) {
                   disabled={i === columns.length - 1}
                   onClick={() => move(i, 1)}
                 >
-                  <ArrowDown />
+                  <Icon icon={ArrowDown02Icon} />
                 </Button>
                 <Button
                   type="button"
@@ -207,7 +213,7 @@ export function CreateTableDialog({ onClose }: { onClose(): void }) {
                   disabled={columns.length === 1}
                   onClick={() => setColumns((cols) => cols.filter((_, j) => j !== i))}
                 >
-                  <Trash2 />
+                  <Icon icon={Delete02Icon} />
                 </Button>
               </span>
             }
@@ -220,7 +226,7 @@ export function CreateTableDialog({ onClose }: { onClose(): void }) {
           className="self-start"
           onClick={() => setColumns((c) => [...c, emptyColumn("")])}
         >
-          <Plus /> Add column
+          <Icon icon={PlusSignIcon} /> Add column
         </Button>
       </section>
       <section className="flex flex-col gap-2" aria-labelledby="table-options">

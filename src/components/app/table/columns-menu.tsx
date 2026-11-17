@@ -1,6 +1,6 @@
 "use client";
 
-import { Columns3 } from "lucide-react";
+import { LayoutThreeColumnIcon } from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
 import type { ColumnLayout } from "@/lib/store/workspace";
 
 interface ColumnsMenuProps {
@@ -29,7 +30,7 @@ export function ColumnsMenu({ columns, layout, onChange }: ColumnsMenuProps) {
           size="sm"
           aria-label="Columns"
         >
-          <Columns3 />
+          <Icon icon={LayoutThreeColumnIcon} />
           <span>Columns</span>
           {layout.hidden.length > 0 && (
             <span className="pn-tnum font-mono text-[0.6875rem] text-ink-muted">

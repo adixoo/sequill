@@ -1,16 +1,17 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
+import { Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons";
 import { useTheme } from "next-themes";
 import { useEffect, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 
 /** The only themes: Pastel Noir is dark-first, with a derived light theme. */
 export const THEMES = ["dark", "light"] as const;
 type ThemeName = (typeof THEMES)[number];
 
 const NEXT = { dark: "light", light: "dark" } as const;
-const ICONS = { dark: Moon, light: Sun } as const;
+const ICONS = { dark: Moon02Icon, light: Sun03Icon } as const;
 
 const subscribeNoop = () => () => {};
 const isThemeName = (theme: string | undefined): theme is ThemeName =>
@@ -26,7 +27,7 @@ export function ThemeToggle({ className }: { className?: string }) {
     () => false,
   );
   const current: ThemeName = mounted && isThemeName(theme) ? theme : "dark";
-  const Icon = ICONS[current];
+  const icon = ICONS[current];
   return (
     <Button
       variant="ghost"
@@ -36,7 +37,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       title={`Theme: ${current}`}
       onClick={() => setTheme(NEXT[current])}
     >
-      <Icon />
+      <Icon icon={icon} />
     </Button>
   );
 }

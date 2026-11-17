@@ -1,5 +1,6 @@
-import { Download } from "lucide-react";
+import { Download01Icon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
+import { Icon } from "@/components/ui/icon";
 import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { LinkTile, Shot, Tile } from "./tile";
@@ -80,7 +81,7 @@ export function Hero() {
               className="ln-press flex h-full min-h-16 items-center justify-between gap-3 py-3"
             >
               Install app
-              <Download aria-hidden className="size-5 shrink-0" />
+              <Icon icon={Download01Icon} aria-hidden className="size-5 shrink-0" />
             </Tile>
           </li>
         </ul>

@@ -1,8 +1,9 @@
 "use client";
 
-import { Download } from "lucide-react";
+import { Download01Icon } from "@hugeicons/core-free-icons";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -61,7 +62,7 @@ export function InstallButton({ className }: { className?: string }) {
   if (!install) return null;
   return (
     <Button variant="ghost" size="sm" className={className} onClick={install}>
-      <Download /> Install app
+      <Icon icon={Download01Icon} /> Install app
     </Button>
   );
 }

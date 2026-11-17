@@ -1,8 +1,17 @@
 "use client";
 
-import { Plus, RefreshCw, Rows2, Rows3, Search, Trash2, Upload } from "lucide-react";
+import {
+  Delete02Icon,
+  PlusSignIcon,
+  RefreshIcon,
+  Rows2Icon,
+  Rows3Icon,
+  Search01Icon,
+  Upload01Icon,
+} from "@hugeicons/core-free-icons";
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { ScrollStrip } from "@/components/ui/scroll-strip";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -257,7 +266,7 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
           <>
             <InputGroup className="order-last h-8 basis-full sm:order-none sm:w-56 sm:shrink-0 sm:basis-auto">
               <InputGroupAddon>
-                <Search />
+                <Icon icon={Search01Icon} />
               </InputGroupAddon>
               <InputGroupInput
                 type="search"
@@ -289,7 +298,7 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
                 size="sm"
                 onClick={() => setDensity(density === "compact" ? "comfortable" : "compact")}
               >
-                {density === "compact" ? <Rows3 /> : <Rows2 />}
+                {density === "compact" ? <Icon icon={Rows3Icon} /> : <Icon icon={Rows2Icon} />}
                 {density === "compact" ? "Comfortable" : "Compact"}
               </Button>
               <Button
@@ -300,7 +309,10 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
                   void countQuery.refetch();
                 }}
               >
-                <RefreshCw className={rowsQuery.isFetching ? "animate-spin" : undefined} />
+                <Icon
+                  icon={RefreshIcon}
+                  className={rowsQuery.isFetching ? "animate-spin" : undefined}
+                />
                 Refresh
               </Button>
 
@@ -311,7 +323,7 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
                     size="sm"
                     onClick={() => confirmDelete([...selection])}
                   >
-                    <Trash2 /> Delete {formatCount(selectedCount)}
+                    <Icon icon={Delete02Icon} /> Delete {formatCount(selectedCount)}
                   </Button>
                 )}
                 {relation.editable && (
@@ -320,7 +332,7 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
                     size="sm"
                     onClick={() => openDialog({ kind: "import", table: relation.name })}
                   >
-                    <Upload /> Import
+                    <Icon icon={Upload01Icon} /> Import
                   </Button>
                 )}
                 <ExportMenu name={relation.name} sources={exportSources} disabled={total === 0} />
@@ -329,7 +341,7 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
                     size="sm"
                     onClick={() => setInspector({ kind: "new", id: ++inspectorSeq })}
                   >
-                    <Plus /> Add row
+                    <Icon icon={PlusSignIcon} /> Add row
                   </Button>
                 )}
               </div>
