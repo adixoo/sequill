@@ -1,5 +1,9 @@
 # Sequill
 
+**Try it at [sequill.adibitz.com](https://sequill.adibitz.com/)**, no install or account needed.
+
+[![Sequill's landing page: the editor open on the sample shop's products table](docs/screenshot.webp)](https://sequill.adibitz.com/)
+
 An offline SQLite browser and editor that runs entirely in the browser. The official
 [SQLite WASM](https://sqlite.org/wasm/doc/trunk/index.md) build runs in a Web Worker and stores
 databases in the Origin Private File System (OPFS), so nothing is uploaded and everything keeps
@@ -42,6 +46,20 @@ a schema visualizer and designer at `/vis`, and the desktop app's downloads at `
   results as CSV, JSON or SQL INSERTs.
 - **App shell**: tabs, Ctrl/Cmd+K command palette, light and dark themes (dark by default), phone-friendly layout,
   installable PWA that loads offline after the first visit.
+
+## Desktop app
+
+[sequill-desktop](https://github.com/adixoo/sequill-desktop) is the desktop version of Sequill
+(Windows, macOS and Linux; installers on the [download page](https://sequill.adibitz.com/download)).
+It has the same editor and schema designer, built with Tauri on a native SQLite engine in Rust, and
+adds what a browser tab can't do:
+
+- **Large files.** Databases are real files on your disk, opened and edited in place with no copy,
+  so they aren't limited by the browser's storage quota or memory.
+- **MCP server.** AI assistants (Claude Desktop, Claude Code, Cursor, VS Code, Codex, Gemini CLI,
+  Windsurf, Zed, JetBrains and others) can list databases, read schemas, query and show tables in the
+  app, and, when you allow changes, edit rows and schema. Access is off by default, and every
+  assistant call is logged.
 
 ## Stack
 
@@ -170,7 +188,8 @@ hovered or focused; touch devices keep the browser's overlay scrollbars.
   `BroadcastChannel`), and the window that let go says so and offers **Use here**.
 - Databases live in this browser's site storage. Clearing site data deletes them, so download copies of
   anything important. The app asks the browser for persistent storage to make eviction less likely.
-- Very large databases are limited by the browser's storage quota and memory for exports.
+- Very large databases are limited by the browser's storage quota and memory for exports; use the
+  [desktop app](#desktop-app) for those.
 
 ## Contributing
 
