@@ -11,7 +11,7 @@
       "name": "static",
       "runtimeExecutable": "bun",
       "runtimeArgs": ["run", "start"],
-      "port": 3000
+      "port": 3001
     }
   ]
 }

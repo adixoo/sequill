@@ -66,7 +66,7 @@ into `public/sqlite/` (see `scripts/copy-sqlite-wasm.ts`).
 | -------------------------- | -------------------------------------------------------------------- |
 | `bun run dev`              | Development server (Turbopack). No service worker in dev.            |
 | `bun run build`            | Static export to `out/`, including the service worker (`out/sw.js`). |
-| `bun run start`            | Serves `out/` like a static host.                                    |
+| `bun run start`            | Serves `out/` like a static host, at http://localhost:3001.          |
 | `bun run typecheck`        | TypeScript for the app and the service worker.                       |
 | `bun run lint`             | ESLint (Next.js rules, Prettier-compatible).                         |
 | `bun run format`           | Prettier (with Tailwind class sorting); `format:check` to verify.    |
@@ -76,6 +76,10 @@ into `public/sqlite/` (see `scripts/copy-sqlite-wasm.ts`).
 | `bun run icons`            | Regenerates every icon from the logo in `src/lib/logo.ts`.           |
 | `bun run changeset`        | Describe a change for the changelog.                                 |
 | `bun run version-packages` | Apply changesets: bump the version and update `CHANGELOG.md`.        |
+
+The service worker only registers in production builds. `bun run start` uses its own port so the
+worker it installs never answers the dev server's pages; if a worker from an older production run on
+port 3000 still does, hard-reload once (Ctrl+Shift+R) and the dev build removes it and its cache.
 
 End-to-end tests (and `scripts/capture-landing.ts`) run in the installed Brave browser. If Brave is
 not at `C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe`, set `BRAVE_PATH`.

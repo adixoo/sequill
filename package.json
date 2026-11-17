@@ -8,7 +8,7 @@
     "prebuild": "bun scripts/copy-sqlite-wasm.ts",
     "dev": "next dev",
     "build": "next build && serwist build serwist.config.mjs",
-    "start": "serve out",
+    "start": "serve out -l 3001",
     "analyze": "next analyze",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit && tsc --noEmit -p src/sw",

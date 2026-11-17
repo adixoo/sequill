@@ -65,3 +65,33 @@ export function InstallButton({ className }: { className?: string }) {
     </Button>
   );
 }
+
+/** Serwist names every cache it makes with this prefix. */
+const SERWIST_CACHE_PREFIX = "serwist-";
+
+/**
+ * Development only: removes a service worker (and its precache) left on this
+ * origin by a production build, so the dev server's pages are never answered
+ * from an old build. It runs once the dev server serves the page, e.g. after a
+ * hard reload, which bypasses the worker.
+ */
+export function RemoveServiceWorkers() {
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) return;
+    const remove = async () => {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map((registration) => registration.unregister()));
+      const names = (await caches.keys()).filter((name) => name.startsWith(SERWIST_CACHE_PREFIX));
+      await Promise.all(names.map((name) => caches.delete(name)));
+      if (registrations.length > 0 || names.length > 0) {
+        console.info(
+          `Removed ${registrations.length} service worker(s) and ${names.length} cache(s) left by a production build.`,
+        );
+      }
+    };
+    remove().catch((error: unknown) => {
+      console.warn("Could not remove the production service worker:", error);
+    });
+  }, []);
+  return null;
+}
