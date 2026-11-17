@@ -171,6 +171,15 @@ hovered or focused; touch devices keep the browser's overlay scrollbars.
   anything important. The app asks the browser for persistent storage to make eviction less likely.
 - Very large databases are limited by the browser's storage quota and memory for exports.
 
+## Contributing
+
+Contributions are welcome: bug reports, ideas, docs and code. Report a bug or suggest a feature in the
+[issues](https://github.com/adixoo/sequill/issues), and for anything bigger than a small fix, open an
+issue before you start so we can agree on the approach. [CONTRIBUTING.md](CONTRIBUTING.md) covers
+setting up, what a change needs (tests, a changeset, the checks to run) and how to open a pull
+request. The desktop app has its own repository,
+[sequill-desktop](https://github.com/adixoo/sequill-desktop).
+
 ## Releases
 
 Changes are tracked with [Changesets](https://github.com/changesets/changesets): add one with
