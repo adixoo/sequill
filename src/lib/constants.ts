@@ -18,6 +18,16 @@ export const PRODUCT_HUNT = {
   badgeWidth: 250,
   badgeHeight: 54,
 } as const;
+/**
+ * The desktop app's repository. The download page reads its latest release from the GitHub API
+ * at build time; `releasesUrl` always points at whatever release is newest.
+ */
+export const DESKTOP_REPO = {
+  url: "https://github.com/adixoo/sequill-desktop",
+  releasesUrl: "https://github.com/adixoo/sequill-desktop/releases/latest",
+  allReleasesUrl: "https://github.com/adixoo/sequill-desktop/releases",
+  latestReleaseApi: "https://api.github.com/repos/adixoo/sequill-desktop/releases/latest",
+} as const;
 /** Cloudflare Web Analytics beacon, loaded on every page by the root layout. */
 export const CLOUDFLARE_ANALYTICS = {
   scriptUrl: "https://static.cloudflareinsights.com/beacon.min.js",

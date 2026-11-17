@@ -4,7 +4,7 @@ An offline SQLite browser and editor that runs entirely in the browser. The offi
 [SQLite WASM](https://sqlite.org/wasm/doc/trunk/index.md) build runs in a Web Worker and stores
 databases in the Origin Private File System (OPFS), so nothing is uploaded and everything keeps
 working without a network. A landing page at `/` showcases the features, the editor lives at `/app`,
-and a schema visualizer and designer at `/vis`.
+a schema visualizer and designer at `/vis`, and the desktop app's downloads at `/download`.
 
 ## Features
 
@@ -137,6 +137,13 @@ domain once one is added) and preview builds use their own address. On any other
 `NEXT_PUBLIC_SITE_URL` (for example `https://sequill.example`) when building, or the preview image
 points at `localhost`; set on Vercel, it overrides the automatic address. Sizes of 32px and
 under use a simpler drawing (one disk and the nib) so the shape stays clear in a browser tab.
+
+The download page (`/download`) is static too: `next build` reads the latest release of
+[sequill-desktop](https://github.com/adixoo/sequill-desktop) from the GitHub API once
+(`src/lib/releases.ts`) and bakes its version, notes and installer links into the page, so rebuild
+the site to show a new release. Unauthenticated, GitHub allows 60 API calls an hour per address;
+set `GITHUB_TOKEN` in the build environment to raise that (it is only read during the build). If
+GitHub can't be reached, the build still succeeds and the page links to the latest release on GitHub.
 
 ## Design system
 

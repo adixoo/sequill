@@ -3,10 +3,10 @@
 import { Download } from "lucide-react";
 import { useState } from "react";
 import { useInstallPrompt } from "@/components/common/pwa";
-import { Tile } from "./tile";
+import { Tile } from "@/components/landing/tile";
 
 /**
- * Hero tile that installs the app. Browsers without an install prompt (Safari,
+ * The download page's tile that installs the web app. Browsers without an install prompt (Safari,
  * Firefox) get a pointer to their own menu instead of a button that does nothing.
  */
 export function InstallTile() {

@@ -1,8 +1,7 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 import Link from "next/link";
 import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { InstallTile } from "./install-tile";
 import { Shot, Tile } from "./tile";
 
 /** The two products, coloured as in the capability shelf's key (editor sky, designer mint). */
@@ -84,7 +83,14 @@ export function Hero() {
             </Tile>
           </li>
           <li className="lg:col-span-3">
-            <InstallTile />
+            <Tile
+              as={Link}
+              href="/download"
+              className="ln-press flex h-full min-h-16 items-center justify-between gap-3 py-3"
+            >
+              Install app
+              <Download aria-hidden className="size-5 shrink-0" />
+            </Tile>
           </li>
         </ul>
       </nav>

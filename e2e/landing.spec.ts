@@ -38,7 +38,7 @@ test("the first screen links to both products", async ({ page }) => {
     "href",
     "/vis",
   );
-  await expect(nav.getByRole("button", { name: "Install app" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Install app" })).toHaveAttribute("href", "/download");
   const footer = page.getByRole("contentinfo");
   await expect(footer.getByRole("link", { name: "adibitz", exact: true })).toHaveAttribute(
     "href",

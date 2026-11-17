@@ -52,6 +52,9 @@ export function Closing() {
           <Link href="/vis" className="font-semibold underline underline-offset-4">
             or the schema designer
           </Link>
+          <Link href="/download" className="font-semibold underline underline-offset-4">
+            or get the desktop app
+          </Link>
         </p>
         <p className="max-w-[52ch]">
           Pick a file, start an empty one or try the sample shop. There is nothing to install and no
@@ -77,8 +80,17 @@ export function Closing() {
 
 const WORDMARK = APP_NAME.toUpperCase().split(" ");
 
-/** The links and the credit line, then the name built from blocks as the page's last word. */
-export function SiteFooter() {
+/** The landing page's own sections, listed in the footer's "This page" column. */
+const LANDING_SECTIONS: [string, string][] = [
+  ["#your-file", "Try your own file"],
+  ["#questions", "Questions"],
+];
+
+/**
+ * The links and the credit line, then the name built from blocks as the page's
+ * last word. `sections` lists the current page's own anchors.
+ */
+export function SiteFooter({ sections = LANDING_SECTIONS }: { sections?: [string, string][] }) {
   let n = 0;
   return (
     <footer className="ln-board mt-(--ln-gap) pb-(--ln-margin)">
@@ -91,15 +103,10 @@ export function SiteFooter() {
           links={[
             ["/app", "Editor"],
             ["/vis", "Schema designer"],
+            ["/download", "Desktop app"],
           ]}
         />
-        <FooterColumn
-          title="This page"
-          links={[
-            ["#your-file", "Try your own file"],
-            ["#questions", "Questions"],
-          ]}
-        />
+        <FooterColumn title="This page" links={sections} />
         <FooterColumn title="Learn" links={[[LEARN_URL, "Databases, beginner to advanced"]]} />
         <FooterColumn
           title="Built on"
