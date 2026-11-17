@@ -64,15 +64,10 @@ export function CapabilityShelf() {
             <li key={name} className="ln-spine">
               <Link
                 href={AREA[area].href}
-                className="ln-press flex items-baseline gap-2 rounded-xs leading-tight lg:h-full lg:items-start lg:gap-3 lg:py-1"
+                className="ln-press flex items-baseline gap-2 rounded-xs leading-tight lg:h-full lg:items-center lg:gap-3 lg:py-2"
               >
                 <span>{name}</span>
-                <span
-                  className={cn(
-                    "rounded-xs px-1 text-(--on-accent) lg:px-0 lg:py-1.5",
-                    AREA[area].mark,
-                  )}
-                >
+                <span className={cn("ln-spine-tag rounded-xs text-(--on-accent)", AREA[area].mark)}>
                   {area}
                 </span>
               </Link>

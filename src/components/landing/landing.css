@@ -200,6 +200,11 @@
     flex-wrap: wrap;
     gap: 10px 14px;
   }
+  /* Logical padding, so the tag gets room on all sides whether the spine runs across or down. */
+  .ln-spine-tag {
+    padding-inline: 6px;
+    padding-block: 1px;
+  }
   @media (min-width: 1024px) {
     .ln-spines {
       flex-wrap: nowrap;
@@ -210,6 +215,10 @@
       writing-mode: vertical-rl;
       flex: 1 1 0;
       min-width: 0;
+    }
+    .ln-spine-tag {
+      padding-inline: 8px;
+      padding-block: 3px;
     }
   }
   @media (hover: hover) {
