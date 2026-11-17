@@ -1,4 +1,6 @@
+import { ArrowRight } from "lucide-react";
 import Image, { getImageProps } from "next/image";
+import Link from "next/link";
 import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +27,37 @@ export function Tile<T extends ElementType = "div">({
     <Tag className={cn("ln-tile", className)} data-tone={tone} {...rest}>
       {children}
     </Tag>
+  );
+}
+
+/** A filled tile that is one link, its label beside an arrow that nudges on hover. */
+export function LinkTile({
+  href,
+  tone,
+  className,
+  children,
+}: {
+  href: string;
+  tone?: TileTone;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <Tile
+      as={Link}
+      href={href}
+      tone={tone}
+      className={cn(
+        "ln-press group flex h-full min-h-16 items-center justify-between gap-3 py-3 font-semibold",
+        className,
+      )}
+    >
+      {children}
+      <ArrowRight
+        aria-hidden
+        className="size-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+      />
+    </Tile>
   );
 }
 

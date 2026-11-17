@@ -1,8 +1,8 @@
-import { ArrowRight, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import Link from "next/link";
 import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { Shot, Tile } from "./tile";
+import { LinkTile, Shot, Tile } from "./tile";
 
 /** The two products, coloured as in the capability shelf's key (editor sky, designer mint). */
 const PRODUCTS = [
@@ -59,18 +59,9 @@ export function Hero() {
         <ul className="contents">
           {PRODUCTS.map((item) => (
             <li key={item.href} className="col-span-2 lg:col-span-3">
-              <Tile
-                as={Link}
-                href={item.href}
-                tone={item.tone}
-                className="ln-press group flex h-full min-h-16 items-center justify-between gap-3 py-3 font-semibold"
-              >
+              <LinkTile href={item.href} tone={item.tone}>
                 {item.label}
-                <ArrowRight
-                  aria-hidden
-                  className="size-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
-                />
-              </Tile>
+              </LinkTile>
             </li>
           ))}
           <li className="lg:col-span-3">

@@ -107,3 +107,19 @@ test("pages carry a share image that is served as a PNG", async ({ page, request
   expect(response.ok()).toBe(true);
   expect(response.headers()["content-type"]).toBe("image/png");
 });
+
+test("an unknown address shows the not-found page with ways back", async ({ page }) => {
+  const response = await page.goto("/no-such-page");
+  expect(response?.status()).toBe(404);
+  await expect(page).toHaveTitle(/^Page not found/);
+  await expect(page.getByRole("heading", { level: 1, name: "Page not found" })).toBeVisible();
+  const ways = page.getByRole("navigation", { name: "Ways back" });
+  for (const [name, href] of [
+    ["Go to the home page", "/"],
+    ["Open the editor", "/app"],
+    ["Open the schema designer", "/vis"],
+    ["Download the desktop app", "/download"],
+  ]) {
+    await expect(ways.getByRole("link", { name })).toHaveAttribute("href", href);
+  }
+});
