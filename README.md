@@ -144,22 +144,13 @@ src/
   (Node, not Bun: Bun can't drive Playwright's browser on Windows). The file reader on the landing page
   parses the SQLite header and schema itself (`src/lib/sqlite/file-header.ts`), so it loads no engine.
 
-## Logo
-
-The Sequill mark is a pen nib whose top is stacked database disks (sequel and quill), in peach,
-butter and mint on the near-black ground. It is drawn in code in `src/lib/logo.ts`; the `<Logo>`
-component renders it in the app, and `bun run icons` writes `public/logo.svg`, the manifest PNGs in
-`public/icons/`, `src/app/favicon.ico` (16–48px), `src/app/icon.ico` (16–256px) and
-`src/app/apple-icon.png`. The same command draws the share image, `src/app/opengraph-image.png`
-(1200×630: one short line and the logo above the pastel block wordmark), with `next/og`; it fetches
-DM Sans from Google Fonts while it runs.
+## Deploying
 
 Share previews need the site's full address, worked out at build time by `src/lib/site-url.ts`. On
 Vercel nothing needs setting: production builds use the project's production domain (your custom
 domain once one is added) and preview builds use their own address. On any other host set
 `NEXT_PUBLIC_SITE_URL` (for example `https://sequill.example`) when building, or the preview image
-points at `localhost`; set on Vercel, it overrides the automatic address. Sizes of 32px and
-under use a simpler drawing (one disk and the nib) so the shape stays clear in a browser tab.
+points at `localhost`; set on Vercel, it overrides the automatic address.
 
 The download page (`/download`) is static too: `next build` reads the latest release of
 [sequill-desktop](https://github.com/adixoo/sequill-desktop) from the GitHub API once
@@ -167,18 +158,6 @@ The download page (`/download`) is static too: `next build` reads the latest rel
 the site to show a new release. Unauthenticated, GitHub allows 60 API calls an hour per address;
 set `GITHUB_TOKEN` in the build environment to raise that (it is only read during the build). If
 GitHub can't be reached, the build still succeeds and the page links to the latest release on GitHub.
-
-## Design system
-
-The UI follows the Pastel Noir system: a grayscale ladder for structure, six pastels for meaning
-(never colour alone), DM Sans for UI, JetBrains Mono for code and keys, and Caveat only beside a
-hand-drawn arrow. The system is dark-first; the light theme inverts the gray ladder and adds a deep
-"-ink" shade per pastel for text. Sizes and radii are scaled down for UI: the video system's values are
-sized for a 1920×1080 frame, so the web radii are 4/6/8/10/14px (`xs`…`xl`) plus a pill.
-Two extra hues mark unsaved schema changes: `--added` (green) and `--edited` (blue), each with an
-`-ink` and `-wash` like the pastels and brighter than mint and sky so they don't read as either.
-Scrollbars are thin gray pills (`--scrollbar-thumb`) that appear only while their scroll area is
-hovered or focused; touch devices keep the browser's overlay scrollbars.
 
 ## Limitations
 
