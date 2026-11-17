@@ -3,7 +3,15 @@ import Link from "next/link";
 import { InstallButton } from "@/components/common/pwa";
 import { ThemeToggle } from "@/components/common/theme-toggle";
 import { ScrollVelocityRow } from "@/components/ui/scroll-based-velocity";
-import { APP_NAME, APP_TAGLINE, LEARN_URL, MAKER, PRODUCT_HUNT } from "@/lib/constants";
+import {
+  APP_NAME,
+  APP_TAGLINE,
+  DESKTOP_REPO,
+  LEARN_URL,
+  MAKER,
+  PRODUCT_HUNT,
+  WEB_REPO_URL,
+} from "@/lib/constants";
 import { WORDMARK_HEIGHTS, WORDMARK_TONES } from "@/lib/logo";
 import { Shot, Tile } from "./tile";
 
@@ -107,6 +115,13 @@ export function SiteFooter({ sections = LANDING_SECTIONS }: { sections?: [string
         <FooterColumn title="This page" links={sections} />
         <FooterColumn title="Learn" links={[[LEARN_URL, "Databases, beginner to advanced"]]} />
         <FooterColumn
+          title="Source code"
+          links={[
+            [WEB_REPO_URL, "Web app on GitHub"],
+            [DESKTOP_REPO.url, "Desktop app on GitHub"],
+          ]}
+        />
+        <FooterColumn
           title="Built on"
           links={[
             ["https://sqlite.org/wasm/doc/trunk/index.md", "SQLite WASM"],
@@ -116,7 +131,7 @@ export function SiteFooter({ sections = LANDING_SECTIONS }: { sections?: [string
             ],
           ]}
         />
-        <div className="col-span-2 flex flex-col gap-2 lg:col-span-4 lg:col-start-9">
+        <div className="flex flex-col gap-2 lg:col-span-2">
           <p className="font-semibold">Runs in your browser</p>
           <p className="text-ink-soft">No server, no account. Works offline once loaded.</p>
           <span className="-ml-2.5 flex items-center">

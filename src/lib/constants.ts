@@ -18,6 +18,8 @@ export const PRODUCT_HUNT = {
   badgeWidth: 250,
   badgeHeight: 54,
 } as const;
+/** This web app's source code, linked from the site footer. */
+export const WEB_REPO_URL = "https://github.com/adixoo/sequill";
 /**
  * The desktop app's repository. The download page reads its latest release from the GitHub API
  * at build time; `releasesUrl` always points at whatever release is newest.

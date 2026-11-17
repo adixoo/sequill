@@ -44,6 +44,21 @@ test("the landing page links to the download page", async ({ page }) => {
     "/download",
   );
   await expect(
-    page.getByRole("contentinfo").getByRole("link", { name: "Desktop app" }),
+    page.getByRole("contentinfo").getByRole("link", { name: "Desktop app", exact: true }),
   ).toHaveAttribute("href", "/download");
+});
+
+test("the footer links to both projects on GitHub", async ({ page }) => {
+  for (const path of ["/", "/download"]) {
+    await page.goto(path);
+    const footer = page.getByRole("contentinfo");
+    await expect(footer.getByRole("link", { name: "Web app on GitHub" })).toHaveAttribute(
+      "href",
+      "https://github.com/adixoo/sequill",
+    );
+    await expect(footer.getByRole("link", { name: "Desktop app on GitHub" })).toHaveAttribute(
+      "href",
+      "https://github.com/adixoo/sequill-desktop",
+    );
+  }
 });
