@@ -1,5 +1,13 @@
 # sqlite-browser-editor
 
+## 0.3.3
+
+### Patch Changes
+
+- e2ed547: The editor's sidebar header now reads "Sequill / Editor", like the schema designer's, and no longer shows an "Install app" button.
+- 91eb0f5: The home page's first screen links to Sequill on GitHub, where you can star the project or contribute, in place of the "Try your own file" tile.
+- 8a18140: With no database open, the editor offers "New empty" as the second choice, after opening a file, with "Try the sample" after it.
+
 ## 0.3.2
 
 ### Patch Changes
