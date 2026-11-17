@@ -2,22 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { InstallButton } from "@/components/common/pwa";
 import { ThemeToggle } from "@/components/common/theme-toggle";
+import { ScrollVelocityRow } from "@/components/ui/scroll-based-velocity";
 import { APP_NAME, APP_TAGLINE, LEARN_URL, MAKER, PRODUCT_HUNT } from "@/lib/constants";
 import { WORDMARK_HEIGHTS, WORDMARK_TONES } from "@/lib/logo";
 import { Shot, Tile } from "./tile";
 
-/** One slow line of the tagline across the full width; the page's signature move. */
+/**
+ * One slow line of the tagline across the full width; the page's signature move.
+ * Scrolling speeds it up, and scrolling back up turns it round.
+ */
 export function Marquee() {
-  const line = <span className="ln-display pr-[0.6em] whitespace-nowrap">{APP_TAGLINE}.</span>;
   return (
-    <div className="ln-band ln-marquee py-6 lg:py-10">
-      <div className="ln-marquee-track">
-        {line}
-        <span aria-hidden className="contents">
-          {line}
-        </span>
-      </div>
-    </div>
+    <ScrollVelocityRow baseVelocity={2} className="ln-band py-6 lg:py-10">
+      <span className="ln-display pr-[0.6em]">{APP_TAGLINE}.</span>
+    </ScrollVelocityRow>
   );
 }
 

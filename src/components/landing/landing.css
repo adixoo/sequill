@@ -194,29 +194,6 @@
     }
   }
 
-  /* The marquee: one line of the claim, travelling slowly, paused on hover and for reduced motion. */
-  @keyframes ln-marquee {
-    to {
-      transform: translateX(-50%);
-    }
-  }
-  .ln-marquee {
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  .ln-marquee-track {
-    display: inline-flex;
-    animation: ln-marquee 48s linear infinite;
-  }
-  .ln-marquee:hover .ln-marquee-track {
-    animation-play-state: paused;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .ln-marquee-track {
-      animation: none;
-    }
-  }
-
   /* Book-spine index of capabilities. */
   .ln-spines {
     display: flex;
