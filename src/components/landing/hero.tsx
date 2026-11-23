@@ -48,8 +48,8 @@ export function Hero() {
           {APP_NAME}
         </h1>
         <p className="ln-statement max-w-[34ch]">
-          Browse, edit and query SQLite databases, and draw their schema, in this browser tab.
-          Nothing is uploaded.
+          Browse, edit, query and draw SQLite databases in this tab, with nothing uploaded. In the
+          desktop app, your AI assistant can work in them too, over MCP.
         </p>
       </Tile>
 
@@ -83,7 +83,7 @@ export function Hero() {
               href="/download"
               className="ln-press flex h-full min-h-16 items-center justify-between gap-3 py-3"
             >
-              Install app
+              Desktop app and MCP
               <Icon icon={Download01Icon} aria-hidden className="size-5 shrink-0" />
             </Tile>
           </li>

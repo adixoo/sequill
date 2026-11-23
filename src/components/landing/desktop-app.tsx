@@ -1,24 +1,15 @@
 import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
-import { CodeBlock } from "@/components/common/pastel/code-block";
 import { Icon } from "@/components/ui/icon";
+import { McpPanel } from "./mcp-panel";
 import { Tile } from "./tile";
-
-/** The desktop app's MCP settings as its README gives them for Claude Desktop. */
-const MCP_CONFIG = `{
-  "mcpServers": {
-    "sequill": {
-      "command": "C:\\\\Program Files\\\\Sequill\\\\sequill.exe",
-      "args": ["mcp"]
-    }
-  }
-}`;
 
 const ASSISTANTS = "Claude, Cursor, VS Code, Windsurf, Zed, JetBrains, Codex and Gemini CLI";
 
 /**
  * The desktop app: what it adds over the browser (large files on a native
- * engine, a built-in MCP server), with the real MCP settings and a way to it.
+ * engine, a built-in MCP server that can read and change them), with a working
+ * copy of its MCP switches and a way to it.
  */
 export function DesktopApp() {
   return (
@@ -35,7 +26,7 @@ export function DesktopApp() {
           <div className="flex flex-col gap-6">
             <p className="ln-statement max-w-[38ch] font-normal">
               The same editor and schema designer as a Windows, macOS and Linux app, on a native
-              SQLite engine.
+              SQLite engine, with an MCP server so your AI assistant can work in your databases.
             </p>
             <p>
               <Link
@@ -74,12 +65,16 @@ export function DesktopApp() {
           <h3 className="ln-heading">An MCP server built in</h3>
           <div className="flex flex-col gap-4">
             <p>
-              Let {ASSISTANTS} list your databases, read the schema, find rows, run read-only
-              queries and open a table in the app for you to see.
+              Let {ASSISTANTS} list your databases, read the schema, find rows, run queries and open
+              a table or a query in the app for you to see.
             </p>
             <p>
-              Access is off until you turn it on. Changes need a second switch, and turning MCP off
-              stops an assistant at once.
+              Turn on Allow changes and they can also add, edit and delete rows, create tables,
+              indexes, triggers and views, and save queries.
+            </p>
+            <p>
+              Both switches are off until you turn them on and take effect at once. Every call is
+              kept in the app’s History, with its SQL and result.
             </p>
           </div>
         </Tile>
@@ -88,11 +83,11 @@ export function DesktopApp() {
           className="col-span-2 flex flex-col justify-center gap-4 lg:col-span-7 lg:p-10"
           data-reveal
         >
-          <div data-ui>
-            <CodeBlock fileName="claude_desktop_config.json" code={MCP_CONFIG} />
-          </div>
+          <McpPanel />
           <p className="max-w-[56ch]">
-            Click MCP in the app’s top bar for each assistant’s settings, ready to copy.
+            To connect one, click MCP in the app’s top bar and pick your assistant. It shows the
+            command or settings to copy, made for your computer. Keep Sequill open while the
+            assistant works: it runs every call on the same databases you see.
           </p>
         </Tile>
       </div>

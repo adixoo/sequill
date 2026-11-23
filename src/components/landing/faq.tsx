@@ -28,6 +28,10 @@ const QUESTIONS: [string, string][] = [
     "As big as this browser’s storage quota for the site allows, which is usually a large share of free disk space. Very large exports are limited by memory. The desktop app has no browser quota: it keeps databases as files on your computer.",
   ],
   [
+    "Can an AI assistant use my databases?",
+    "Yes, in the desktop app. Its built-in MCP server lets Claude, Cursor, VS Code and other assistants read your databases, run queries and show you a table, and edit rows and schema once you allow changes. Access is off until you turn it on, Sequill must be open while the assistant works, and every call is listed in its History.",
+  ],
+  [
     "Does it work on a phone?",
     "Yes. The editor has its own phone layout, with the list of tables in a drawer.",
   ],

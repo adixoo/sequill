@@ -89,6 +89,7 @@ const WORDMARK = APP_NAME.toUpperCase().split(" ");
 /** The landing page's own sections, listed in the footer's "This page" column. */
 const LANDING_SECTIONS: [string, string][] = [
   ["#your-file", "Try your own file"],
+  ["#desktop", "Desktop app and MCP"],
   ["#questions", "Questions"],
 ];
 

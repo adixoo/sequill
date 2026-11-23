@@ -38,7 +38,10 @@ test("the first screen links to both products", async ({ page }) => {
     "href",
     "/vis",
   );
-  await expect(nav.getByRole("link", { name: "Install app" })).toHaveAttribute("href", "/download");
+  await expect(nav.getByRole("link", { name: "Desktop app and MCP" })).toHaveAttribute(
+    "href",
+    "/download",
+  );
   const footer = page.getByRole("contentinfo");
   await expect(footer.getByRole("link", { name: "adibitz", exact: true })).toHaveAttribute(
     "href",
