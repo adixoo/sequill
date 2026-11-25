@@ -171,7 +171,7 @@ export default function QueryConsole({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex flex-wrap items-center gap-1 border-b-2 border-hairline bg-surface px-2 py-1.5">
+      <div className="flex flex-wrap items-center gap-1 border-b border-hairline bg-surface px-2 py-1.5">
         <Button size="sm" onClick={() => void run()} disabled={running || !sql.trim()}>
           <Icon icon={PlayIcon} /> Run
           <Kbd className="ml-1 bg-transparent text-current max-sm:hidden">Ctrl ↵</Kbd>
@@ -244,7 +244,7 @@ export default function QueryConsole({
       </div>
 
       <div
-        className="h-[38%] min-h-32 shrink-0 resize-y overflow-hidden border-b-2 border-hairline"
+        className="h-[38%] min-h-32 shrink-0 resize-y overflow-hidden border-b border-hairline"
         onKeyDownCapture={(e) => {
           // Ctrl/Cmd+Enter runs; stopped here so CodeMirror doesn't insert a line.
           if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
@@ -319,7 +319,7 @@ export default function QueryConsole({
             {result && <ResultView key={`${activeResult}-${result.sql}`} result={result} />}
             {result && (
               <p
-                className="pn-tnum border-t-2 border-hairline bg-surface px-3 py-1.5 text-xs text-ink-muted"
+                className="pn-tnum border-t border-hairline bg-surface px-3 py-1.5 text-xs text-ink-muted"
                 aria-live="polite"
               >
                 {result.error

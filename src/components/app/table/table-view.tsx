@@ -244,7 +244,7 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
     <div className="flex min-h-0 flex-1 flex-col">
       {/* Phones: the view switch and a sideways-scrolling row of actions, with search below.
           Wider screens: all on one line. */}
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 border-b-2 border-hairline bg-surface px-2 py-1.5">
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 border-b border-hairline bg-surface px-2 py-1.5">
         <ToggleGroup
           type="single"
           size="sm"
@@ -496,7 +496,7 @@ export function TableView({ dbId, tabId, relation, schema, view }: TableViewProp
               )
             }
           />
-          <footer className="flex flex-wrap items-center justify-between gap-2 border-t-2 border-hairline bg-surface px-3 py-1">
+          <footer className="flex flex-wrap items-center justify-between gap-2 border-t border-hairline bg-surface px-3 py-1">
             <p className="pn-tnum text-xs text-ink-muted" aria-live="polite">
               {formatCount(total)} {total === 1 ? "row" : "rows"}
               {selectedCount > 0 && ` · ${formatCount(selectedCount)} selected`}

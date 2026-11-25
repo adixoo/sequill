@@ -111,7 +111,7 @@ export function GridHeaderCell({
         if (from && from !== col.name) onReorder(from, col.name);
       }}
       className={cn(
-        "group/head relative flex h-full shrink-0 items-center border-r border-b-2 border-hairline bg-raised",
+        "group/head relative flex h-full shrink-0 items-center border-r border-b border-hairline bg-surface",
         col.pinned && "sticky z-20",
         dropTarget && "shadow-[inset_3px_0_0_var(--sky-ink)]",
       )}

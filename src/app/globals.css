@@ -45,9 +45,28 @@
   --radius-xs: 4px; /* code-line highlights, keys, checkboxes, menu items */
   --radius-sm: 6px; /* table frames, small cards, tags */
   --radius-md: 8px; /* cards, code windows, stat panels, inputs */
-  --radius-lg: 10px; /* buttons, menus, popovers, hero panels */
-  --radius-xl: 14px; /* dialogs and sheets */
-  --radius-pill: 999px; /* chips, step badges */
+  --radius-lg: 8px; /* buttons, inputs, selects (shadcn's --radius) */
+  --radius-xl: 12px; /* cards, dialogs, menus, popovers */
+  --radius-frame: 16px; /* hero mockup card, the app's working sheet */
+  --radius-pill: 9999px; /* chips, badges, avatars, switches */
+
+  /* Stacking order, lowest first. Layers that share a level stack by opening order. */
+  --z-sticky: 10;
+  --z-header: 20;
+  --z-overlay: 40;
+  --z-popover: 50;
+  --z-toast: 60;
+  --z-tooltip: 70;
+
+  /* Page rhythm: 4px base, 96px between bands. */
+  --space-section: 96px;
+  --space-card: 32px;
+  --content-max: 1200px;
+  --margin: 24px;
+
+  /* Fields keep comfortable sm in every density. */
+  --field: 32px;
+  --field-fs: 0.875rem;
 
   --dur-instant: 100ms;
   --dur-quick: 200ms;
@@ -66,7 +85,20 @@
   --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-draw: cubic-bezier(0.45, 0, 0.2, 1);
 
-  --on-accent: var(--gray-950);
+  /* Text on a solid pastel, in both themes. */
+  --on-accent: #18181b;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --margin: 32px;
+  }
+}
+@media (max-width: 767px) {
+  :root {
+    --space-section: 64px;
+    --space-card: 24px;
+  }
 }
 
 /* Light (default) */
@@ -74,10 +106,16 @@
   --canvas: #f7f7f8;
   --surface: #ffffff;
   --raised: #f1f1f3;
-  --zebra: #eaeaed;
+  --active: #eaeaed;
+  /* Legacy alias: Quill never stripes rows. */
+  --zebra: var(--active);
+  --rule: #ebebee;
   --hairline: #dedee3;
-  --strong: #c4c4cb;
+  --strong: #aeaeb6;
   --decor: #a1a1a9;
+  --inverse: #26262b;
+  --on-inverse: #ececef;
+  --on-inverse-soft: #a1a1a9;
   --ink: #18181b;
   --ink-soft: #45454c;
   --ink-muted: #63636b;
@@ -106,22 +144,29 @@
   --scrollbar-thumb-hover: var(--ink-muted);
   --annotate: var(--butter-ink);
   --annotate-stroke: #96750a;
+  --backdrop: rgb(10 10 10 / 32%);
+  --shadow-sm: 0 1px 2px rgb(24 24 27 / 5%);
+  --shadow-md: 0 4px 12px rgb(24 24 27 / 8%);
+  --shadow-float: 0 12px 32px rgb(24 24 27 / 12%);
   --shadow-lift: 0 24px 60px #18181b1f;
   --shadow-ring: 0 0 0 2px #18181b1f;
   color-scheme: light;
 }
 
 .dark {
-  --canvas: var(--gray-950);
-  --surface: var(--gray-900);
-  --raised: var(--gray-850);
-  --zebra: var(--gray-800);
-  --hairline: var(--gray-700);
-  --strong: var(--gray-600);
-  --decor: var(--gray-500);
-  --ink: var(--gray-100);
-  --ink-soft: var(--gray-300);
-  --ink-muted: var(--gray-400);
+  /* Neutral grays (no blue cast); the working sheet sits a step darker than its frame. */
+  --canvas: #202020;
+  --surface: #191919;
+  --raised: #262626;
+  --active: #2e2e2e;
+  --rule: #242424;
+  --hairline: #303030;
+  --strong: #505050;
+  --decor: #6b6b6b;
+  --inverse: #232323;
+  --ink: #ededed;
+  --ink-soft: #c4c4c4;
+  --ink-muted: #a0a0a0;
 
   --peach-ink: var(--peach);
   --butter-ink: var(--butter);
@@ -141,9 +186,13 @@
   --added-wash: #6ee7a124;
   --edited-wash: #7cacff24;
 
-  --row-selected: #1b2230;
-  --scrollbar-thumb: var(--gray-500);
-  --scrollbar-thumb-hover: var(--gray-400);
+  --row-selected: #212b38;
+  --scrollbar-thumb: #6b6b6b;
+  --scrollbar-thumb-hover: #a0a0a0;
+  --backdrop: rgb(0 0 0 / 55%);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 35%);
+  --shadow-float: 0 12px 32px rgb(0 0 0 / 45%);
   --annotate: var(--butter);
   --annotate-stroke: var(--butter);
   --shadow-lift: 0 32px 80px #000000a6;
@@ -180,13 +229,13 @@
   --primary-foreground: var(--canvas);
   --secondary: var(--raised);
   --secondary-foreground: var(--ink);
-  --muted: var(--raised);
+  --muted: var(--active);
   --muted-foreground: var(--ink-muted);
-  --accent: var(--zebra);
+  --accent: var(--active);
   --accent-foreground: var(--ink);
   --destructive: var(--rose-ink);
   --border: var(--hairline);
-  --input: var(--hairline);
+  --input: var(--strong);
   --ring: var(--sky-ink);
   --chart-1: var(--peach);
   --chart-2: var(--sky);
@@ -194,14 +243,77 @@
   --chart-4: var(--lilac);
   --chart-5: var(--rose);
   --radius: var(--radius-lg);
-  --sidebar: var(--surface);
+  --sidebar: var(--canvas);
   --sidebar-foreground: var(--ink);
   --sidebar-primary: var(--ink);
   --sidebar-primary-foreground: var(--canvas);
-  --sidebar-accent: var(--zebra);
+  --sidebar-accent: var(--active);
   --sidebar-accent-foreground: var(--ink);
   --sidebar-border: var(--hairline);
   --sidebar-ring: var(--sky-ink);
+}
+
+/*
+ * Density. Comfortable is the default (pages, forms, settings). Compact is
+ * for option-heavy desktop screens: set data-density="compact" on any
+ * container and every component inside it tightens together.
+ */
+:root,
+[data-density="comfortable"] {
+  --control-sm: 32px;
+  --control: 36px;
+  --button: 32px;
+  --control-lg: 40px;
+  --control-px: 14px;
+  --control-gap: 8px;
+  --control-fs: 0.875rem;
+  --control-weight: 600;
+  --icon: 16px;
+  --check: 16px;
+  --switch-h: 20px;
+  --seg-pad: 3px;
+  --row: 40px;
+  --row-head: 36px;
+  --cell-px: 12px;
+  --nav-row: 32px;
+  --pill-h: 22px;
+  --avatar: 32px;
+  --pad-panel: 24px;
+  --pad-card: 24px;
+  --gap: 16px;
+  --toolbar-py: 8px;
+  --text-ui: 0.875rem;
+  --text-small: 0.75rem;
+  --text-cell: 0.875rem;
+  --title-app: 1.375rem;
+}
+[data-density="compact"] {
+  --control-sm: 26px;
+  --control: 30px;
+  --button: 30px;
+  --control-lg: 34px;
+  --control-px: 12px;
+  --control-gap: 6px;
+  --control-fs: 0.8125rem;
+  --control-weight: 500;
+  --icon: 14px;
+  --check: 14px;
+  --switch-h: 16px;
+  --seg-pad: 2px;
+  --row: 30px;
+  --row-head: 28px;
+  --cell-px: 8px;
+  --nav-row: 28px;
+  --pill-h: 18px;
+  --avatar: 24px;
+  --pad-panel: 16px;
+  --pad-card: 16px;
+  --gap: 12px;
+  --toolbar-py: 4px;
+  --text-ui: 0.8125rem;
+  --text-small: 0.6875rem;
+  --text-cell: 0.8125rem;
+  --title-app: 1.125rem;
 }
 
 @theme inline {
@@ -246,10 +358,15 @@
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
   --color-raised: var(--raised);
+  --color-active: var(--active);
   --color-zebra: var(--zebra);
+  --color-rule: var(--rule);
   --color-hairline: var(--hairline);
   --color-strong: var(--strong);
   --color-decor: var(--decor);
+  --color-inverse: var(--inverse);
+  --color-on-inverse: var(--on-inverse);
+  --color-on-inverse-soft: var(--on-inverse-soft);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-ink-muted: var(--ink-muted);
@@ -370,19 +487,17 @@
 
 @layer components {
   /* Uppercase kicker labels (eyebrow / table-head roles) */
+  /* Deprecated: Quill has no eyebrows; sentence case until callers move to q-label. */
   .pn-eyebrow {
-    font-size: 0.75rem;
+    font-size: var(--text-small);
     line-height: 1.2;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-weight: 500;
   }
+  /* Deprecated: use q-table headers. */
   .pn-table-head {
-    font-size: 0.6875rem;
+    font-size: var(--text-small);
     line-height: 1.2;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-weight: 500;
     color: var(--ink-muted);
   }
   .pn-tnum {

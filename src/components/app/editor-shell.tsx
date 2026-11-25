@@ -35,6 +35,7 @@ function Workspace() {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [paletteLoaded, setPaletteLoaded] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const density = useWorkspace((s) => s.density);
 
   useRestoreLastDatabase();
 
@@ -142,11 +143,11 @@ function Workspace() {
     );
 
   return (
-    <div className="flex h-dvh overflow-hidden bg-canvas">
+    <div data-density={density} className="flex h-dvh overflow-hidden bg-canvas">
       <Sidebar
         dbId={dbId}
         schema={schema.data}
-        className="w-72 shrink-0 border-r-2 border-hairline max-md:hidden"
+        className="w-72 shrink-0 border-r border-hairline max-md:hidden"
       />
       <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
         {/* No close button: it would sit on the sidebar's theme toggle. Tap outside or Esc closes. */}
@@ -182,7 +183,7 @@ function Workspace() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={quick}
-            className="pointer-events-none fixed inset-3 z-50 flex flex-col items-center justify-center gap-3 rounded-md border-2 border-dashed border-sky-ink bg-canvas/85 backdrop-blur-sm"
+            className="pointer-events-none fixed inset-3 z-50 flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-sky-ink bg-canvas/92"
           >
             <Icon icon={FileDownloadIcon} className="size-10 text-sky-ink" aria-hidden />
             <p className="text-lg font-semibold text-ink">Drop to open</p>

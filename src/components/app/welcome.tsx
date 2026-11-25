@@ -24,7 +24,10 @@ export function NoDatabase() {
   const actions = useDbActions();
   const openDialog = useDialogs((s) => s.open);
   return (
-    <div className="flex flex-1 items-center justify-center overflow-y-auto bg-canvas p-6">
+    <div
+      data-density="comfortable"
+      className="flex flex-1 items-center justify-center overflow-y-auto bg-canvas p-6"
+    >
       <m.div {...enter()} className="flex max-w-lg flex-col items-start gap-6">
         <h1 className="text-4xl leading-none font-bold tracking-[-0.035em] text-ink md:text-5xl">
           Open a database to begin
@@ -79,7 +82,10 @@ export function NoTab({ schema }: { schema: Schema | undefined }) {
   const openDialog = useDialogs((s) => s.open);
   const first = schema?.tables[0] ?? schema?.views[0];
   return (
-    <div className="flex flex-1 items-center justify-center overflow-y-auto bg-canvas p-6">
+    <div
+      data-density="comfortable"
+      className="flex flex-1 items-center justify-center overflow-y-auto bg-canvas p-6"
+    >
       <m.div {...enter()} className="flex max-w-md flex-col items-start gap-5">
         <h2 className="text-3xl leading-tight font-semibold tracking-[-0.025em] text-ink">
           Pick a table, or ask the data a question

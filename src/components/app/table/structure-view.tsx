@@ -36,7 +36,7 @@ function Section({
   );
 }
 
-const th = "pn-table-head border-b-2 border-hairline bg-raised px-3 py-2 text-left";
+const th = "pn-table-head border-b border-hairline bg-surface px-3 py-2 text-left";
 const td = "border-b border-hairline px-3 py-2 align-top";
 
 export function StructureView({ relation, schema }: { relation: RelationInfo; schema: Schema }) {

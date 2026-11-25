@@ -72,8 +72,8 @@ function Visualizer() {
   const designName = blank ? "the blank design" : (current?.name ?? "this database");
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-canvas">
-      <header className="flex h-12 shrink-0 items-center gap-2 border-b-2 border-hairline bg-surface px-3">
+    <div data-density="compact" className="flex h-dvh flex-col overflow-hidden bg-canvas">
+      <header className="flex h-12 shrink-0 items-center gap-2 border-b border-hairline bg-surface px-3">
         <Link
           href="/"
           className="flex items-center gap-2 rounded-xs font-semibold tracking-[-0.015em] text-ink outline-none focus-visible:ring-2 focus-visible:ring-ring max-sm:sr-only"

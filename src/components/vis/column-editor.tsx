@@ -190,7 +190,7 @@ function ColumnEditor({
         onChange={(def) => editor.onChange(updateColumn(draft, schema, table, column.key, def))}
       />
       {(existing || column.change === "edited") && (
-        <div className="-mx-3 -mb-3 flex items-center gap-3 border-t-2 border-hairline px-3 py-2">
+        <div className="-mx-3 -mb-3 flex items-center gap-3 border-t border-hairline px-3 py-2">
           {existing && (
             <p className="text-xs text-ink-muted">
               Renames are saved in place. Other changes rebuild the table and keep its rows.
