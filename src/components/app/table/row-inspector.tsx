@@ -150,7 +150,7 @@ function InspectorForm({
   const isNew = target.kind === "new";
   return (
     <>
-      <SheetHeader className="border-b-2 border-hairline">
+      <SheetHeader className="border-b border-hairline">
         <SheetTitle>
           {target.kind === "new" ? `New row in ${relation.name}` : `Row ${target.index + 1}`}
         </SheetTitle>
@@ -330,7 +330,7 @@ function InspectorForm({
         </ul>
       </form>
       {relation.editable && (
-        <SheetFooter className="flex-row items-center border-t-2 border-hairline">
+        <SheetFooter className="flex-row items-center border-t border-hairline">
           {!isNew && onDelete && (
             <Button type="button" variant="destructive" onClick={onDelete}>
               <Icon icon={Delete02Icon} /> Delete

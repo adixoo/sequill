@@ -4,7 +4,7 @@ import { Icon } from "@/components/ui/icon";
 import { McpPanel } from "./mcp-panel";
 import { Tile } from "./tile";
 
-const ASSISTANTS = "Claude, Cursor, VS Code, Windsurf, Zed, JetBrains, Codex and Gemini CLI";
+export const ASSISTANTS = "Claude, Cursor, VS Code, Windsurf, Zed, JetBrains, Codex and Gemini CLI";
 
 /**
  * The desktop app: what it adds over the browser (large files on a native

@@ -1,7 +1,7 @@
 import { tokenizeSql, type TokenType } from "@/lib/sqlite/highlight";
 import { cn } from "@/lib/utils";
 
-const TOKEN_CLASS: Record<TokenType, string> = {
+export const TOKEN_CLASS: Record<TokenType, string> = {
   keyword: "text-lilac-ink",
   string: "text-mint-ink",
   number: "text-peach-ink",
@@ -30,7 +30,7 @@ export function CodeBlock({ fileName, code, highlightLine, className }: CodeBloc
         className,
       )}
     >
-      <figcaption className="flex h-11 items-center gap-2 border-b-2 border-hairline bg-raised px-4">
+      <figcaption className="flex h-11 items-center gap-2 border-b border-hairline bg-raised px-4">
         <span aria-hidden className="flex gap-1.5">
           {[0, 1, 2].map((i) => (
             <span key={i} className="size-2.5 rounded-full bg-strong" />

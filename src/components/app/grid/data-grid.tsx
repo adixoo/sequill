@@ -365,7 +365,7 @@ export function DataGrid({
             <div role="row" className="sticky top-0 z-30 flex" style={{ height: HEADER_HEIGHT }}>
               <div
                 role="columnheader"
-                className="sticky left-0 z-40 flex shrink-0 items-center justify-center border-r border-b-2 border-hairline bg-raised"
+                className="sticky left-0 z-40 flex shrink-0 items-center justify-center border-r border-b border-hairline bg-surface"
                 style={{ width: ROW_NUMBER_WIDTH }}
               >
                 {onSelectionChange && (
@@ -398,7 +398,7 @@ export function DataGrid({
                   onColumnAction={onColumnAction}
                 />
               ))}
-              <div className="flex-1 border-b-2 border-hairline bg-raised" />
+              <div className="flex-1 border-b border-hairline bg-surface" />
             </div>
 
             {loading && rows.length === 0 ? (
@@ -425,7 +425,7 @@ export function DataGrid({
                       aria-selected={onSelectionChange ? isSelected : undefined}
                       className={cn(
                         "group/row absolute left-0 flex w-full border-b border-hairline",
-                        isSelected ? "bg-row-selected" : "bg-surface hover:bg-zebra",
+                        isSelected ? "bg-row-selected" : "bg-surface hover:bg-raised",
                       )}
                       style={{
                         height: rowHeight,

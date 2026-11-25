@@ -62,7 +62,7 @@ function Group({
           type="button"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
-          className="flex h-8 flex-1 items-center gap-1.5 rounded-xs px-2 text-left outline-none focus-visible:bg-zebra"
+          className="flex h-(--nav-row) flex-1 items-center gap-1.5 rounded-xs px-2 text-left outline-none focus-visible:bg-zebra"
         >
           <Icon
             icon={ArrowDown01Icon}
@@ -108,7 +108,7 @@ function RelationItem({
           onNavigate?.();
         }}
         className={cn(
-          "flex h-8 w-full items-center gap-2 rounded-xs pr-9 pl-7 text-left text-sm outline-none hover:bg-zebra focus-visible:bg-zebra",
+          "flex h-(--nav-row) w-full items-center gap-2 rounded-xs pr-9 pl-7 text-left text-sm outline-none hover:bg-zebra focus-visible:bg-zebra",
           active ? "bg-sky-wash font-medium text-ink" : "text-ink-soft",
         )}
         aria-current={active ? "page" : undefined}
@@ -204,7 +204,7 @@ function SavedQueryItem({ query, onNavigate }: { query: SavedQuery; onNavigate?(
         onClick={open}
         title={query.sql}
         className={cn(
-          "flex h-8 w-full items-center gap-2 rounded-xs pr-9 pl-7 text-left text-sm outline-none hover:bg-zebra focus-visible:bg-zebra",
+          "flex h-(--nav-row) w-full items-center gap-2 rounded-xs pr-9 pl-7 text-left text-sm outline-none hover:bg-zebra focus-visible:bg-zebra",
           active ? "bg-lilac-wash font-medium text-ink" : "text-ink-soft",
         )}
         aria-current={active ? "page" : undefined}
@@ -252,7 +252,7 @@ function ObjectItem({ object, icon }: { object: SchemaObject; icon: ReactNode })
         onClick={() =>
           object.sql && openDialog({ kind: "ddl", title: object.name, sql: object.sql })
         }
-        className="flex h-8 w-full items-center gap-2 rounded-xs pr-2 pl-7 text-left text-sm text-ink-soft outline-none hover:bg-zebra focus-visible:bg-zebra"
+        className="flex h-(--nav-row) w-full items-center gap-2 rounded-xs pr-2 pl-7 text-left text-sm text-ink-soft outline-none hover:bg-zebra focus-visible:bg-zebra"
       >
         <span className="text-ink-muted">{icon}</span>
         <span className="truncate">{object.name}</span>
@@ -278,8 +278,8 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
   const savedQueries = useSavedQueries((s) => s.queries);
 
   return (
-    <nav aria-label="Database" className={cn("flex h-full min-h-0 flex-col bg-surface", className)}>
-      <div className="flex h-12 items-center gap-2 border-b-2 border-hairline px-3">
+    <nav aria-label="Database" className={cn("flex h-full min-h-0 flex-col bg-canvas", className)}>
+      <div className="flex h-12 items-center gap-2 border-b border-hairline px-3">
         <Link
           href="/"
           className="flex items-center gap-2 rounded-xs font-semibold tracking-[-0.015em] text-ink outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -294,7 +294,7 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
         <ThemeToggle className="ml-auto" />
       </div>
 
-      <div className="border-b-2 border-hairline p-2">
+      <div className="border-b border-hairline p-2">
         <DatabaseSwitcher dbId={dbId} />
       </div>
 
@@ -389,7 +389,7 @@ export function Sidebar({ dbId, schema, onNavigate, className }: SidebarProps) {
       </div>
 
       {dbId && (
-        <div className="flex gap-2 border-t-2 border-hairline p-2">
+        <div className="flex gap-2 border-t border-hairline p-2">
           <Button
             variant="secondary"
             className="flex-1"

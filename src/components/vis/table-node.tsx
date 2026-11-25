@@ -72,7 +72,7 @@ export const TableNode = memo(function TableNode({ id, data, selected }: NodePro
   return (
     <div
       className={cn(
-        "group/node overflow-visible rounded-md border-2 border-hairline bg-surface text-[0.8125rem] shadow-lift transition-opacity duration-150",
+        "group/node overflow-visible rounded-md border border-hairline bg-surface text-[0.8125rem] transition-opacity duration-150",
         selected && "border-sky-ink",
         (dimmed || dropped) && "opacity-40",
         dropped && selected && "opacity-70",
@@ -80,7 +80,7 @@ export const TableNode = memo(function TableNode({ id, data, selected }: NodePro
       style={{ width: TABLE_WIDTH }}
     >
       <div
-        className="relative flex items-center gap-2 rounded-t-[calc(var(--radius-md)-2px)] border-b-2 border-hairline bg-raised px-3"
+        className="relative flex items-center gap-2 rounded-t-[calc(var(--radius-md)-2px)] border-b border-hairline bg-raised px-3"
         style={{
           height: TABLE_HEADER_HEIGHT,
           // The table's color: a tinted header with a stripe along its top edge.

@@ -1,4 +1,4 @@
-const QUESTIONS: [string, string][] = [
+export const QUESTIONS: [string, string][] = [
   [
     "Where are my databases kept?",
     "In this browser’s Origin Private File System: private storage that belongs to this site, on this device. Opening a file copies it there, so your original file is never changed. Download the database or a SQL dump whenever you want a copy outside the browser.",

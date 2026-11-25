@@ -82,7 +82,7 @@ function SchemaDialogFrame({
             if (sql) onSubmit();
           }}
         >
-          <DialogHeader className="border-b-2 border-hairline p-4 pr-12">
+          <DialogHeader className="border-b border-hairline p-4 pr-12">
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>

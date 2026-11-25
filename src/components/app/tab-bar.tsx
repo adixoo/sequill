@@ -40,7 +40,7 @@ export function TabBar({ schema, onOpenSidebar, onOpenPalette }: TabBarProps) {
   }, [activeTabId, tabs.length]);
 
   return (
-    <div className="flex h-12 shrink-0 items-stretch border-b-2 border-hairline bg-raised">
+    <div className="flex h-12 shrink-0 items-stretch border-b border-hairline bg-canvas">
       <Button
         variant="ghost"
         size="icon"

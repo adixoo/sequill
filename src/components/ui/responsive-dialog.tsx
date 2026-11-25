@@ -79,7 +79,7 @@ function DrawerContent({
         data-variant="drawer"
         data-dragging={drag.dragging || undefined}
         style={drag.offset ? { transform: `translateY(${drag.offset}px)` } : undefined}
-        className="fixed inset-x-0 bottom-0 z-50 flex max-h-[92dvh] flex-col rounded-t-xl bg-popover text-sm text-popover-foreground ring-1 ring-foreground/10 transition-transform duration-200 ease-out outline-none data-dragging:transition-none motion-reduce:transition-none data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom"
+        className="fixed inset-x-0 bottom-0 z-50 flex max-h-[92dvh] flex-col rounded-t-xl border-t border-hairline bg-popover text-sm text-popover-foreground shadow-(--shadow-float) transition-transform duration-200 ease-out outline-none data-dragging:transition-none motion-reduce:transition-none data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom"
         {...props}
       >
         <div

@@ -20,7 +20,7 @@ const KINDS = [
 ];
 
 /** Facts on the gray run, light to dark. */
-const FACTS = [
+export const FACTS = [
   "0 bytes uploaded",
   "Works with no connection",
   "SQLite 3.54, in WebAssembly",

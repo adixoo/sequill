@@ -454,7 +454,7 @@ function DesignerCanvas({
       <aside
         aria-label="Schema outline"
         className={cn(
-          "w-64 shrink-0 border-r-2 border-hairline bg-surface max-lg:hidden",
+          "w-64 shrink-0 border-r border-hairline bg-surface max-lg:hidden",
           !outlineShown && "lg:hidden",
         )}
       >
@@ -601,7 +601,7 @@ function DesignerCanvas({
       {hasDetails && (
         <aside
           aria-label="Details"
-          className="relative w-[22rem] shrink-0 overflow-y-auto border-l-2 border-hairline bg-surface p-4 max-md:hidden"
+          className="relative w-[22rem] shrink-0 overflow-y-auto border-l border-hairline bg-surface p-4 max-md:hidden"
         >
           <Button
             variant="ghost"

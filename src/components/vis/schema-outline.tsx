@@ -120,7 +120,7 @@ export function SchemaOutline({
 
   return (
     <nav aria-label="Tables and columns" className="flex h-full min-h-0 flex-col">
-      <div className="flex items-center gap-1 border-b-2 border-hairline p-2">
+      <div className="flex items-center gap-1 border-b border-hairline p-2">
         <InputGroup className="h-8 flex-1">
           <InputGroupAddon>
             <Icon icon={Search01Icon} />
@@ -246,7 +246,7 @@ export function SchemaOutline({
               </div>
               {open && (columns.length > 0 || isEditableTable(table)) && (
                 <ul
-                  className="mb-1 ml-[1.375rem] border-l-2 border-hairline"
+                  className="mb-1 ml-[1.375rem] border-l border-hairline"
                   aria-label={`${table.name} columns`}
                 >
                   {columns.map((c) => {
